@@ -11,14 +11,14 @@ class TestController extends AbstractController
     #[Route('/', name:'app_index', methods:'GET')]
     public function index(): Response
     {
-        return $this->render('test.html.twig');
+        return $this->render('tests/test.html.twig');
     }
 
     #[Route('/test', name: 'app_redirect_test')]
     public function test():Response
     {
         $names = ['leo', 'sofiane', 'klaudiusz'];
-        return $this->render('test2.html.twig', [
+        return $this->render('tests/test2.html.twig', [
             'names' => $names
         ]);
     }
