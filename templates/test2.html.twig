@@ -1,0 +1,11 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+<div>
+bonjour
+{% for name in names %}
+    <p>{{name}}</p>
+{% endfor %}
+</div>
+{% endblock %}
