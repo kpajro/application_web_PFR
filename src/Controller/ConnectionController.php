@@ -2,21 +2,48 @@
 
 namespace App\Controller;
 
+use App\Entity\Users;
+use App\Form\RegistrationFormType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class ConnectionController extends AbstractController
 {
-    #[Route(path: '/login', name: 'app_login')]
+    #[Route('/enregistrement', name: 'app_register')]
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    {
+        $user = new Users();
+        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $plainPassword = $form->get('plainPassword')->getData();
+            $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword)); //encodage du mdp
+
+            $entityManager->persist($user);
+            $entityManager->flush(); //utilisateur sauvegardé dans la bdd
+
+            return $this->redirectToRoute('app_index');
+        }
+
+        return $this->render('connection/register.html.twig', [
+            'registrationForm' => $form,
+        ]);
+    }
+
+    #[Route(path: '/connexion', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('security/login.html.twig', [
+        return $this->render('connection/login.html.twig', [
             'last_username' => $lastUsername,
             'error' => $error
         ]);
