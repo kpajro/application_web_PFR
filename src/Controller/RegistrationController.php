@@ -21,16 +21,11 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var string $plainPassword */
             $plainPassword = $form->get('plainPassword')->getData();
-
-            // encode the plain password
-            $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
+            $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword)); //encodage du mdp
 
             $entityManager->persist($user);
-            $entityManager->flush();
-
-            // do anything else you need here, like send an email
+            $entityManager->flush(); //utilisateur sauvegardé dans la bdd
 
             return $this->redirectToRoute('app_index');
         }
