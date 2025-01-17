@@ -7,6 +7,7 @@
 /public/bundles/
 /var/
 /vendor/
+
 ###< symfony/framework-bundle ###
 
 ###> phpunit/phpunit ###
@@ -23,3 +24,6 @@
 /public/assets/
 /assets/vendor/
 ###< symfony/asset-mapper ###
+
+/node_modules/
+migrations/
