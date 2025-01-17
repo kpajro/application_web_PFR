@@ -4,7 +4,12 @@
 {% block body %}
 <div>
     <h1>Bienvenue sur l'application de vente de solutions SaSS!</h1>
-    <a href="">S'enregistrer</a>
-    <a href="">Se connecter</a>
+    {% if app.user %}
+        <p>Connecté en tant que {{ app.user.email }}. <a href="{{ url('app_logout') }}">Se déconnecter</a></p>
+    {% else %}
+        <a href="{{ url('app_register') }}">S'enregistrer</a>
+        <a href="{{ url('app_login') }}">Se connecter</a>
+    {% endif %}
+    
 </div>
 {% endblock %}
