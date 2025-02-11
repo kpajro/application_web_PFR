@@ -1,0 +1,33 @@
+<?php
+
+namespace App\Controller;
+
+use App\Repository\UsersRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+
+#[Route('/admin')]
+class AdminController extends AbstractController
+{
+    #[Route('', name:'app_admin_home')]
+    #[IsGranted('ROLE_ADMIN')]
+    public function index() : Response 
+    {
+        return $this->render('admin/index.html.twig', [
+
+        ]);
+    }
+
+    #[Route('/users', name:'app_admin_users_list')]
+    #[IsGranted('ROLE_ADMIN')]
+    public function users(UsersRepository $usersRepo) : Response
+    {
+        $users = $usersRepo->findAll();
+
+        return $this->render('/admin/users/list.html.twig', [
+            'users' => $users
+        ]);
+    }
+}
