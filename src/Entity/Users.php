@@ -52,6 +52,12 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $accountType = null;
 
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $lastLogIn = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -195,6 +201,30 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAccountType(int $accountType): static
     {
         $this->accountType = $accountType;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getLastLogIn(): ?\DateTimeImmutable
+    {
+        return $this->lastLogIn;
+    }
+
+    public function setLastLogIn(?\DateTimeImmutable $lastLogIn): static
+    {
+        $this->lastLogIn = $lastLogIn;
 
         return $this;
     }
