@@ -24,6 +24,7 @@ class ConnectionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $plainPassword = $form->get('plainPassword')->getData();
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword)); //encodage du mdp
+            $user->setCreatedAt(new \DateTimeImmutable());
 
             $entityManager->persist($user);
             $entityManager->flush(); //utilisateur sauvegardé dans la bdd
