@@ -29,10 +29,11 @@ class RegistrationFormType extends AbstractType
                     new Length([
                         'max' => 100,
                         'min' => 5,
-                        'message' => 'L\'adresse e-mail doit contenir entre 5 et 100 caractères.'
+                        'minMessage' => 'Votre adresse e-mail doit contenir au minimum 5 caractères.',
+                        'maxMessage' => 'Votre adresse e-mail ne peut pas contenir plus de 100 caractères.'
                     ]),
                     new Regex([
-                        'pattern' => '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}.*$',
+                        'pattern' => '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}.*$/',
                         'match' => true,
                         'message' => 'L\'adresse e-mail doit finir par un nom de domaine valide (".fr", ".com", ".net", etc.).'
                     ])
@@ -44,7 +45,8 @@ class RegistrationFormType extends AbstractType
                     new Length([
                         'max' => 50,
                         'min' => 2,
-                        'message' => 'Le prénom doit contenir entre 2 et 50 caractères.'
+                        'minMessage' => 'Le prénom doit contenir au minimum 2 caractères.',
+                        'minMessage' => 'Le prénom ne peut pas contenir plus de 50 caractères.'
                     ])
                 ]
             ])
@@ -54,7 +56,8 @@ class RegistrationFormType extends AbstractType
                     new Length([
                         'max' => 50,
                         'min' => 2,
-                        'message' => 'Le nom de famille doit contenir entre 2 et 50 caractères.'
+                        'minMessage' => 'Le nom de famille doit contenir au minimum 2 caractères.',
+                        'minMessage' => 'Le nom de famille ne peut pas contenir plus de 50 caractères.'
                     ])
                 ]
             ])
@@ -69,12 +72,13 @@ class RegistrationFormType extends AbstractType
                     new Length([
                         'max' => 15,
                         'min' => 10,
-                        'message' => 'Votre numéro de téléphone doit contenir 10 et 15 caractères.'
+                        'minMessage' => 'Votre numéro de téléphone doit contenir au minimum 10 caractères.',
+                        'maxMessage' => 'Votre numéro de téléphone ne peut contenir pas plus de 15 caractères.'
                     ]),
                     new Regex([
-                        'pattern' => '^\+?[0-9\s]+$',
+                        'pattern' => '/^\+?[0-9\s]+$/',
                         'match' => true,
-                        'message' => 'Le numéro de téléphone ne peut contenir que des chiffres, des éspaces et le caractère "+".'
+                        'message' => 'Le numéro de téléphone ne peut contenir que des chiffres, des espaces et le caractère "+".'
                     ])
                 ]
             ])
@@ -114,7 +118,7 @@ class RegistrationFormType extends AbstractType
                         'message' => 'Veuillez entrer un mot de passe.',
                     ]),
                     new Regex([
-                        'pattern' => '^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d;:*\\\/{}]).{8,}$',
+                        'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d;:*\\\\\/{}]).{8,}$/',
                         'match' => true,
                         'message' => 'Le mot de passe doit contenir au minimum 6 caractères, une minuscules, une majuscule, un chiffre et un caractère spécial.'
                     ])
