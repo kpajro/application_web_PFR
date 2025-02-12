@@ -1,0 +1,44 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <div>
+        <h1>Gestion des utilisateurs</h1>
+        <div>
+            <table>
+                <thead>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>E-mail</th>
+                    <th>Pays</th>
+                    <th>Téléphone</th>
+                    <th>Date de naissance</th>
+                    <th>Type de compte</th>
+                    <th>Membre depuis</th>
+                    <th>Compte Administrateur</th>
+                    <th>Options</th>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.id }}</td>
+                            <td>{{ user.name }}</td>
+                            <td>{{ user.firstname }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.country }}</td>
+                            <td>{{ user.phoneNumber }}</td>
+                            <td>{{ user.birthday|date('d-m-y') }}</td>
+                            <td>{{ user.accountType == 1 ? 'Entreprise' : 'Particulier' }}</td>
+                            <td>{{ user.createdAt|date('d-m-y') }}</td>
+                            <td>{{ 'ROLE_ADMIN' in user.roles ? 'Oui' : 'Non' }}</td>
+                            <td>
+                                <a href="{{ path('app_admin_users_edit', {id: user.id}) }}">Modifier</a>
+                                <a href="{{ path('app_admin_users_delete', {id: user.id}) }}">Supprimer</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
