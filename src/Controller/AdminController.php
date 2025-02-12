@@ -55,4 +55,14 @@ class AdminController extends AbstractController
             'btnAction' => "Enregistrer"
         ]);
     }
+
+    #[Route('/users/{id}/remove', name:'app_admin_users_delete')]
+    #[IsGranted('ROLE_ADMIN')]
+    public function userDelete(Users $user, EntityManagerInterface $em) : Response
+    {
+        $em->remove($user);
+        $em->flush();
+
+        return $this->redirectToRoute('app_admin_users_list');
+    }
 }
