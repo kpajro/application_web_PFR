@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Users;
-use App\Form\RegistrationFormType;
+use App\Form\BOUserEditFormType;
 use App\Repository\UsersRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -39,12 +39,14 @@ class AdminController extends AbstractController
     #[IsGranted('ROLE_ADMIN')]
     public function userEdit(Users $user, Request $request, EntityManagerInterface $em) : Response
     {
-        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form = $this->createForm(BOUserEditFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($user);
             $em->flush();
+
+            return $this->redirectToRoute('app_admin_users_list');
         }
 
         return $this->render('elements/editform_backoffice.html.twig', [
