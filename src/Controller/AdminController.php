@@ -2,8 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Users;
+use App\Form\RegistrationFormType;
 use App\Repository\UsersRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -28,6 +32,24 @@ class AdminController extends AbstractController
 
         return $this->render('/admin/users/list.html.twig', [
             'users' => $users
+        ]);
+    }
+
+    #[Route('/users/{id}/edit', name: 'app_admin_users_edit')]
+    #[IsGranted('ROLE_ADMIN')]
+    public function userEdit(Users $user, Request $request, EntityManagerInterface $em) : Response
+    {
+        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($user);
+            $em->flush();
+        }
+
+        return $this->render('admin/users/edit.html.twig', [
+            'form' => $form,
+            'user' => $user
         ]);
     }
 }
