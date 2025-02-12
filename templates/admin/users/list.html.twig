@@ -12,9 +12,10 @@
                     <th>E-mail</th>
                     <th>Pays</th>
                     <th>Téléphone</th>
+                    <th>Date de naissance</th>
                     <th>Type de compte</th>
-                    <th>Compte Administrateur</th>
                     <th>Membre depuis</th>
+                    <th>Compte Administrateur</th>
                     <th>Options</th>
                 </thead>
                 <tbody>
@@ -26,8 +27,9 @@
                             <td>{{ user.email }}</td>
                             <td>{{ user.country }}</td>
                             <td>{{ user.phoneNumber }}</td>
+                            <td>{{ user.birthday|date('d-m-y') }}</td>
                             <td>{{ user.accountType == 1 ? 'Entreprise' : 'Particulier' }}</td>
-                            <td>{{ user.cratedAt }}</td>
+                            <td>{{ user.createdAt|date('d-m-y') }}</td>
                             <td>{{ 'ROLE_ADMIN' in user.roles ? 'Oui' : 'Non' }}</td>
                             <td>
                                 <a href="">Modifier</a>
