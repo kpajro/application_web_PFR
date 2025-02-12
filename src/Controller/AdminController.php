@@ -47,9 +47,10 @@ class AdminController extends AbstractController
             $em->flush();
         }
 
-        return $this->render('admin/users/edit.html.twig', [
+        return $this->render('elements/editform_backoffice.html.twig', [
             'form' => $form,
-            'user' => $user
+            'editTitle' => "Modification d'information utilisateur (" . $user->getEmail() . ").",
+            'btnAction' => "Enregistrer"
         ]);
     }
 }
