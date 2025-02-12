@@ -32,7 +32,7 @@
                             <td>{{ user.createdAt|date('d-m-y') }}</td>
                             <td>{{ 'ROLE_ADMIN' in user.roles ? 'Oui' : 'Non' }}</td>
                             <td>
-                                <a href="">Modifier</a>
+                                <a href="{{ path('app_admin_users_edit', {id: user.id}) }}">Modifier</a>
                                 <a href="">Supprimer</a>
                             </td>
                         </tr>
