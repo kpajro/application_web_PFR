@@ -70,7 +70,7 @@ class BOCategoriesController extends AbstractController
         }
 
         return $this->render('elements/form_backoffice.html.twig', [
-            'title' => 'Modification de la catégorie' . $categorie->getNom(),
+            'title' => 'Modification de la catégorie ' . $categorie->getNom(),
             'btnAction' => 'Modifier',
             'deleteLink' => $this->generateUrl('app_admin_categories_delete', ['id' => $categorie->getId()]),
             'form' => $form
