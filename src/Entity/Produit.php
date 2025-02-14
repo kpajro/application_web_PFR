@@ -26,6 +26,9 @@ class Produit
     #[ORM\JoinColumn(nullable: false)]
     private ?Categorie $id_categorie = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,6 +78,18 @@ class Produit
     public function setIdCategorie(?Categorie $id_categorie): static
     {
         $this->id_categorie = $id_categorie;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): static
+    {
+        $this->image = $image;
 
         return $this;
     }
