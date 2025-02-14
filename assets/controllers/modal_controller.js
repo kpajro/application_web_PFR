@@ -53,7 +53,7 @@ export default class extends Controller {
                     modal.classList.add("hidden");
                     // Nettoyer le contenu
                     modal.querySelector("#modal-content").innerHTML = "";
-                }, 150);
+                }, 200);
 
             });
         });
