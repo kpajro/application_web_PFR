@@ -8,7 +8,6 @@ export default class extends Controller {
     open(event) {
         event.preventDefault();
         const url = event.currentTarget.dataset.modalUrl;
-        console.log(url);
         const modal = document.getElementById("modal");
 
         modal.classList.remove("hidden"); // on affiche la modale
@@ -34,7 +33,7 @@ export default class extends Controller {
     }
 
     closeModalHandler(modal) {
-        const closeButtons = this.element.querySelectorAll("#close-modal");
+        const closeButtons = this.element.querySelectorAll(".close-modal");
 
         closeButtons.forEach((button) => {
             button.addEventListener("click", (event) => {
