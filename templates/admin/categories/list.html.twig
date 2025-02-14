@@ -1,0 +1,28 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+<div>
+    <h1>Gestion des catégories</h1>
+    <div>
+        <div data-action="click->modal#open" data-modal-url="{{ path('app_admin_categories_add') }}">Ajouter une catégorie</div>
+        <table>
+            <thead>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Produits dans la catégorie</th>
+            </thead>
+            <tbody>
+                {% for categorie in categories %}
+                    <tr data-modal-url="" data-action="click->modal#open">
+                        <td>{{ categorie.id }}</td>
+                        <td>{{ categorie.nom }}</td>
+                        <td>{{ categorie.nbProduits }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

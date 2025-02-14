@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Categorie;
 use App\Entity\Users;
 use App\Form\BOUserEditFormType;
+use App\Repository\CategorieRepository;
 use App\Repository\UsersRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -51,9 +53,9 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('app_admin_users_list');
         }
 
-        return $this->render('elements/editform_backoffice.html.twig', [
+        return $this->render('elements/form_backoffice.html.twig', [
             'form' => $form,
-            'editTitle' => "Modification d'information utilisateur (" . $user->getEmail() . ").",
+            'title' => "Modification d'information utilisateur (" . $user->getEmail() . ").",
             'btnAction' => "Enregistrer"
         ]);
     }
@@ -65,5 +67,41 @@ class AdminController extends AbstractController
         $em->flush();
 
         return $this->redirectToRoute('app_admin_users_list');
+    }
+
+    #[Route('/categories', name: 'app_admin_categories_list')]
+    public function categories(CategorieRepository $catRepo) : Response
+    {
+        $categories = $catRepo->findAll();
+
+        return $this->render('/admin/categories/list.html.twig', [
+            'categories' => $categories
+        ]);
+    }
+
+    #[Route('/categories/create', name: 'app_admin_categories_create')]
+    public function categoriesCreate(EntityManagerInterface $em, Request $request) : Response
+    {
+        $categorie = new Categorie;
+        $form = $this->createForm(
+            '', 
+            $categorie,
+            ['action' => $this->generateUrl('app_admin_categories_create')] 
+        );
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $categorie->setNbProduits(0);
+            $em->persist($categorie);
+            $em->flush();
+
+            return $this->redirectToRoute('app_admin_categories_list');
+        }
+
+        return $this->render('elements/form_backoffice.html.twig', [
+            'title' => 'Créer une nouvelle catégorie',
+            'btnAction' => 'Créer',
+            'form' => $form
+        ]);
     }
 }
