@@ -13,10 +13,10 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin')]
+#[IsGranted('ROLE_ADMIN')]
 class AdminController extends AbstractController
 {
     #[Route('', name:'app_admin_home')]
-    #[IsGranted('ROLE_ADMIN')]
     public function index() : Response 
     {
         return $this->render('admin/index.html.twig', [
@@ -25,7 +25,6 @@ class AdminController extends AbstractController
     }
 
     #[Route('/users', name:'app_admin_users_list')]
-    #[IsGranted('ROLE_ADMIN')]
     public function users(UsersRepository $usersRepo) : Response
     {
         $users = $usersRepo->findAll();
@@ -36,7 +35,6 @@ class AdminController extends AbstractController
     }
 
     #[Route('/users/{id}/edit', name: 'app_admin_users_edit')]
-    #[IsGranted('ROLE_ADMIN')]
     public function userEdit(Users $user, Request $request, EntityManagerInterface $em) : Response
     {
         $form = $this->createForm(
@@ -61,7 +59,6 @@ class AdminController extends AbstractController
     }
 
     #[Route('/users/{id}/remove', name:'app_admin_users_delete')]
-    #[IsGranted('ROLE_ADMIN')]
     public function userDelete(Users $user, EntityManagerInterface $em) : Response
     {
         $em->remove($user);
