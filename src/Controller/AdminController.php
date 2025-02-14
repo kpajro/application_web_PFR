@@ -125,7 +125,7 @@ class AdminController extends AbstractController
         }
 
         return $this->render('elements/form_backoffice.html.twig', [
-            'title' => 'Créer une nouvelle catégorie',
+            'title' => 'Modification de la catégorie' . $categorie->getNom(),
             'btnAction' => 'Créer',
             'deleteLink' => $this->generateUrl('app_admin_categories_delete', ['id' => $categorie->getId()]),
             'form' => $form
