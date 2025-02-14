@@ -11,6 +11,8 @@ export default class extends Controller {
         const modal = document.getElementById("modal");
         const box = document.getElementById("modal-box");
         
+        modal.classList.remove("hidden"); // on affiche la modale
+
         fetch(url, { method: "POST" }) //requête pour récupérer le contenu voulu
         .then((response) => {
             if (!response.ok) {
@@ -20,35 +22,39 @@ export default class extends Controller {
         })
         .then(html => {
                 this.element.querySelector("#modal-content").innerHTML = html; //le contenu chargé est injecté dans la modale
-                this.closeModalHandler(modal); //on charge les boutons pour fermer la modale
+                this.closeModalHandler(modal, box); //on charge les boutons pour fermer la modale
 
-                modal.classList.remove("hidden"); // on affiche la modale
+                modal.classList.remove("opacity-0");
                 box.classList.remove("translate-y-[100vh]");
             })
             .catch(error => {
                 console.error(error);
                 this.element.querySelector("#modal-content").innerHTML =
                     "<p class='text-red-500'>Impossible de charger le contenu demandé.</p>"
-                ;
-                
-                modal.classList.remove("hidden");
+                    ;
+                    
                 box.classList.remove("translate-y-[100vh]");
             }
         );
     }
 
-    closeModalHandler(modal) {
+    closeModalHandler(modal, box) {
         const closeButtons = this.element.querySelectorAll(".close-modal");
 
         closeButtons.forEach((button) => {
             button.addEventListener("click", (event) => {
                 event.preventDefault();
-
+                
                 // Masquer la modale
-                modal.classList.add("hidden");
+                box.classList.add("translate-y-[100vh]");
+                modal.classList.add('opacity-0');
 
-                // Nettoyer le contenu
-                modal.querySelector("#modal-content").innerHTML = "";
+                setTimeout(() => {
+                    modal.classList.add("hidden");
+                    // Nettoyer le contenu
+                    modal.querySelector("#modal-content").innerHTML = "";
+                }, 150);
+
             });
         });
     }
