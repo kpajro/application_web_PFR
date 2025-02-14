@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Categorie;
 use App\Entity\Users;
+use App\Form\BOCategorieFormType;
 use App\Form\BOUserEditFormType;
 use App\Repository\CategorieRepository;
 use App\Repository\UsersRepository;
@@ -56,11 +57,12 @@ class AdminController extends AbstractController
         return $this->render('elements/form_backoffice.html.twig', [
             'form' => $form,
             'title' => "Modification d'information utilisateur (" . $user->getEmail() . ").",
+            'deleteLink' => $this->generateUrl('app_admin_users_delete', ['id' => $user->getId()]),
             'btnAction' => "Enregistrer"
         ]);
     }
 
-    #[Route('/users/{id}/remove', name:'app_admin_users_delete')]
+    #[Route('/users/{id}/delete', name:'app_admin_users_delete')]
     public function userDelete(Users $user, EntityManagerInterface $em) : Response
     {
         $em->remove($user);
@@ -84,7 +86,7 @@ class AdminController extends AbstractController
     {
         $categorie = new Categorie;
         $form = $this->createForm(
-            '', 
+            BOCategorieFormType::class, 
             $categorie,
             ['action' => $this->generateUrl('app_admin_categories_create')] 
         );
@@ -103,5 +105,39 @@ class AdminController extends AbstractController
             'btnAction' => 'Créer',
             'form' => $form
         ]);
+    }
+
+    #[Route('/categories/{id}/edit', name: 'app_admin_categories_edit')]
+    public function categoriesEdit(EntityManagerInterface $em, Request $request, Categorie $categorie) : Response
+    {
+        $form = $this->createForm(
+            BOCategorieFormType::class, 
+            $categorie,
+            ['action' => $this->generateUrl('app_admin_categories_edit', ['id' => $categorie->getId()])] 
+        );
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $em->persist($categorie);
+            $em->flush();
+
+            return $this->redirectToRoute('app_admin_categories_list');
+        }
+
+        return $this->render('elements/form_backoffice.html.twig', [
+            'title' => 'Créer une nouvelle catégorie',
+            'btnAction' => 'Créer',
+            'deleteLink' => $this->generateUrl('app_admin_categories_delete', ['id' => $categorie->getId()]),
+            'form' => $form
+        ]);
+    }
+
+    #[Route('/categories/{id}/delete', name:'app_admin_categories_delete')]
+    public function categoriesDelete(Categorie $categorie, EntityManagerInterface $em) : Response
+    {
+        $em->remove($categorie);
+        $em->flush();
+
+        return $this->redirectToRoute('app_admin_categories_list');
     }
 }

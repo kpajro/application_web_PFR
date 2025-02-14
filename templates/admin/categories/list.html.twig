@@ -3,9 +3,12 @@
 {% block body %}
 
 <div>
-    <h1>Gestion des catégories</h1>
+    <div class="flex justify-between">
+        <h1>Gestion des catégories</h1>
+        <a href="{{ path('app_admin_home') }}">Retour au menu</a>
+    </div>
     <div>
-        <div data-action="click->modal#open" data-modal-url="{{ path('app_admin_categories_add') }}">Ajouter une catégorie</div>
+        <div data-action="click->modal#open" data-modal-url="{{ path('app_admin_categories_create') }}">Ajouter une catégorie</div>
         <table>
             <thead>
                 <th>ID</th>
@@ -14,7 +17,7 @@
             </thead>
             <tbody>
                 {% for categorie in categories %}
-                    <tr data-modal-url="" data-action="click->modal#open">
+                    <tr data-modal-url="{{ path('app_admin_categories_edit', {id: categorie.id}) }}" data-action="click->modal#open">
                         <td>{{ categorie.id }}</td>
                         <td>{{ categorie.nom }}</td>
                         <td>{{ categorie.nbProduits }}</td>

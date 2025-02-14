@@ -4,11 +4,17 @@
 
 <div>
     <h1>Administration du site</h1>
-    <div>
-        <a href="{{ path('app_admin_users_list') }}">Utilisateurs</a>
-        <a href="{{ path('app_admin_categories_list') }}">Catégories</a>
-        <a href="">Produits</a>
-    </div>
+    <ul>
+        <li>
+            <a href="{{ path('app_admin_users_list') }}">Utilisateurs</a>
+        </li>
+        <li>
+            <a href="{{ path('app_admin_categories_list') }}">Catégories</a>
+        </li>
+        <li>
+            <a href="">Produits</a>
+        </li>
+    </ul>
 </div>
 
 {% endblock %}
