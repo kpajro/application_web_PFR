@@ -1,0 +1,19 @@
+<div class="flex mb-2 justify-between">
+    <h1>{{ title }}</h1>
+    <p class="close-modal">Fermer</p>
+</div>
+
+{{ form_start(form) }}
+
+<div>
+    {{ form_widget(form) }}
+</div>
+
+<div class="flex justify-between">
+    {% if deleteLink is defined %}
+        <a href="{{ deleteLink }}">Supprimer</a>
+    {% endif %}
+    <button type="submit">{{ btnAction }}</button>
+</div>
+
+{{ form_end(form) }}
