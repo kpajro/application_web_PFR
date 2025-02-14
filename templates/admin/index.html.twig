@@ -2,13 +2,17 @@
 
 {% block body %}
 
-<div>
     <h1>Administration du site</h1>
-    <div>
-        <a href="{{ path('app_admin_users_list') }}">Utilisateurs</a>
-        <a href="">Catégories</a>
-        <a href="">Produits</a>
-    </div>
-</div>
+    <ul>
+        <li>
+            <a href="{{ path('app_admin_users_list') }}">Utilisateurs</a>
+        </li>
+        <li>
+            <a href="{{ path('app_admin_categories_list') }}">Catégories</a>
+        </li>
+        <li>
+            <a href="">Produits</a>
+        </li>
+    </ul>
 
 {% endblock %}
