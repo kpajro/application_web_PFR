@@ -14,28 +14,29 @@ export default class extends Controller {
         modal.classList.remove("hidden"); // on affiche la modale
 
         fetch(url, { method: "POST" }) //requête pour récupérer le contenu voulu
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Erreur lors du chargement du contenu");
-            }
-            return response.text();
-        })
-        .then(html => {
-                this.element.querySelector("#modal-content").innerHTML = html; //le contenu chargé est injecté dans la modale
-                this.closeModalHandler(modal, box); //on charge les boutons pour fermer la modale
-
-                modal.classList.remove("opacity-0");
-                box.classList.remove("translate-y-[100vh]");
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Erreur lors du chargement du contenu");
+                }
+                return response.text();
             })
-            .catch(error => {
-                console.error(error);
-                this.element.querySelector("#modal-content").innerHTML =
-                    "<p class='text-red-500'>Impossible de charger le contenu demandé.</p>"
-                    ;
-                    
-                box.classList.remove("translate-y-[100vh]");
-            }
-        );
+            .then(html => {
+                    this.element.querySelector("#modal-content").innerHTML = html; //le contenu chargé est injecté dans la modale
+                    this.closeModalHandler(modal, box); //on charge les boutons pour fermer la modale
+
+                    modal.classList.remove("opacity-0");
+                    box.classList.remove("translate-y-[100vh]");
+                })
+                .catch(error => {
+                    console.error(error);
+                    this.element.querySelector("#modal-content").innerHTML =
+                        "<p class='text-red-500'>Impossible de charger le contenu demandé.</p>"
+                        ;
+                        
+                    box.classList.remove("translate-y-[100vh]");
+                }
+            )
+        ;
     }
 
     closeModalHandler(modal, box) {
@@ -54,7 +55,6 @@ export default class extends Controller {
                     // Nettoyer le contenu
                     modal.querySelector("#modal-content").innerHTML = "";
                 }, 200);
-
             });
         });
     }
