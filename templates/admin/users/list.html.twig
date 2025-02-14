@@ -1,42 +1,42 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-    <div>
-        <div class="flex justify-between">
-            <h1>Gestion des utilisateurs</h1>
-            <a href="{{ path('app_admin_home') }}">Retour au menu</a>
-        </div>
-        <div>
-            <table>
-                <thead>
-                    <th>ID</th>
-                    <th>Nom</th>
-                    <th>Prénom</th>
-                    <th>E-mail</th>
-                    <th>Pays</th>
-                    <th>Téléphone</th>
-                    <th>Date de naissance</th>
-                    <th>Type de compte</th>
-                    <th>Membre depuis</th>
-                    <th>Compte Administrateur</th>
-                </thead>
-                <tbody>
-                    {% for user in users %}
-                        <tr data-modal-url="{{ path('app_admin_users_edit', {id: user.id}) }}" data-action="click->modal#open">
-                            <td>{{ user.id }}</td>
-                            <td>{{ user.name }}</td>
-                            <td>{{ user.firstname }}</td>
-                            <td>{{ user.email }}</td>
-                            <td>{{ user.country }}</td>
-                            <td>{{ user.phoneNumber }}</td>
-                            <td>{{ user.birthday|date('d-m-y') }}</td>
-                            <td>{{ user.accountType == 1 ? 'Entreprise' : 'Particulier' }}</td>
-                            <td>{{ user.createdAt|date('d-m-y') }}</td>
-                            <td>{{ 'ROLE_ADMIN' in user.roles ? 'Oui' : 'Non' }}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+
+    <div class="flex justify-between">
+        <h1>Gestion des utilisateurs</h1>
+        <a href="{{ path('app_admin_home') }}">Retour au menu</a>
     </div>
+    <div>
+        <table>
+            <thead>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>E-mail</th>
+                <th>Pays</th>
+                <th>Téléphone</th>
+                <th>Date de naissance</th>
+                <th>Type de compte</th>
+                <th>Membre depuis</th>
+                <th>Compte Administrateur</th>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr data-modal-url="{{ path('app_admin_users_edit', {id: user.id}) }}" data-action="click->modal#open">
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.firstname }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.country }}</td>
+                        <td>{{ user.phoneNumber }}</td>
+                        <td>{{ user.birthday|date('d-m-y') }}</td>
+                        <td>{{ user.accountType == 1 ? 'Entreprise' : 'Particulier' }}</td>
+                        <td>{{ user.createdAt|date('d-m-y') }}</td>
+                        <td>{{ 'ROLE_ADMIN' in user.roles ? 'Oui' : 'Non' }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
 {% endblock %}
