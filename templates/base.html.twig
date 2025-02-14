@@ -12,9 +12,13 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
-    <body>
+    <body data-controller="modal">
         <div class="w-4/5 mx-auto">
-        {% block body %}{% endblock %}
+            {% block body %}{% endblock %}
         </div>
+
+        {% block modale %}
+            {% include "elements/modal.html.twig" %}
+        {% endblock %}
     </body>
 </html>
