@@ -39,7 +39,11 @@ class AdminController extends AbstractController
     #[IsGranted('ROLE_ADMIN')]
     public function userEdit(Users $user, Request $request, EntityManagerInterface $em) : Response
     {
-        $form = $this->createForm(BOUserEditFormType::class, $user);
+        $form = $this->createForm(
+            BOUserEditFormType::class, 
+            $user,
+            ['action' => $this->generateUrl('app_admin_users_edit', ['id' => $user->getId()])]
+        );
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
