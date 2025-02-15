@@ -1,0 +1,36 @@
+<div class="top-0 left-50 h-screen-10 border-4 border-solid flex">
+    <div>
+        <a href="{{ url('app_index')}}">Page Accueil</a>
+    </div>
+    {% if not app.user %}
+    <div>
+        <a href="{{ url('app_register') }}">S'enregister</a>
+    </div>
+    <div>
+        <a href="{{ url('app_login') }}">Se connecter</a>
+    </div>
+    {% endif %}
+    {% if is_granted('ROLE_ADMIN') %}
+    <div>
+        <button type="button" id="menu-button" aria-expanded="true" aria-haspopup="true" >Administration</button>
+            <div id="dropdown-menu" class="absolute bg-white hidden" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                <div class="py-1">
+                <a href="{{ path('app_admin_home') }}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-item-0">Panneau Admin</a>
+                <a href="{{ path('app_admin_users_list') }}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-item-1">Panneau Users</a>
+                <a href="{{ path('app_admin_categories_list') }}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-item-2">Panneau Catégories</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% if app.user %}
+        <div>
+            <a href="{{ path('app_logout')}}">Se déconnecter</a>
+        </div>
+    {% endif %}
+</div>
+
+<script>
+  document.getElementById("menu-button").addEventListener("click", function () {
+    document.getElementById("dropdown-menu").classList.toggle("hidden");
+  });
+</script>
