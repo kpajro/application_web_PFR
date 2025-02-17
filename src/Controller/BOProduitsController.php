@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Produit;
+use App\Form\BOProduitFormType;
 use App\Repository\ProduitRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,6 +23,33 @@ class BOProduitsController extends AbstractController
 
         return $this->render('admin/produits/list.html.twig', [
             'produits' => $produits,
+        ]);
+    }
+
+    #[Route('/create', name: 'app_admin_produits_create')]
+    public function produitCreate(Request $request, EntityManagerInterface $em) : Response
+    {
+        $produit = new Produit;
+        $form = $this->createForm(BOProduitFormType::class, $produit, [
+            'action' => $this->generateUrl('app_admin_produits_create')
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $prCategorie = $produit->getCategorie();
+            $prCategorie->setNbProduits($prCategorie->getNbProduits() + 1);
+
+            $em->persist($produit);
+            $em->persist($prCategorie);
+            $em->flush();
+
+            return $this->redirectToRoute('app_admin_produits_list');
+        }
+
+        return $this->render('elements/form_backoffice.html.twig', [
+            'form' => $form,
+            'title' => 'Création de produit',
+            'btnAction' => 'Créer'
         ]);
     }
 }

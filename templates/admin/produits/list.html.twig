@@ -8,7 +8,7 @@
 </div>
 
 <div>
-    <div data-action="click->modal#open" data-modal-url="">Ajouter un produit</div>
+    <div data-action="click->modal#open" data-modal-url="{{ path('app_admin_produits_create') }}">Ajouter un produit</div>
     <table>
         <thead>
             <th>ID</th>
@@ -23,9 +23,9 @@
                 <tr data-action="click->modal#open" data-modal-url="">
                     <td>{{ produit.id }}</td>
                     <td>{{ produit.nom }}</td>
-                    <td>{{ produit.descrition }}</td>
+                    <td>{{ produit.description }}</td>
                     <td>{{ produit.prix }}</td>
-                    <td>{{ produit.idCategorie }}</td>
+                    <td>{{ produit.categorie.nom }}</td>
                     <td>{{ produit.image }}</td>
                 </tr>
             {% endfor %}
