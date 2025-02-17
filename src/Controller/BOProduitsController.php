@@ -77,7 +77,7 @@ class BOProduitsController extends AbstractController
     }
 
     #[Route('/{id}/delete', name:'app_admin_produits_delete')]
-    public function categoriesDelete(Produit $produit, EntityManagerInterface $em) : Response
+    public function produitDelete(Produit $produit, EntityManagerInterface $em) : Response
     {
         $prCategorie = $produit->getCategorie();
         $prCategorie->setNbProduits($prCategorie->getNbProduits() - 1);
