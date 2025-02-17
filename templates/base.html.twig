@@ -13,6 +13,8 @@
         {% endblock %}
     </head>
     <body data-controller="modal">
+        {% include "elements/navbar.html.twig" %}
+        
         <div class="w-4/5 mx-auto">
             {% block body %}{% endblock %}
         </div>
