@@ -10,7 +10,7 @@
 </div>
 
 <div class="flex justify-between">
-    {% if deleteLink is defined %}
+    {% if deleteLink is defined and deleteLink is not null %}
         <a href="{{ deleteLink }}">Supprimer</a>
     {% endif %}
     <button type="submit">{{ btnAction }}</button>

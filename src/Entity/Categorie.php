@@ -21,7 +21,7 @@ class Categorie
     /**
      * @var Collection<int, Produit>
      */
-    #[ORM\OneToMany(targetEntity: Produit::class, mappedBy: 'id_categorie')]
+    #[ORM\OneToMany(targetEntity: Produit::class, mappedBy: 'id_categorie', orphanRemoval: true)]
     private Collection $produits;
 
     #[ORM\Column]
@@ -68,7 +68,7 @@ class Categorie
     {
         if (!$this->produits->contains($produit)) {
             $this->produits->add($produit);
-            $produit->setIdCategorie($this);
+            $produit->setCategorie($this);
         }
 
         return $this;
@@ -78,8 +78,8 @@ class Categorie
     {
         if ($this->produits->removeElement($produit)) {
             // set the owning side to null (unless already changed)
-            if ($produit->getIdCategorie() === $this) {
-                $produit->setIdCategorie(null);
+            if ($produit->getCategorie() === $this) {
+                $produit->setCategorie(null);
             }
         }
 
