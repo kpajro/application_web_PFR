@@ -14,9 +14,9 @@ export default class extends Controller {
             cancelBtn.addEventListener('click', e => {
                 e.preventDefault();
                 confBox.classList.add('scale-y-0');
-                // setTimeout(() => {
-                //     confBox.classList.add('hidden');
-                // }, 150);
+                setTimeout(() => {
+                    confBox.classList.add('hidden');
+                }, 150);
             })
         })
     }

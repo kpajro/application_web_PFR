@@ -12,7 +12,7 @@
 <div class="mt-2">
     {% if deletable is defined and deletable == true %}
         <div class="flex justify-between" data-controller="confdelete">
-            <button id="delete-btn">{{ deleteAction }}</button>
+            <button id="delete-btn">{{ deleteAction is defined ? deleteAction : "Supprimer l'élément"}}</button>
             <div>
                 <button class="close-modal">Annuler</button>
                 <button type="submit">{{ btnAction }}</button>
