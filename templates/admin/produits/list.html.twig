@@ -1,0 +1,36 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+<div class="flex justify-between">
+    <h1>Gestion des produits</h1>
+    <a href="{{ path('app_admin_home') }}">Retour au menu</a>
+</div>
+
+<div>
+    <div data-action="click->modal#open" data-modal-url="">Ajouter un produit</div>
+    <table>
+        <thead>
+            <th>ID</th>
+            <th>Nom du produit</th>
+            <th>Description du produit</th>
+            <th>Prix</th>
+            <th>Catégorie</th>
+            <th>Image</th>
+        </thead>
+        <tbody>
+            {% for produit in produits %}
+                <tr data-action="click->modal#open" data-modal-url="">
+                    <td>{{ produit.id }}</td>
+                    <td>{{ produit.nom }}</td>
+                    <td>{{ produit.descrition }}</td>
+                    <td>{{ produit.prix }}</td>
+                    <td>{{ produit.idCategorie }}</td>
+                    <td>{{ produit.image }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
