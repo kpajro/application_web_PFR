@@ -71,7 +71,21 @@ class BOProduitsController extends AbstractController
         return $this->render('elements/form_backoffice.html.twig', [
             'form' => $form,
             'title' => 'Modification du produit "' . $produit->getNom() . '".',
-            'btnAction' => 'Enregistrer'
+            'btnAction' => 'Enregistrer',
+            'deleteLink' => $this->generateUrl('app_admin_produits_delete', ['id' => $produit->getId()])
         ]);
+    }
+
+    #[Route('/{id}/delete', name:'app_admin_produits_delete')]
+    public function categoriesDelete(Produit $produit, EntityManagerInterface $em) : Response
+    {
+        $prCategorie = $produit->getCategorie();
+        $prCategorie->setNbProduits($prCategorie->getNbProduits() - 1);
+
+        $em->persist($prCategorie);
+        $em->remove($produit);
+        $em->flush();
+
+        return $this->redirectToRoute('app_admin_produits_list');
     }
 }
