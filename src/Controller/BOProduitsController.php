@@ -52,4 +52,26 @@ class BOProduitsController extends AbstractController
             'btnAction' => 'Créer'
         ]);
     }
+
+    #[Route('/{id}/edit', name: 'app_admin_produits_edit')]
+    public function produitEdit(Produit $produit, Request $request, EntityManagerInterface $em) : Response
+    {
+        $form = $this->createForm(BOProduitFormType::class, $produit, [
+            'action' => $this->generateUrl('app_admin_produits_edit', ['id' => $produit->getId()])
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($produit);
+            $em->flush();
+
+            return $this->redirectToRoute('app_admin_produits_list');
+        }
+
+        return $this->render('elements/form_backoffice.html.twig', [
+            'form' => $form,
+            'title' => 'Modification du produit "' . $produit->getNom() . '".',
+            'btnAction' => 'Enregistrer'
+        ]);
+    }
 }

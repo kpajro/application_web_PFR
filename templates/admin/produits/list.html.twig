@@ -20,7 +20,7 @@
         </thead>
         <tbody>
             {% for produit in produits %}
-                <tr data-action="click->modal#open" data-modal-url="">
+                <tr data-action="click->modal#open" data-modal-url="{{ path('app_admin_produits_edit', {id: produit.id}) }}">
                     <td>{{ produit.id }}</td>
                     <td>{{ produit.nom }}</td>
                     <td>{{ produit.description }}</td>
