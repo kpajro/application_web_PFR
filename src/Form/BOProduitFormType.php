@@ -31,6 +31,7 @@ class BOProduitFormType extends AbstractType
             ->add('description', TextareaType::class, [
                 'label' => 'Description du produit',
                 'constraints' => [],
+                'required' => false
             ])
             ->add('prix', MoneyType::class, [
                 'label' => 'Prix',
@@ -42,7 +43,8 @@ class BOProduitFormType extends AbstractType
                 'label' => 'Catégorie du produit'
             ])
             ->add('image', FileType::class, [
-                'label' => 'Image du produit'
+                'label' => 'Image du produit',
+                'required' => false
             ])
         ;
     }
