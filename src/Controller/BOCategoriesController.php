@@ -72,6 +72,9 @@ class BOCategoriesController extends AbstractController
         return $this->render('elements/form_backoffice.html.twig', [
             'title' => 'Modification de la catégorie ' . $categorie->getNom(),
             'btnAction' => 'Modifier',
+            'deletable' => true,
+            'deleteAction' => 'Supprimer la catégorie',
+            'deleteWarning' => 'Êtes-vous sûr(e) de vouloir supprimer "' . $categorie->getNom() . '" ? Cette action est irréversible et etraînera la suppression de tous les produits dans cette catégorie.',
             'deleteLink' => $this->generateUrl('app_admin_categories_delete', ['id' => $categorie->getId()]),
             'form' => $form
         ]);

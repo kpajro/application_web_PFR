@@ -44,7 +44,8 @@ class BOProduitFormType extends AbstractType
             ])
             ->add('image', FileType::class, [
                 'label' => 'Image du produit',
-                'required' => false
+                'required' => false,
+                'mapped' => false
             ])
         ;
     }

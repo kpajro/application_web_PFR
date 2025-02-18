@@ -27,16 +27,28 @@ export default class extends Controller {
                     modal.classList.remove("opacity-0");
                     box.classList.remove("translate-y-[100vh]");
                 })
-                .catch(error => {
-                    console.error(error);
-                    this.element.querySelector("#modal-content").innerHTML =
-                        "<p class='text-red-500'>Impossible de charger le contenu demandé.</p>"
-                        ;
-                        
-                    box.classList.remove("translate-y-[100vh]");
-                }
-            )
+            .catch(error => {
+                console.error(error);
+                this.element.querySelector("#modal-content").innerHTML =
+                    "<p class='text-red-500'>Impossible de charger le contenu demandé.</p>"
+                    ;
+                    
+                box.classList.remove("translate-y-[100vh]");
+            })
         ;
+    }
+
+    close(event, modal, box) {
+        event.preventDefault();
+        // Masquer la modale
+        box.classList.add("translate-y-[100vh]");
+        modal.classList.add('opacity-0');
+
+        setTimeout(() => {
+            modal.classList.add("hidden");
+            // Nettoyer le contenu
+            modal.querySelector("#modal-content").innerHTML = "";
+        }, 200);
     }
 
     closeModalHandler(modal, box) {
@@ -44,18 +56,14 @@ export default class extends Controller {
 
         closeButtons.forEach((button) => {
             button.addEventListener("click", (event) => {
-                event.preventDefault();
-                
-                // Masquer la modale
-                box.classList.add("translate-y-[100vh]");
-                modal.classList.add('opacity-0');
-
-                setTimeout(() => {
-                    modal.classList.add("hidden");
-                    // Nettoyer le contenu
-                    modal.querySelector("#modal-content").innerHTML = "";
-                }, 200);
+                this.close(event, modal, box);
             });
         });
+
+        document.addEventListener('click', e => {
+            if (typeof e.composedPath === 'function' &&  !e.composedPath().includes(box) && !box.classList.contains('translate-y-[100vh]')) {
+                this.close(e, modal, box);
+            }
+        })
     }
 }
