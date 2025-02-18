@@ -5,12 +5,18 @@ namespace App\Controller;
 use App\Entity\Produit;
 use App\Form\BOProduitFormType;
 use App\Repository\ProduitRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\String\Slugger\SluggerInterface;
+
+use function PHPSTORM_META\type;
 
 #[Route('/admin/produits')]
 #[IsGranted('ROLE_ADMIN')]
@@ -27,7 +33,7 @@ class BOProduitsController extends AbstractController
     }
 
     #[Route('/create', name: 'app_admin_produits_create')]
-    public function produitCreate(Request $request, EntityManagerInterface $em) : Response
+    public function produitCreate(Request $request, EntityManagerInterface $em, SluggerInterface $slugger) : Response
     {
         $produit = new Produit;
         $form = $this->createForm(BOProduitFormType::class, $produit, [
@@ -36,6 +42,12 @@ class BOProduitsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $image = $form->get('image')->getData();
+
+            if ($image) {
+                $this->handleImages($image, $slugger, $produit);
+            }
+
             $prCategorie = $produit->getCategorie();
             $prCategorie->setNbProduits($prCategorie->getNbProduits() + 1);
 
@@ -54,7 +66,7 @@ class BOProduitsController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_admin_produits_edit')]
-    public function produitEdit(Produit $produit, Request $request, EntityManagerInterface $em) : Response
+    public function produitEdit(Produit $produit, Request $request, EntityManagerInterface $em, SluggerInterface $slugger) : Response
     {
         $form = $this->createForm(BOProduitFormType::class, $produit, [
             'action' => $this->generateUrl('app_admin_produits_edit', ['id' => $produit->getId()])
@@ -62,6 +74,12 @@ class BOProduitsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $image = $form->get('image')->getData();
+
+            if ($image) {
+                $this->handleImages($image, $slugger, $produit);
+            }
+
             $em->persist($produit);
             $em->flush();
 
@@ -77,7 +95,7 @@ class BOProduitsController extends AbstractController
     }
 
     #[Route('/{id}/delete', name:'app_admin_produits_delete')]
-    public function categoriesDelete(Produit $produit, EntityManagerInterface $em) : Response
+    public function produitDelete(Produit $produit, EntityManagerInterface $em) : Response
     {
         $prCategorie = $produit->getCategorie();
         $prCategorie->setNbProduits($prCategorie->getNbProduits() - 1);
@@ -87,5 +105,19 @@ class BOProduitsController extends AbstractController
         $em->flush();
 
         return $this->redirectToRoute('app_admin_produits_list');
+    }
+
+    public function handleImages(UploadedFile $image, SluggerInterface $slugger, Produit $produit)
+    {
+        $timestamp = date('YmdHis');
+        $cleanFileName = $slugger->slug($produit->getNom()) . '_' . $timestamp . '.' . $image->guessExtension();
+
+        try {
+            $image->move('uploadedFiles/productImages/' . $slugger->slug($produit->getCategorie()->getNom()) . '/', $cleanFileName);
+        } catch (FileException $e) {
+
+        }
+
+        $produit->setImage($cleanFileName);
     }
 }
