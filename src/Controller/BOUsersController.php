@@ -46,6 +46,9 @@ class BOUsersController extends AbstractController
         return $this->render('elements/form_backoffice.html.twig', [
             'form' => $form,
             'title' => "Modification d'information utilisateur (" . $user->getEmail() . ").",
+            'deletable' => true,
+            'deleteAction' => 'Supprimer l\'utilisateur',
+            'deleteWarning' => 'Êtes-vous sûr(e) de vouloir supprimer "' . $user->getEmail() . '" ? Cette action est irréversible.',
             'deleteLink' => $this->generateUrl('app_admin_users_delete', ['id' => $user->getId()]),
             'btnAction' => "Modifier"
         ]);
