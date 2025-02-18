@@ -90,6 +90,9 @@ class BOProduitsController extends AbstractController
             'form' => $form,
             'title' => 'Modification du produit "' . $produit->getNom() . '".',
             'btnAction' => 'Enregistrer',
+            'deletable' => true,
+            'deleteAction' => 'Supprimer le produit',
+            'deleteWarning' => 'Êtes-vous sûr(e) de vouloir supprimer "' . $produit->getNom() . '" ? Cette action est irréversible.',
             'deleteLink' => $this->generateUrl('app_admin_produits_delete', ['id' => $produit->getId()])
         ]);
     }

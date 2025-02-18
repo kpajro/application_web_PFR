@@ -9,11 +9,30 @@
     {{ form_widget(form) }}
 </div>
 
-<div class="flex justify-between">
-    {% if deleteLink is defined and deleteLink is not null %}
-        <a href="{{ deleteLink }}">Supprimer</a>
+<div class="mt-2">
+    {% if deletable is defined and deletable == true %}
+        <div class="h-[60px]" data-controller="confdelete" id="footer">
+            <div id="footer-content" class="flex justify-between h-full items-center transition-all">
+                <button id="delete-btn">{{ deleteAction is defined ? deleteAction : "Supprimer l'élément"}}</button>
+                <div>
+                    <button class="close-modal mr-3">Annuler</button>
+                    <button type="submit">{{ btnAction }}</button>
+                </div>
+            </div>
+            <div id="delete-conf" class="pt-1 hidden h-full opacity-0 items-center transition-all">
+                <p class="italic text-center" id="delete-warning">{{ deleteWarning is defined ? deleteWarning : "Êtes-vous sûr(e) de vouloir supprimer l'élément ?"}}</p>
+                <div class="flex justify-center gap-6">
+                    <a href="{{ deleteLink }}">Supprimer</a>
+                    <button id="cancel-delete">Annuler</button>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="flex justify-end h-[60px]">
+            <button class="close-modal">Annuler</button>
+            <button type="submit">{{ btnAction }}</button>
+        </div>
     {% endif %}
-    <button type="submit">{{ btnAction }}</button>
 </div>
 
 {{ form_end(form) }}
