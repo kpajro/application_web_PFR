@@ -61,11 +61,9 @@ export default class extends Controller {
         });
 
         document.addEventListener('click', e => {
-            if (typeof e.composedPath === 'function' &&  !e.composedPath().includes(box)) {
+            if (typeof e.composedPath === 'function' &&  !e.composedPath().includes(box) && !box.classList.contains('translate-y-[100vh]')) {
                 this.close(e, modal, box);
             }
-        }, {
-            once: true
         })
     }
 }
