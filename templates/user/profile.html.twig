@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User Profile{% endblock %}
+
+{% block body %}
+    <div class="profile-form-container">
+        <div class="profile-form">
+            <h1>User Profile</h1>
+
+            {{ form_start(profileForm) }}
+                <div class="form-group">
+                    {{ form_label(profileForm.email) }}
+                    {{ form_widget(profileForm.email) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(profileForm.name) }}
+                    {{ form_widget(profileForm.name) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(profileForm.firstname) }}
+                    {{ form_widget(profileForm.firstname) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(profileForm.country) }}
+                    {{ form_widget(profileForm.country) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(profileForm.phoneNumber) }}
+                    {{ form_widget(profileForm.phoneNumber) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(profileForm.birthday) }}
+                    {{ form_widget(profileForm.birthday) }}
+                </div>
+                <button class="btn">Save changes</button>
+            {{ form_end(profileForm) }}
+        </div>
+    </div>
+{% endblock %}

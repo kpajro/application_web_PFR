@@ -138,7 +138,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->birthday;
     }
 
-    public function setBirthday(\DateTimeInterface $birthday): static
+    public function setBirthday(\DateTimeInterface $birthday): self
     {
         $this->birthday = $birthday;
 

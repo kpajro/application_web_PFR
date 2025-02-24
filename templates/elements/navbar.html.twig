@@ -24,6 +24,9 @@
     {% endif %}
     {% if app.user %}
         <div>
+            <a href="{{ path('app_user_profile') }}">Profile</a>
+        </div>
+        <div>
             <a href="{{ path('app_logout')}}">Se déconnecter</a>
         </div>
     {% endif %}

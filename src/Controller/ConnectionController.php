@@ -54,5 +54,27 @@ class ConnectionController extends AbstractController
     public function logout(): void
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+    
     }
+
+    #[Route('/profile', name: 'app_user_profile')]
+    public function profile(Request $request, EntityManagerInterface $entityManager, UserInterface $user): Response
+    {
+        $form = $this->createForm(UserProfileFormType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Profile updated successfully.');
+
+            return $this->redirectToRoute('app_user_profile');
+        }
+
+        return $this->render('user/profile.html.twig', [
+            'user' => $user,
+            'profileForm' => $form->createView(),
+        ]);
+}
 }
