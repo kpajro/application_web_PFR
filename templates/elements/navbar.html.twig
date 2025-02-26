@@ -34,6 +34,12 @@
 
 <script>
   document.getElementById("menu-button").addEventListener("click", function () {
-    document.getElementById("dropdown-menu").classList.toggle("hidden");
-  });
+    document.getElementById("dropdown-menu").classList.toggle("hidden")
+  })
+  document.addEventListener("click", function (evt) {
+        if (!document.getElementById("menu-button").contains(evt.target) && !document.getElementById("dropdown-menu").contains(evt.target)) {
+            document.getElementById("dropdown-menu").classList.add("hidden")
+            document.getElementById("menu-button").setAttribute("aria-expanded", "false")
+        }
+    })
 </script>
