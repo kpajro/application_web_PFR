@@ -10,6 +10,7 @@
         <select name="filtre" id="filtre" onchange="this.form.submit()">
             <option value="default" {% if filtre == 'default' %}selected{% endif %}>Par défaut</option>
             <option value="prix" {% if filtre == 'prix' %}selected{% endif %}>Prix croissant</option>
+            <option value="alphabet" {% if filtre == 'alphabet'%}selected{% endif %} >Ordre alphabetique</option>
         </select>
     </form>
 

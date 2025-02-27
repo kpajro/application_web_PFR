@@ -50,6 +50,8 @@ class ProduitRepository extends ServiceEntityRepository
 
         if ($filtre === 'prix') {
             $qb->orderBy('p.prix', 'ASC');
+        } else if ($filtre === 'alphabet') {
+            $qb->orderBy('p.nom', 'ASC');
         }
 
         return $qb->getQuery()->getResult();
