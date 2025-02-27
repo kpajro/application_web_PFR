@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Categories{% endblock %}
+
+{% block body %}
+    <h1>Produits de la catégorie</h1>
+
+    <form method="get">
+        <label for="filtre">Trier par :</label>
+        <select name="filtre" id="filtre" onchange="this.form.submit()">
+            <option value="default" {% if filtre == 'default' %}selected{% endif %}>Par défaut</option>
+            <option value="prix" {% if filtre == 'prix' %}selected{% endif %}>Prix croissant</option>
+        </select>
+    </form>
+
+    <div class="produits">
+        {% for produit in produits %}
+            <div class="produit">
+                <h2>{{ produit.nom }}</h2>
+                <p>{{ produit.description }}</p>
+                <p><strong>Prix :</strong> {{ produit.prix }} €</p>
+            </div>
+        {% else %}
+            <p>Aucun produit trouvé dans cette catégorie.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

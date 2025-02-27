@@ -15,14 +15,29 @@
         <button type="button" id="menu-button" aria-expanded="true" aria-haspopup="true" >Administration</button>
             <div id="dropdown-menu" class="absolute bg-white hidden" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                 <div class="py-1">
-                <a href="{{ path('app_admin_home') }}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-item-0">Panneau Admin</a>
+                <a href="{{ path('app_admin_home') }}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="amenu-item-0">Panneau Admin</a>
                 <a href="{{ path('app_admin_users_list') }}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-item-1">Panneau Users</a>
                 <a href="{{ path('app_admin_categories_list') }}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-item-2">Panneau Catégories</a>
             </div>
         </div>
     </div>
     {% endif %}
+    <div>
+        <button type="button" />
+    </div>
     {% if app.user %}
+        {% if categories is defined and categories is not empty %}
+            <div>
+                <button type="button" id="menu-button-2" aria-expanded="true" aria-haspopup="true" >Categorie</button>
+                    <div id="dropdown-menu-2" class="absolute bg-white hidden" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                        <div class="py-1">
+                        {% for categorie in categories %}
+                            <a href="{{ path('produits_categorie', { id: categorie.id })}}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-item-{{categorie.id}}">{{categorie.nom}}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
         <div>
             <a href="{{ path('app_logout')}}">Se déconnecter</a>
         </div>
@@ -32,6 +47,9 @@
 <script>
   document.getElementById("menu-button").addEventListener("click", function () {
     document.getElementById("dropdown-menu").classList.toggle("hidden")
+  })
+  document.getElementById("menu-button-2").addEventListener("click", function () {
+    document.getElementById("dropdown-menu-2").classList.toggle("hidden")
   })
   document.addEventListener("click", function (evt) {
         if (!document.getElementById("menu-button").contains(evt.target) && !document.getElementById("dropdown-menu").contains(evt.target)) {
