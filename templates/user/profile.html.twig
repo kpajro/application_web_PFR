@@ -3,36 +3,36 @@
 {% block title %}User Profile{% endblock %}
 
 {% block body %}
-    <div class="profile-form-container">
-        <div class="profile-form">
-            <h1>User Profile</h1>
+    <div class="flex justify-center items-center h-screen">
+        <div class="w-1/2 p-6 border border-gray-400 rounded-lg bg-gray-200">
+            <h1 class="text-2xl font-bold mb-6">User Profile</h1>
 
             {{ form_start(profileForm) }}
-                <div class="form-group">
-                    {{ form_label(profileForm.email) }}
-                    {{ form_widget(profileForm.email) }}
+                <div class="mb-4">
+                    {{ form_label(profileForm.email, null, {'label_attr': {'class': 'block font-bold mb-2'}}) }}
+                    {{ form_widget(profileForm.email, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
                 </div>
-                <div class="form-group">
-                    {{ form_label(profileForm.name) }}
-                    {{ form_widget(profileForm.name) }}
+                <div class="mb-4">
+                    {{ form_label(profileForm.name, null, {'label_attr': {'class': 'block font-bold mb-2'}}) }}
+                    {{ form_widget(profileForm.name, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
                 </div>
-                <div class="form-group">
-                    {{ form_label(profileForm.firstname) }}
-                    {{ form_widget(profileForm.firstname) }}
+                <div class="mb-4">
+                    {{ form_label(profileForm.firstname, null, {'label_attr': {'class': 'block font-bold mb-2'}}) }}
+                    {{ form_widget(profileForm.firstname, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
                 </div>
-                <div class="form-group">
-                    {{ form_label(profileForm.country) }}
-                    {{ form_widget(profileForm.country) }}
+                <div class="mb-4">
+                    {{ form_label(profileForm.country, null, {'label_attr': {'class': 'block font-bold mb-2'}}) }}
+                    {{ form_widget(profileForm.country, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
                 </div>
-                <div class="form-group">
-                    {{ form_label(profileForm.phoneNumber) }}
-                    {{ form_widget(profileForm.phoneNumber) }}
+                <div class="mb-4">
+                    {{ form_label(profileForm.phoneNumber, null, {'label_attr': {'class': 'block font-bold mb-2'}}) }}
+                    {{ form_widget(profileForm.phoneNumber, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
                 </div>
-                <div class="form-group">
-                    {{ form_label(profileForm.birthday) }}
-                    {{ form_widget(profileForm.birthday) }}
+                <div class="mb-4">
+                    {{ form_label(profileForm.birthday, null, {'label_attr': {'class': 'block font-bold mb-2'}}) }}
+                    {{ form_widget(profileForm.birthday, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
                 </div>
-                <button class="btn">Save changes</button>
+                <button class="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-700">Save changes</button>
             {{ form_end(profileForm) }}
         </div>
     </div>

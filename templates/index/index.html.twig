@@ -2,14 +2,21 @@
 {% block title %}Bienvenue{% endblock %}
 
 {% block body %}
-
-    <h1>Bienvenue sur l'application de vente de solutions SaSS!</h1>
-    {% if app.user %}
-        <p>Connecté en tant que <a href="{{ path('app_user_profile') }}">{{ app.user.email }}</a>. <a href="{{ url('app_logout') }}">Se déconnecter</a></p>
-    {% else %}
-        <a href="{{ url('app_register') }}">S'enregistrer</a>
-        <a href="{{ url('app_login') }}">Se connecter</a>
-        <a href="{{ path('app_user_profile') }}">Profile</a>
-    {% endif %}
-    
+    <div class="flex justify-between items-center h-screen">
+        <div class="w-1/2 p-6">
+            <h1 class="text-4xl font-bold mb-6">Bienvenue sur l'application de vente de solutions SaSS!</h1>
+            {% if app.user %}
+                <p class="text-xl">Connecté en tant que {{ app.user.email }}. <a href="{{ url('app_logout') }}" class="text-blue-500 hover:underline">Se déconnecter</a></p>
+            {% else %}
+                <div class="space-x-4">
+                    <a href="{{ url('app_register') }}" class="text-xl text-blue-500 hover:underline">S'enregistrer</a>
+                    <a href="{{ url('app_login') }}" class="text-xl text-blue-500 hover:underline">Se connecter</a>
+                    <a href="{{ path('app_user_profile') }}" class="text-xl text-blue-500 hover:underline">Profile</a>
+                </div>
+            {% endif %}
+        </div>
+        <div class="w-1/2 flex justify-center">
+            <img src="{{ asset('images/home_page_image.png') }}" alt="Home Page Image" class="max-w-full h-auto">
+        </div>
+    </div>
 {% endblock %}
