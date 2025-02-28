@@ -1,31 +1,33 @@
 <nav class="bg-gray-800 p-4">
     <div class="container mx-auto flex justify-between items-center">
-        <div class="flex space-x-4">
-            <a href="{{ url('app_index') }}" class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white">Home</a>
-            <a href="#" class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white">Our Products</a>
-            <a href="#" class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white">About</a>
-            <a href="#" class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white">Support</a>
-        </div>
-        <div class="flex space-x-4">
-            <a href="{{ url('app_index') }}" class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white">Page Accueil</a>
-            {% if not app.user %}
-                <a href="{{ url('app_register') }}" class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white">S'enregister</a>
-                <a href="{{ url('app_login') }}" class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white">Se connecter</a>
-            {% endif %}
-            {% if is_granted('ROLE_ADMIN') %}
-                <div class="relative">
-                    <button type="button" id="menu-button" class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white" aria-expanded="true" aria-haspopup="true">Administration</button>
-                    <div id="dropdown-menu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-                        <a href="{{ path('app_admin_home') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="menu-item-0">Panneau Admin</a>
-                        <a href="{{ path('app_admin_users_list') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="menu-item-1">Panneau Users</a>
-                        <a href="{{ path('app_admin_categories_list') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="menu-item-2">Panneau Catégories</a>
-                    </div>
-                </div>
-            {% endif %}
-            {% if app.user %}
-                <a href="{{ path('app_user_profile') }}" class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white">Profile</a>
-                <a href="{{ path('app_logout') }}" class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white">Se déconnecter</a>
-            {% endif %}
+        <div class="flex space-x-4 justify-between items-center w-full">
+            <div>
+                <a href="{{ url('app_index') }}" class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white">Page Accueil</a>
+            </div>
+            <div class="flex justify-between">
+                {% if not app.user %}
+                    
+                {% endif %}
+                
+                {% if app.user %}
+                    <a href="{{ path('app_user_profile') }}" class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white">Profil</a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <div class="relative">
+                            <button type="button" id="menu-button" class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white" aria-expanded="true" aria-haspopup="true">Administration</button>
+                            <div id="dropdown-menu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                                <a href="{{ path('app_admin_home') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="menu-item-0">Panneau Admin</a>
+                                <a href="{{ path('app_admin_users_list') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="menu-item-1">Panneau Users</a>
+                                <a href="{{ path('app_admin_categories_list') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="menu-item-2">Panneau Catégories</a>
+                                <a href="{{ path('app_admin_produits_list') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="menu-item-2">Panneau Produits</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                        <a href="{{ path('app_logout') }}" class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white">Se déconnecter</a>
+                    {% else %}
+                        <a href="{{ url('app_register') }}" class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white">S'enregister</a>
+                        <a href="{{ url('app_login') }}" class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white">Se connecter</a>    
+                {% endif %}
+            </div>
         </div>
     </div>
 </nav>
