@@ -2,47 +2,39 @@
     <div>
         <a href="{{ url('app_index')}}">Page Accueil</a>
     </div>
-    {% if not app.user %}
     <div>
-        <a href="{{ url('app_register') }}">S'enregister</a>
+        <a href="{{ path('app_categories_list') }}"></a>
     </div>
-    <div>
-        <a href="{{ url('app_login') }}">Se connecter</a>
-    </div>
-    {% endif %}
-    {% if is_granted('ROLE_ADMIN') %}
-    <div>
-        <button type="button" id="menu-button" aria-expanded="true" aria-haspopup="true" >Administration</button>
-            <div id="dropdown-menu" class="absolute bg-white hidden" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-                <div class="py-1">
-                <a href="{{ path('app_admin_home') }}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="amenu-item-0">Panneau Admin</a>
-                <a href="{{ path('app_admin_users_list') }}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-item-1">Panneau Users</a>
-                <a href="{{ path('app_admin_categories_list') }}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-item-2">Panneau Catégories</a>
-            </div>
-        </div>
-    </div>
-    {% endif %}
-    <div>
-        <button type="button" />
-    </div>
+
+
     {% if app.user %}
-        {% if categories is defined and categories is not empty %}
+        <div>
+            <a href="{{ path('app_user_profile') }}">Profile</a>
+        </div>
+
+        {% if is_granted('ROLE_ADMIN') %}
             <div>
-                <button type="button" id="menu-button-2" aria-expanded="true" aria-haspopup="true" >Categorie</button>
-                    <div id="dropdown-menu-2" class="absolute bg-white hidden" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                <button type="button" id="menu-button" aria-expanded="true" aria-haspopup="true" >Administration</button>
+                    <div id="dropdown-menu" class="absolute bg-white hidden" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                         <div class="py-1">
-                        {% for categorie in categories %}
-                            <a href="{{ path('produits_categorie', { id: categorie.id })}}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-item-{{categorie.id}}">{{categorie.nom}}</a>
-                        {% endfor %}
+                        <a href="{{ path('app_admin_home') }}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="amenu-item-0">Panneau Admin</a>
+                        <a href="{{ path('app_admin_users_list') }}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-item-1">Panneau Users</a>
+                        <a href="{{ path('app_admin_categories_list') }}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-item-2">Panneau Catégories</a>
                     </div>
                 </div>
             </div>
         {% endif %}
-        <div>
-            <a href="{{ path('app_user_profile') }}">Profile</a>
-        </div>
+
         <div>
             <a href="{{ path('app_logout')}}">Se déconnecter</a>
+        </div>
+
+    {% else %}
+        <div>
+            <a href="{{ url('app_register') }}">S'enregister</a>
+        </div>
+        <div>
+            <a href="{{ url('app_login') }}">Se connecter</a>
         </div>
     {% endif %}
 </div>
