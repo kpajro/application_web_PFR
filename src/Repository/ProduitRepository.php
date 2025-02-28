@@ -40,4 +40,20 @@ class ProduitRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    
+    // recherche des produits par catégorie + ordre par prix
+    public function findByCategory(int $categoryId, string $filtre = 'default'){
+        $qb = $this->createQueryBuilder('p')
+            ->join('p.categorie', 'c')
+            ->where('c.id = :categoryId')
+            ->setParameter('categoryId', $categoryId);
+
+        if ($filtre === 'prix') {
+            $qb->orderBy('p.prix', 'ASC');
+        } else if ($filtre === 'alphabet') {
+            $qb->orderBy('p.nom', 'ASC');
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 }

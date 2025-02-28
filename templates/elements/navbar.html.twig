@@ -1,14 +1,11 @@
 <nav class="bg-gray-800 p-4">
     <div class="container mx-auto flex justify-between items-center">
         <div class="flex space-x-4 justify-between items-center w-full">
-            <div>
+            <div class="flex-justify-between">
                 <a href="{{ url('app_index') }}" class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white">Page Accueil</a>
+                <a href="{{ path('app_categories_list') }}" class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white">Catégories</a>
             </div>
             <div class="flex justify-between">
-                {% if not app.user %}
-                    
-                {% endif %}
-                
                 {% if app.user %}
                     <a href="{{ path('app_user_profile') }}" class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white">Profil</a>
                     {% if is_granted('ROLE_ADMIN') %}
@@ -35,6 +32,9 @@
 <script>
   document.getElementById("menu-button").addEventListener("click", function () {
     document.getElementById("dropdown-menu").classList.toggle("hidden")
+  })
+  document.getElementById("menu-button-2").addEventListener("click", function () {
+    document.getElementById("dropdown-menu-2").classList.toggle("hidden")
   })
   document.addEventListener("click", function (evt) {
         if (!document.getElementById("menu-button").contains(evt.target) && !document.getElementById("dropdown-menu").contains(evt.target)) {
