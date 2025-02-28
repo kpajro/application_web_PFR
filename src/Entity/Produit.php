@@ -22,8 +22,9 @@ class Produit
     #[ORM\Column]
     private ?float $prix = null;
 
+    // j'ai ajouté le id_categorie_id a JoinColumn pcq sinon il trouve pas la catégorie (je sais pas pourquoi aled @leosu ~#Klaudiusz) 
     #[ORM\ManyToOne(inversedBy: 'produits')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: 'id_categorie_id', nullable: false)]
     private ?Categorie $categorie = null;
 
     #[ORM\Column(length: 255, nullable: true)]
