@@ -10,17 +10,17 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CategoriesController extends AbstractController
 {
-    // j'aurais besoin d'un coup de main la prochaine fois @leosu ~#Klaudiusz
-    #[Route('/', name: 'liste_categories')]
-    public function listeCategories(CategorieRepository $categorieRepository): Response
+    #[Route('/categories', name:'app_categories_list')]
+    public function categoriesList(CategorieRepository $categoriesRepo): Response
     {
-        $categories = $categorieRepository->findAll();
+        $categories = $categoriesRepo->findAll();
 
-        return $this->render('index/index.html.twig', [
+        return $this->render('categories/list.html.twig', [
             'categories' => $categories,
         ]);
     }
-    #[Route('/categorie/{id}', name: 'produits_categorie')]
+    
+    #[Route('/{id}/categorie', name: 'app_categorie')]
     public function listProducts(int $id, ProduitRepository $produitRepository, CategorieRepository $categorieRepository, Request $request): Response
     {
         $filtre = $request->query->get('filtre', 'default');
@@ -28,7 +28,7 @@ class CategoriesController extends AbstractController
 
         $categories = $categorieRepository->findAll();
 
-        return $this->render('pages/categories/categories.html.twig', [
+        return $this->render('categories/categorie.html.twig', [
             'produits' => $products,
             'filtre' => $filtre,
             'categories' => $categories
