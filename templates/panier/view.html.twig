@@ -1,0 +1,14 @@
+<h1>Mon panier</h1>
+
+<ul>
+    {% for produit in panier.produits %}
+        <li class="flex justify-between">
+            <h2>{{ produit.nom }}</h2>
+            <h3>{{ produit.prix }}€</h3>
+        </li>
+    {% else %}
+        <p>Votre panier est vide!</p>
+    {% endfor %}
+
+    <p>{{ prixTotal }}€</p>
+</ul>
