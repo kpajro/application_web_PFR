@@ -1,0 +1,41 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+<div class="flex justify-between">
+    <h1>Gestion des paniers</h1>
+    <a href="{{ path('app_admin_home') }}">Retour au menu</a>
+</div>
+
+<div>
+    <table>
+        <thead>
+            <th>ID</th>
+            <th>Propriétaire du panier</th>
+            <th>Produits dans le panier</th>
+            <th>Date de création</th>
+            <th>État</th>
+        </thead>
+        <tbody>
+            {% for panier in paniers %}
+                <tr data-action="click->modal#open" data-modal-url="">
+                    <td>{{ panier.id }}</td>
+                    <td>{{ panier.user ? panier.user.email : 'Anonyme' }}</td>
+                    <td>{{ panier.produits|length }}</td>
+                    <td>{{ panier.createdAt|date() }}</td>
+                    <td>
+                        {% if panier.etat == 1 %}
+                            Actif
+                        {% elseif panier.etat == 2 %}
+                            Inactif
+                        {% elseif panier.etat == 3 %}
+                            Supprimable
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
