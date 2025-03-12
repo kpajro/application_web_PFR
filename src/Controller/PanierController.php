@@ -41,40 +41,4 @@ class PanierController extends AbstractController
 
         return new Response('', 200);
     }
-
-    #[Route('/panier/check-all', name: 'app_panier_check_all')]
-    public function checkAllPaniers(PanierRepository $panierRepo, EntityManagerInterface $em) : Response
-    {
-        $paniers = $panierRepo->findAll();
-
-        foreach ($paniers as $panier) {
-            $creationDate = $panier->getCreatedAt();
-            $currentDate = new \DateTimeImmutable('now');
-            $diff = date_diff($creationDate, $currentDate);
-            $user = $panier->getUser();
-
-            if($diff->m < 1 && $diff->d >= 7 && $user !== null) {
-                $panier->setEtat(2);
-                $user->setPanierActif(null);
-                $em->persist($user);
-            } 
-            elseif ($diff->m < 1 && $diff->d >= 1 && $user === null) {
-                $panier->setEtat(2);
-            } 
-            elseif ($diff->m >= 1) {
-                $panier->setEtat(3);
-
-                if ($user !== null && $user->getPanierActif() === $panier) {
-                    $user->setPanierActif(null);
-                    $em->persist($user);
-                }
-            }
-
-            $em->persist($panier);
-        }
-
-        $em->flush();
-
-        return new Response('', 200);
-    }
 }
