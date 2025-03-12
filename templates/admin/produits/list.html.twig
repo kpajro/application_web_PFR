@@ -13,20 +13,30 @@
         <thead>
             <th>ID</th>
             <th>Nom du produit</th>
-            <th>Description du produit</th>
-            <th>Prix</th>
+            <th>Editeur</th>
             <th>Catégorie</th>
-            <th>Image</th>
+            <th>Description courte</th>
+            <th>Prix</th>
+            <th>OS Compatibles</th>
+            <th>Stock limité</th>
+            <th>Vente par lot</th>
+            <th>Langages</th>
+            <th>Déscription détaillée</th>
         </thead>
         <tbody>
             {% for produit in produits %}
                 <tr data-action="click->modal#open" data-modal-url="{{ path('app_admin_produits_edit', {id: produit.id}) }}">
                     <td>{{ produit.id }}</td>
                     <td>{{ produit.nom }}</td>
+                    <td>{{ produit.editeur }}</td>
+                    <td>{{ produit.categorie.nom }}</td>
                     <td>{{ produit.description }}</td>
                     <td>{{ produit.prix }}</td>
-                    <td>{{ produit.categorie.nom }}</td>
-                    <td>{{ produit.image }}</td>
+                    <td>{% for os in produit.os %} {{ os }}<br> {% endfor %}</td>
+                    <td>{{ produit.isLimitedStock ? 'Oui : ' ~ produit.stock : 'Non' }}</td>
+                    <td>{{ produit.isBulkSale ? 'Oui : ' ~ produit.bulkSize : 'Non' }}</td>
+                    <td>{% for langage in produit.langages %} {{ langage }}<br> {% endfor %}</td>
+                    <td>{{ produit.longDescription }}</td>
                 </tr>
             {% endfor %}
         </tbody>
