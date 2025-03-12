@@ -2,8 +2,6 @@
 
 namespace App\Security;
 
-use App\Entity\Panier;
-use App\Entity\Users;
 use App\Repository\UsersRepository;
 use App\Service\PanierHandler;
 use Doctrine\ORM\EntityManagerInterface;
