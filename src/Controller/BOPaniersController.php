@@ -43,16 +43,17 @@ class BOPaniersController extends AbstractController
     }
 
     #[Route('/check-all', name: 'app_admin_panier_check_all')]
-    public function checkAllPaniers(PanierRepository $panierRepo, EntityManagerInterface $em) : Response
+    public function checkAllPaniers(PanierRepository $panierRepo, EntityManagerInterface $em, Request $request) : Response
     {
         $paniers = $panierRepo->findAll();
 
+        
         foreach ($paniers as $panier) {
             $creationDate = $panier->getCreatedAt();
             $currentDate = new \DateTimeImmutable('now');
             $diff = date_diff($creationDate, $currentDate);
             $user = $panier->getUser();
-
+            
             if($diff->m < 1 && $diff->d >= 7 && $user !== null) {
                 $panier->setEtat(2);
                 if ($user->getPanierActif() === $panier) {
@@ -65,18 +66,24 @@ class BOPaniersController extends AbstractController
             } 
             elseif ($diff->m >= 1) {
                 $panier->setEtat(3);
-
+                
                 if ($user !== null && $user->getPanierActif() === $panier) {
                     $user->setPanierActif(null);
                     $em->persist($user);
                 }
             }
-
+            
             $em->persist($panier);
         }
-
+        
         $em->flush();
-
+        
+        $origin = $request->headers->get('referer');
+        if ($origin !== null) {
+            $this->addFlash('notice', 'Les paniers ont été vérifiés.');
+            return $this->redirectToRoute('app_admin_paniers_list');
+        }
+        
         return new Response('', 200);
     }
 }
