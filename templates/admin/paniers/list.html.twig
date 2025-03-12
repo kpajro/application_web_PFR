@@ -18,7 +18,7 @@
         </thead>
         <tbody>
             {% for panier in paniers %}
-                <tr data-action="click->modal#open" data-modal-url="">
+                <tr data-action="click->modal#open" data-modal-url="{{ path('app_admin_paniers_view', {id: panier.id}) }}">
                     <td>{{ panier.id }}</td>
                     <td>{{ panier.user ? panier.user.email : 'Anonyme' }}</td>
                     <td>{{ panier.produits|length }}</td>

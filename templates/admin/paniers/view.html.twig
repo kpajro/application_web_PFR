@@ -1,0 +1,20 @@
+<h1>Panier N.{{ panier.id }}</h1>
+
+<h2>Propriétaire : {{ panier.user ? panier.user.email : 'Anonyme' }}</h2>
+
+<div>
+    <h3>Produits dans le panier &lpar;{{ panier.produits|length }}&rpar; :</h3>
+    <ul>
+        {% for produit in panier.produits %}
+            <li class="flex justify-between">
+                <a href="{{ path('app_produit_view') }}">{{ produit.nom }}</a>
+                <p>Prix : {{ produit.prix }}</p>
+            </li>
+        {% else %}
+            <li>
+                Aucun produit dans ce panier.
+            </li>       
+        {% endfor %}
+    </ul>
+    <p>Prix total : {{ prixTotal }}</p>
+</div>

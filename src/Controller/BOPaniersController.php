@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Panier;
 use App\Repository\PanierRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,6 +23,22 @@ class BOPaniersController extends AbstractController
 
         return $this->render('/admin/paniers/list.html.twig', [
             'paniers' => $paniers
+        ]);
+    }
+
+    #[Route('/{id}/view', name: 'app_admin_paniers_view')]
+    public function viewPanier (Panier $panier) : Response
+    {
+        $produits = $panier->getProduits();
+        $prixTotal = 0;
+        foreach ($produits as $produit) {
+            $prix = $produit->getPrix();
+            $prixTotal += $prix;
+        }
+
+        return $this->render('admin/paniers/view.html.twig', [
+            'panier' => $panier,
+            'prixTotal' => $prixTotal
         ]);
     }
 }
