@@ -66,6 +66,9 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Panier::class, mappedBy: 'user')]
     private Collection $paniers;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?Panier $panierActif = null;
+
     public function __construct()
     {
         $this->paniers = new ArrayCollection();
@@ -268,6 +271,18 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
                 $panier->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPanierActif(): ?Panier
+    {
+        return $this->panierActif;
+    }
+
+    public function setPanierActif(?Panier $panierActif): static
+    {
+        $this->panierActif = $panierActif;
 
         return $this;
     }
