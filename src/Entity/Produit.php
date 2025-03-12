@@ -40,7 +40,7 @@ class Produit
     private ?array $langages = null;
 
     #[ORM\Column]
-    private ?bool $isLimitedStock = null;
+    private ?bool $isLimitedStock = false;
 
     #[ORM\Column(nullable: true)]
     private ?int $stock = null;
@@ -49,7 +49,7 @@ class Produit
     private ?string $editeur = null;
 
     #[ORM\Column]
-    private ?bool $isBulkSale = null;
+    private ?bool $isBulkSale = false;
 
     #[ORM\Column(nullable: true)]
     private ?int $bulkSize = null;
