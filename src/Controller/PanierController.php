@@ -42,7 +42,7 @@ class PanierController extends AbstractController
         return new Response('', 200);
     }
 
-    #[Route('/panier/check-all', name: 'app_check_all_paniers')]
+    #[Route('/panier/check-all', name: 'app_panier_check_all')]
     public function checkAllPaniers(PanierRepository $panierRepo) : Response
     {
         $paniers = $panierRepo->findAll();
@@ -55,7 +55,7 @@ class PanierController extends AbstractController
             if($diff->d >= 7 && $panier->getUser() !== null) {
                 $panier->setEtat(2);
             } elseif ($diff->d >= 1 && $panier->getUser() === null) {
-                $panier->setEtat(1);
+                $panier->setEtat(2);
             } elseif ($diff->m >= 1) {
                 $panier->setEtat(3);
             }
