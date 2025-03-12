@@ -6,6 +6,7 @@ use App\Entity\Panier;
 use App\Repository\PanierRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -27,7 +28,7 @@ class BOPaniersController extends AbstractController
     }
 
     #[Route('/{id}/view', name: 'app_admin_paniers_view')]
-    public function viewPanier (Panier $panier) : Response
+    public function viewPanier (Panier $panier, Request $request, EntityManagerInterface $em) : Response
     {
         $produits = $panier->getProduits();
         $prixTotal = 0;
@@ -36,9 +37,35 @@ class BOPaniersController extends AbstractController
             $prixTotal += $prix;
         }
 
+        $form = $this->createFormBuilder($panier, [
+            'action' => $this->generateUrl('app_admin_paniers_view', ['id' => $panier->getId()])
+        ])
+            ->add('etat', ChoiceType::class, [
+                'choices' => [
+                    'Actif' => 1,
+                    'Inactif' => 2,
+                    'Supprimable' => 3
+                ]
+            ])
+            ->getForm()
+        ;
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $etat = $form->get('etat')->getData();
+            $panier->setEtat($etat);
+
+            $em->persist($panier);
+            $em->flush();
+
+            return $this->redirectToRoute('app_admin_paniers_list');
+        }
+
         return $this->render('admin/paniers/view.html.twig', [
             'panier' => $panier,
-            'prixTotal' => $prixTotal
+            'prixTotal' => $prixTotal,
+            'form' => $form
         ]);
     }
 

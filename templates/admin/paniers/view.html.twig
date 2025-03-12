@@ -17,4 +17,14 @@
         {% endfor %}
     </ul>
     <p>Prix total : {{ prixTotal }}</p>
+
+    {{ form_start(form) }}
+    <div class="flex justify-between">
+        <div class="flex">
+            Passer le panier à l'état 
+            {{ form_widget(form.etat) }}
+        </div>
+        <button type="submit">Enregistrer</button>
+    </div>
+    {{ form_end(form) }}
 </div>
