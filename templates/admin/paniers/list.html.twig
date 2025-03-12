@@ -8,9 +8,12 @@
 </div>
 
 <div>
-    <div>
-        <a href="{{ path('app_admin_panier_check_all') }}">Vérifier les paniers</a>
+
+    <div class="flex justify-between">
+        <a href="{{ path('app_admin_paniers_check_all') }}">Vérifier les paniers</a>
+        <a href="{{ path('app_admin_paniers_remove_deletables') }}">Supprimer les paniers supprimables</a>
     </div>
+
     <table>
         <thead>
             <th>ID</th>

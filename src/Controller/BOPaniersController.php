@@ -42,7 +42,7 @@ class BOPaniersController extends AbstractController
         ]);
     }
 
-    #[Route('/check-all', name: 'app_admin_panier_check_all')]
+    #[Route('/check-all', name: 'app_admin_paniers_check_all')]
     public function checkAllPaniers(PanierRepository $panierRepo, EntityManagerInterface $em, Request $request) : Response
     {
         $paniers = $panierRepo->findAll();
@@ -83,7 +83,21 @@ class BOPaniersController extends AbstractController
             $this->addFlash('notice', 'Les paniers ont été vérifiés.');
             return $this->redirectToRoute('app_admin_paniers_list');
         }
-        
+
         return new Response('', 200);
+    }
+
+    #[Route('/remove-all-deletable', name: 'app_admin_paniers_remove_deletables')]
+    public function removePaniers(PanierRepository $panierRepo, EntityManagerInterface $em) : Response
+    {
+        $paniersToDelete = $panierRepo->findBy(['etat' => 3]);
+
+        foreach ($paniersToDelete as $panier) {
+            $em->remove($panier);
+        }
+
+        $em->flush();
+
+        return $this->redirectToRoute('app_admin_paniers_list');
     }
 }
