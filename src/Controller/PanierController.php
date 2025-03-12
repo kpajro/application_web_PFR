@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Panier;
+use App\Service\PanierHandler;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,12 +30,10 @@ class PanierController extends AbstractController
     }
 
     #[Route('/panier/create/', name: 'app_panier_create')]
-    public function createPanier(EntityManagerInterface $em) : Response
+    public function createPanier(EntityManagerInterface $em, PanierHandler $panierHandler) : Response
     {
-        $panier = new Panier();
-        $panier->setUser($this->getUser() ? $this->getUser() : null);
-        $panier->setEtat(1);
-        $panier->setCreatedAt(new \DateTimeImmutable('now'));
+        $user = $this->getUser();
+        $panier = $panierHandler->createNewPanier($user);
 
         $em->persist($panier);
         $em->flush();
