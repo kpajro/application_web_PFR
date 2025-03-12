@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ProduitRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
@@ -28,6 +29,33 @@ class Produit
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
+
+    #[ORM\Column(type: Types::ARRAY)]
+    private ?array $os = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $note = null;
+
+    #[ORM\Column(type: Types::ARRAY, nullable: true)]
+    private ?array $langages = null;
+
+    #[ORM\Column]
+    private ?bool $isLimitedStock = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $stock = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $editeur = null;
+
+    #[ORM\Column]
+    private ?bool $isBulkSale = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $bulkSize = null;
+
+    #[ORM\Column(length: 8192, nullable: true)]
+    private ?string $longDescription = null;
 
     public function getId(): ?int
     {
@@ -90,6 +118,114 @@ class Produit
     public function setImage(?string $image): static
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getOs(): ?array
+    {
+        return $this->os;
+    }
+
+    public function setOs(array $os): static
+    {
+        $this->os = $os;
+
+        return $this;
+    }
+
+    public function getNote(): ?float
+    {
+        return $this->note;
+    }
+
+    public function setNote(?float $note): static
+    {
+        $this->note = $note;
+
+        return $this;
+    }
+
+    public function getLangages(): ?array
+    {
+        return $this->langages;
+    }
+
+    public function setLangages(?array $langages): static
+    {
+        $this->langages = $langages;
+
+        return $this;
+    }
+
+    public function isLimitedStock(): ?bool
+    {
+        return $this->isLimitedStock;
+    }
+
+    public function setIsLimitedStock(bool $isLimitedStock): static
+    {
+        $this->isLimitedStock = $isLimitedStock;
+
+        return $this;
+    }
+
+    public function getStock(): ?int
+    {
+        return $this->stock;
+    }
+
+    public function setStock(?int $stock): static
+    {
+        $this->stock = $stock;
+
+        return $this;
+    }
+
+    public function getEditeur(): ?string
+    {
+        return $this->editeur;
+    }
+
+    public function setEditeur(string $editeur): static
+    {
+        $this->editeur = $editeur;
+
+        return $this;
+    }
+
+    public function isBulkSale(): ?bool
+    {
+        return $this->isBulkSale;
+    }
+
+    public function setIsBulkSale(bool $isBulkSale): static
+    {
+        $this->isBulkSale = $isBulkSale;
+
+        return $this;
+    }
+
+    public function getBulkSize(): ?int
+    {
+        return $this->bulkSize;
+    }
+
+    public function setBulkSize(?int $bulkSize): static
+    {
+        $this->bulkSize = $bulkSize;
+
+        return $this;
+    }
+
+    public function getLongDescription(): ?string
+    {
+        return $this->longDescription;
+    }
+
+    public function setLongDescription(?string $longDescription): static
+    {
+        $this->longDescription = $longDescription;
 
         return $this;
     }
