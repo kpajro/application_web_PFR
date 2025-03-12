@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Panier;
+use App\Repository\PanierRepository;
 use App\Service\PanierHandler;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -37,6 +38,28 @@ class PanierController extends AbstractController
 
         $em->persist($panier);
         $em->flush();
+
+        return new Response('', 200);
+    }
+
+    #[Route('/panier/check-all', name: 'app_check_all_paniers')]
+    public function checkAllPaniers(PanierRepository $panierRepo) : Response
+    {
+        $paniers = $panierRepo->findAll();
+
+        foreach ($paniers as $panier) {
+            $creationDate = $panier->getCreatedAt();
+            $currentDate = new \DateTimeImmutable('now');
+            $diff = date_diff($creationDate, $currentDate); 
+
+            if($diff->d >= 7 && $panier->getUser() !== null) {
+                $panier->setEtat(2);
+            } elseif ($diff->d >= 1 && $panier->getUser() === null) {
+                $panier->setEtat(1);
+            } elseif ($diff->m >= 1) {
+                $panier->setEtat(3);
+            }
+        }
 
         return new Response('', 200);
     }
