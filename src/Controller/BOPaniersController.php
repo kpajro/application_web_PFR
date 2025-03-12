@@ -15,12 +15,12 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_ADMIN')]
 class BOPaniersController extends AbstractController
 {
-    #[Route('/', name: 'app_admin_paniers_list')]
+    #[Route('', name: 'app_admin_paniers_list')]
     public function listPaniers (PanierRepository $panierRepository) : Response
     {
         $paniers = $panierRepository->findAll();
 
-        return $this->render('/admin/paniers/list.hmtl.twig', [
+        return $this->render('/admin/paniers/list.html.twig', [
             'paniers' => $paniers
         ]);
     }
