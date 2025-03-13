@@ -71,7 +71,7 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
                 $user->addPanier($newPanier);
                 $user->setPanierActif($newPanier);
             }
-        } else {
+        } elseif(empty($paniers)) {
             $panier = $this->panierHandler->createNewPanier($user);
             $this->em->persist($panier);
     
