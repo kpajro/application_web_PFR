@@ -35,6 +35,7 @@ class PanierHandler
             
             if ($panier->getEtat() !== 1) {
                 $panier = $this->createNewPanier($user);
+                $user->addPanier($panier);
                 $user->setPanierActif($panier);
                 
                 $this->em->persist($panier);
@@ -45,6 +46,7 @@ class PanierHandler
         }
         elseif ($user && !$user->getPanierActif()) {
             $panier = $this->createNewPanier($user);
+            $user->addPanier($panier);
             $user->setPanierActif($panier);
             
             $this->em->persist($panier);

@@ -55,7 +55,8 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
         $user = $this->usersRepo->findOneBy(['email' => $request->get('email')]);
         $user->setLastLogIn(new \DateTimeImmutable('now'));
         $paniers = $user->getPaniers();
-        if (!empty($paniers)) {
+
+        if (!empty($paniers) && !$user->getPanierActif()) {
             foreach ($paniers as $panier) {
                 if ($panier->getEtat() === 1) {
                     $user->setPanierActif($panier);
@@ -67,12 +68,14 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
                 $newPanier = $this->panierHandler->createNewPanier($user);
                 $this->em->persist($newPanier);
     
+                $user->addPanier($newPanier);
                 $user->setPanierActif($newPanier);
             }
         } else {
             $panier = $this->panierHandler->createNewPanier($user);
             $this->em->persist($panier);
     
+            $user->addPanier($panier);
             $user->setPanierActif($panier);
         }
 

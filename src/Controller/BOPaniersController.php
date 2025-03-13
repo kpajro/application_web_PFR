@@ -43,9 +43,10 @@ class BOPaniersController extends AbstractController
             $prixTotal += $prix;
         }
 
-        $form = $this->createFormBuilder($panier, [
-            'action' => $this->generateUrl('app_admin_paniers_view', ['id' => $panier->getId()])
-        ])
+        $form = $this->createFormBuilder(
+            $panier, 
+            ['action' => $this->generateUrl('app_admin_paniers_view', ['id' => $panier->getId()])]
+        )
             ->add('etat', ChoiceType::class, [
                 'choices' => [
                     'Actif' => 1,
@@ -89,7 +90,7 @@ class BOPaniersController extends AbstractController
         
         $origin = $request->headers->get('referer');
         if ($origin !== null) {
-            $this->addFlash('notice', 'Les paniers ont été vérifiés.');
+            $this->addFlash('notice', 'L\'état des paniers a été mis à jour.');
             return $this->redirectToRoute('app_admin_paniers_list');
         }
 

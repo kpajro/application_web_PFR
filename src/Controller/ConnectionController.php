@@ -28,6 +28,7 @@ class ConnectionController extends AbstractController
             $user->setCreatedAt(new \DateTimeImmutable());
 
             $panier = $panierHandler->createNewPanier($user);
+            $user->addPanier($panier);
             $user->setPanierActif($panier);
 
             $entityManager->persist($panier);

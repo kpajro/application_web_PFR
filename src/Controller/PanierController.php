@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Panier;
+use App\Entity\Users;
 use App\Repository\PanierRepository;
 use App\Service\PanierHandler;
 use Doctrine\ORM\EntityManagerInterface;
@@ -24,7 +25,7 @@ class PanierController extends AbstractController
         $panier = $this->panierHandler->getActivePanier($this->getUser(), $request);
         $produits = $panier->getProduits();
         $prixTotal = 0;
-
+        dd($request->getSession());
         foreach ($produits as $produit) {
             $prix = $produit->getPrix();
             $prixTotal += $prix;
@@ -38,10 +39,27 @@ class PanierController extends AbstractController
     }
 
     #[Route('/panier/create/', name: 'app_panier_create')]
-    public function createPanier(EntityManagerInterface $em) : Response
+    public function createPanier(EntityManagerInterface $em, Request $request) : Response
     {
+        /** @var Users $user */
         $user = $this->getUser();
+        $session = $request->getSession();
         $panier = $this->panierHandler->createNewPanier($user);
+
+        if (!$user) {
+            $session->set('panier', $panier);    
+        } else {
+            $user->addPanier($panier);
+
+            if ($user->getPanierActif() !== null) {
+                $oldPanier = $user->getPanierActif();
+                $oldPanier->setEtat(2);
+
+                $user->setPanierActif($panier);
+
+                $em->persist($user);
+            }
+        }
 
         $em->persist($panier);
         $em->flush();
