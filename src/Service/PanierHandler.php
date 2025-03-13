@@ -84,6 +84,7 @@ class PanierHandler
         
         if($diff->m < 1 && $diff->d >= 7 && $user !== null) {
             $panier->setEtat(2);
+            $this->em->persist($panier);
 
             if ($user->getPanierActif() === $panier) {
                 $user->setPanierActif(null);
@@ -92,16 +93,16 @@ class PanierHandler
         } 
         elseif ($diff->m < 1 && $diff->d >= 1 && $user === null) {
             $panier->setEtat(2);
+            $this->em->persist($panier);
         } 
         elseif ($diff->m >= 1) {
             $panier->setEtat(3);
+            $this->em->persist($panier);
             
             if ($user !== null && $user->getPanierActif() === $panier) {
                 $user->setPanierActif(null);
                 $this->em->persist($user);
             }
         }
-        
-        $this->em->persist($panier);
     }
 }
