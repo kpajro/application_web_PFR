@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Panier;
 use App\Repository\PanierRepository;
+use App\Service\PanierHandler;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -17,6 +18,11 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_ADMIN')]
 class BOPaniersController extends AbstractController
 {
+    public function __construct(private PanierHandler $panierHandler)
+    {
+        
+    }
+
     #[Route('', name: 'app_admin_paniers_list')]
     public function listPaniers (PanierRepository $panierRepository) : Response
     {
@@ -76,31 +82,7 @@ class BOPaniersController extends AbstractController
 
         
         foreach ($paniers as $panier) {
-            $creationDate = $panier->getCreatedAt();
-            $currentDate = new \DateTimeImmutable('now');
-            $diff = date_diff($creationDate, $currentDate);
-            $user = $panier->getUser();
-            
-            if($diff->m < 1 && $diff->d >= 7 && $user !== null) {
-                $panier->setEtat(2);
-                if ($user->getPanierActif() === $panier) {
-                    $user->setPanierActif(null);
-                    $em->persist($user);
-                }
-            } 
-            elseif ($diff->m < 1 && $diff->d >= 1 && $user === null) {
-                $panier->setEtat(2);
-            } 
-            elseif ($diff->m >= 1) {
-                $panier->setEtat(3);
-                
-                if ($user !== null && $user->getPanierActif() === $panier) {
-                    $user->setPanierActif(null);
-                    $em->persist($user);
-                }
-            }
-            
-            $em->persist($panier);
+            $this->panierHandler->checkPanierLifespan($panier);
         }
         
         $em->flush();
