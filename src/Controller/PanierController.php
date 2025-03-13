@@ -25,7 +25,7 @@ class PanierController extends AbstractController
         $panier = $this->panierHandler->getActivePanier($this->getUser(), $request);
         $produits = $panier->getProduits();
         $prixTotal = 0;
-        dd($request->getSession());
+        
         foreach ($produits as $produit) {
             $prix = $produit->getPrix();
             $prixTotal += $prix;
