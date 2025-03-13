@@ -6,6 +6,7 @@ use App\Entity\Panier;
 use App\Entity\Users;
 use App\Repository\PanierRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class PanierHandler 
 {
@@ -17,8 +18,90 @@ class PanierHandler
         $panier = new Panier();
         $panier->setEtat(1);
         $panier->setCreatedAt(new \DateTimeImmutable('now'));
-        $panier->setUser($user !== null ? $user : null);
+        $panier->setUser($user);
 
         return $panier;
+    }
+
+    public function getActivePanier(?Users $user, Request $request) : Panier
+    {
+        $panier = null;
+        $session = $request->getSession();
+        
+        
+        if ($user && $user->getPanierActif() !== null) {
+            $panier = $user->getPanierActif();
+            $this->checkPanierLifespan($panier);
+            
+            if ($panier->getEtat() !== 1) {
+                $panier = $this->createNewPanier($user);
+                $user->setPanierActif($panier);
+                
+                $this->em->persist($panier);
+                $this->em->persist($user);
+            }
+            
+            $this->em->flush();
+        }
+        elseif ($user && !$user->getPanierActif()) {
+            $panier = $this->createNewPanier($user);
+            $user->setPanierActif($panier);
+            
+            $this->em->persist($panier);
+            $this->em->persist($user);
+            
+            $this->em->flush();
+        }
+        elseif (!$user && $session->get('panier')) {
+            $panier = $session->get('panier');
+            $this->checkPanierLifespan($panier);
+
+            if($panier->getEtat() !== 1) {
+                $panier = $this->createNewPanier($user);
+                $this->em->persist($panier);
+            }
+            
+            $this->em->flush();
+            $session->set('panier', $panier);
+        }
+        elseif (!$user && !$session->get('panier')) {
+            $panier = $this->createNewPanier($user);
+            $this->em->persist($panier);
+            $this->em->flush();
+    
+            $session->set('panier', $panier);
+        }
+
+        return $panier;
+    }
+
+    public function checkPanierLifespan (Panier $panier) : void
+    {
+        $creationDate = $panier->getCreatedAt();
+        $currentDate = new \DateTimeImmutable('now');
+        $diff = date_diff($creationDate, $currentDate);
+        $user = $panier->getUser();
+        
+        if($diff->m < 1 && $diff->d >= 7 && $user !== null) {
+            $panier->setEtat(2);
+
+            if ($user->getPanierActif() === $panier) {
+                $user->setPanierActif(null);
+                $this->em->persist($user);
+            }
+        } 
+        elseif ($diff->m < 1 && $diff->d >= 1 && $user === null) {
+            $panier->setEtat(2);
+        } 
+        elseif ($diff->m >= 1) {
+            $panier->setEtat(3);
+            
+            if ($user !== null && $user->getPanierActif() === $panier) {
+                $user->setPanierActif(null);
+                $this->em->persist($user);
+            }
+        }
+        
+        $this->em->persist($panier);
     }
 }
