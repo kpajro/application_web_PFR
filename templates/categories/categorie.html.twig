@@ -17,7 +17,7 @@
     <div class="produits">
         {% for produit in produits %}
             <div class="produit">
-                <h2>{{ produit.nom }}</h2>
+                <h2><a href="{{ path('app_produit_view', {id: produit.id}) }}">{{ produit.nom }}</a></h2>
                 <p>{{ produit.description }}</p>
                 <p><strong>Prix :</strong> {{ produit.prix }} €</p>
             </div>
