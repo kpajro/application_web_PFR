@@ -7,14 +7,21 @@ use App\Repository\PanierRepository;
 use App\Service\PanierHandler;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 class PanierController extends AbstractController
 {
-    #[Route('/panier/{id}/view', name: 'app_panier_view')]
-    public function viewPanier(Panier $panier) : Response
+    public function __construct(private PanierHandler $panierHandler)
     {
+    }
+
+
+    #[Route('/panier/view', name: 'app_panier_view')]
+    public function viewPanier(Request $request) : Response
+    {
+        $panier = $this->panierHandler->getActivePanier($this->getUser(), $request);
         $produits = $panier->getProduits();
         $prixTotal = 0;
 
@@ -31,10 +38,10 @@ class PanierController extends AbstractController
     }
 
     #[Route('/panier/create/', name: 'app_panier_create')]
-    public function createPanier(EntityManagerInterface $em, PanierHandler $panierHandler) : Response
+    public function createPanier(EntityManagerInterface $em) : Response
     {
         $user = $this->getUser();
-        $panier = $panierHandler->createNewPanier($user);
+        $panier = $this->panierHandler->createNewPanier($user);
 
         $em->persist($panier);
         $em->flush();
