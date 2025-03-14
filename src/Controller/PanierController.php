@@ -3,12 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Panier;
+use App\Entity\PanierProduits;
 use App\Entity\Produit;
 use App\Entity\Users;
 use App\Repository\PanierRepository;
 use App\Service\PanierHandler;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -21,14 +23,44 @@ class PanierController extends AbstractController
 
 
     #[Route('/panier/view', name: 'app_panier_view')]
-    public function viewPanier(Request $request) : Response
+    public function viewPanier(Request $request, EntityManagerInterface $em) : Response
     {
         $panier = $this->panierHandler->getActivePanier($this->getUser(), $request);
         $prixTotal = $this->panierHandler->getPanierTotalPrice($panier);
 
+        $amountChangeForm = $this->createFormBuilder(null, [
+            'action' => $this->generateUrl('app_panier_view')
+        ]);
+
+        foreach ($panier->getPanierProduits() as $pp) {
+            $produit = $pp->getProduit();
+            $amount = $pp->getAmount();
+
+            $amountChangeForm->add(strval($pp->getId()), NumberType::class, [
+                'label' => 'Quantité',
+                'mapped' => false,
+                'data' => $amount,
+            ]);
+        }
+
+        $form = $amountChangeForm->getForm();
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            foreach ($panier->getPanierProduits() as $pp) {
+                $amountData = $form->get(strval($pp->getId()))->getData();
+                $pp->setAmount($amountData);
+
+                $em->persist($pp);
+            }
+            $em->flush();
+            return $this->redirectToRoute('app_panier_view');
+        }
+
         return $this->render('/panier/view.html.twig', [
             'panier' => $panier,
-            'prixTotal' => $prixTotal
+            'prixTotal' => $prixTotal,
+            'form' => $form,
         ]);
     }
 

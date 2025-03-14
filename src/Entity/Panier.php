@@ -134,7 +134,12 @@ class Panier
             if ($panierProduit->getProduit() === $pp->getProduit()) {
                 $key = $this->panierProduits->indexOf($pp);
                 $existingPanierProduit = $this->panierProduits->get($key);
-                $existingPanierProduit->setAmount($existingPanierProduit->getAmount() + 1);
+
+                if ($pp->getProduit()->isBulkSale()) {
+                    $existingPanierProduit->setAmount($existingPanierProduit->getAmount() + $pp->getProduit()->getBulkSize());
+                } else {
+                    $existingPanierProduit->setAmount($existingPanierProduit->getAmount() + 1);
+                }
                 $em->persist($existingPanierProduit);
 
                 return $this;

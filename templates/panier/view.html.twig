@@ -2,11 +2,15 @@
 
 <ul>
     {{panier.id}}
+
+    {{ form_start(form) }}
     {% for pp in panier.panierProduits %}
         <li class="flex justify-between">
             <div class="flex">
                 <h2>{{ pp.produit.nom }}</h2>
-                <p>x{{ pp.amount }}</p>
+                <div>
+                    {{ form_widget(attribute(form, pp.id)) }}
+                </div>
             </div>
             <div>
                 <h3>{{ pp.produit.prix }}€</h3>
@@ -16,6 +20,8 @@
     {% else %}
         <p>Votre panier est vide!</p>
     {% endfor %}
+    <button type="submit">Enregistrer</button>
+    {{ form_end(form) }}
 
     <p>{{ prixTotal }}€</p>
 </ul>
