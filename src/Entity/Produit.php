@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProduitRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -56,6 +58,17 @@ class Produit
 
     #[ORM\Column(length: 8192, nullable: true)]
     private ?string $longDescription = null;
+
+    /**
+     * @var Collection<int, PanierProduits>
+     */
+    #[ORM\OneToMany(targetEntity: PanierProduits::class, mappedBy: 'produit', orphanRemoval: true, cascade:['persist'])]
+    private Collection $panierProduits;
+
+    public function __construct()
+    {
+        $this->panierProduits = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -226,6 +239,36 @@ class Produit
     public function setLongDescription(?string $longDescription): static
     {
         $this->longDescription = $longDescription;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PanierProduits>
+     */
+    public function getPanierProduits(): Collection
+    {
+        return $this->panierProduits;
+    }
+
+    public function addPanierProduit(PanierProduits $panierProduit): static
+    {
+        if (!$this->panierProduits->contains($panierProduit)) {
+            $this->panierProduits->add($panierProduit);
+            $panierProduit->setProduit($this);
+        }
+
+        return $this;
+    }
+
+    public function removePanierProduit(PanierProduits $panierProduit): static
+    {
+        if ($this->panierProduits->removeElement($panierProduit)) {
+            // set the owning side to null (unless already changed)
+            if ($panierProduit->getProduit() === $this) {
+                $panierProduit->setProduit(null);
+            }
+        }
 
         return $this;
     }
