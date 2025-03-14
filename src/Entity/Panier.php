@@ -72,9 +72,9 @@ class Panier
         return $produits;
     }
 
-    public function addProduit(Produit $produit, EntityManagerInterface $em): static
+    public function addProduit(Produit $produit, EntityManagerInterface $em, int $amount = 1): static
     {
-        $panierProduit = new PanierProduits();
+        $panierProduit = new PanierProduits($amount);
         $panierProduit->setProduit($produit);
         $panierProduit->setPanier($this);
 
