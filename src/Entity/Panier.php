@@ -88,14 +88,11 @@ class Panier
         foreach ($this->panierProduits as $pp) {
             if ($produit === $pp->getProduit()) {
                 $key = $this->panierProduits->indexOf($pp);
+                $panierProduit = $this->panierProduits->get($key);
+                $this->removePanierProduit($panierProduit, $em);
+                break;
             }
-
-            $panierProduit = $this->panierProduits->get($key);
-            break;
         }
-
-        $this->removePanierProduit($panierProduit, $em);
-
         return $this;
     }
 
@@ -152,13 +149,7 @@ class Panier
 
     public function removePanierProduit(PanierProduits $panierProduit, EntityManagerInterface $em): static
     {
-        if ($panierProduit->getAmount() > 1) {
-            $panierProduit->setAmount($panierProduit->getAmount() - 1);
-            $em->persist($panierProduit);
-            
-            return $this;
-        }
-        elseif ($this->panierProduits->removeElement($panierProduit)) {
+        if ($this->panierProduits->removeElement($panierProduit)) {
             $em->remove($panierProduit);
         }
 

@@ -24,12 +24,10 @@ class PanierController extends AbstractController
     public function viewPanier(Request $request) : Response
     {
         $panier = $this->panierHandler->getActivePanier($this->getUser(), $request);
-        $produits = $panier->getProduits();
         $prixTotal = $this->panierHandler->getPanierTotalPrice($panier);
 
         return $this->render('/panier/view.html.twig', [
             'panier' => $panier,
-            'produits' => $produits,
             'prixTotal' => $prixTotal
         ]);
     }
@@ -45,6 +43,18 @@ class PanierController extends AbstractController
         $em->flush();
         
         return new Response('Produit ajouté au panier', 200);
+    }
+
+    #[Route('/panier/remove-produit/{produit}', name: 'app_panier_remove_product')]
+    public function removeProductFromPanier(Produit $produit, Request $request, EntityManagerInterface $em) : Response
+    {
+        $panier = $this->panierHandler->getActivePanier($this->getUser(), $request);
+        $panier->removeProduit($produit, $em);
+
+        $em->persist($panier);
+        $em->flush();
+
+        return new Response('Produit retiré du panier', 200);
     }
 
     #[Route('/panier/create/', name: 'app_panier_create')]

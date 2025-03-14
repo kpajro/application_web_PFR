@@ -1,10 +1,17 @@
 <h1>Mon panier</h1>
 
 <ul>
-    {% for produit in panier.produits %}
+    {{panier.id}}
+    {% for pp in panier.panierProduits %}
         <li class="flex justify-between">
-            <h2>{{ produit.nom }}</h2>
-            <h3>{{ produit.prix }}€</h3>
+            <div class="flex">
+                <h2>{{ pp.produit.nom }}</h2>
+                <p>x{{ pp.amount }}</p>
+            </div>
+            <div>
+                <h3>{{ pp.produit.prix }}€</h3>
+                <a href="{{ path('app_panier_remove_product', {produit: pp.produit.id}) }}">Retirer du panier</a>
+            </div>
         </li>
     {% else %}
         <p>Votre panier est vide!</p>
