@@ -25,12 +25,7 @@ class PanierController extends AbstractController
     {
         $panier = $this->panierHandler->getActivePanier($this->getUser(), $request);
         $produits = $panier->getProduits();
-        $prixTotal = 0;
-
-        foreach ($produits as $produit) {
-            $prix = $produit->getPrix();
-            $prixTotal += $prix;
-        }
+        $prixTotal = $this->panierHandler->getPanierTotalPrice($panier);
 
         return $this->render('/panier/view.html.twig', [
             'panier' => $panier,
@@ -60,7 +55,7 @@ class PanierController extends AbstractController
         $panier = new Panier($user);
 
         if (!$user) {
-            $session->set('panier', $panier);    
+            $session->set('panier', $panier->getId());    
         } else {
             $user->addPanier($panier);
 

@@ -99,4 +99,15 @@ class PanierHandler
             }
         }
     }
+
+    public function getPanierTotalPrice(Panier $panier) : float
+    {
+        $totalPrice = 0;
+
+        foreach ($panier->getPanierProduits() as $pp) {
+            $totalPrice = $pp->getProduit()->getPrix() * $pp->getAmount();
+        }
+
+        return $totalPrice;
+    }
 }

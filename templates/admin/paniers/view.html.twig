@@ -5,9 +5,9 @@
 <div>
     <h3>Produits dans le panier &lpar;{{ panier.produits|length }}&rpar; :</h3>
     <ul>
-        {% for produit in panier.produits %}
+        {% for produit in produits %}
             <li class="flex justify-between">
-                <a href="{{ path('app_produit_view') }}">{{ produit.nom }}</a>
+                <a href="{{ path('app_produit_view', {id: produit.id}) }}">{{ produit.nom }}</a>
                 <p>Prix : {{ produit.prix }}</p>
             </li>
         {% else %}
@@ -16,7 +16,7 @@
             </li>       
         {% endfor %}
     </ul>
-    <p>Prix total : {{ prixTotal }}</p>
+    <p>Prix total : {{ prixTotal }}€</p>
 
     {{ form_start(form) }}
     <div class="flex justify-between">

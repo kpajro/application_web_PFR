@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Panier;
+use App\Repository\PanierProduitsRepository;
 use App\Repository\PanierRepository;
 use App\Service\PanierHandler;
 use Doctrine\ORM\EntityManagerInterface;
@@ -37,11 +38,7 @@ class BOPaniersController extends AbstractController
     public function viewPanier (Panier $panier, Request $request, EntityManagerInterface $em) : Response
     {
         $produits = $panier->getProduits();
-        $prixTotal = 0;
-        foreach ($produits as $produit) {
-            $prix = $produit->getPrix();
-            $prixTotal += $prix;
-        }
+        $prixTotal = $this->panierHandler->getPanierTotalPrice($panier);
 
         $form = $this->createFormBuilder(
             $panier, 
@@ -72,6 +69,7 @@ class BOPaniersController extends AbstractController
         return $this->render('admin/paniers/view.html.twig', [
             'panier' => $panier,
             'prixTotal' => $prixTotal,
+            'produits' => $produits,
             'form' => $form
         ]);
     }
