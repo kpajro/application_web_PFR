@@ -1,8 +1,6 @@
 <h1>Mon panier</h1>
 
 <ul>
-    {{panier.id}}
-
     {{ form_start(form) }}
     {% for pp in panier.panierProduits %}
         <li class="flex justify-between">
@@ -20,7 +18,7 @@
     {% else %}
         <p>Votre panier est vide!</p>
     {% endfor %}
-    <button type="submit">Enregistrer</button>
+        <button type="submit">Enregistrer</button>
     {{ form_end(form) }}
 
     <p>{{ prixTotal }}€</p>
