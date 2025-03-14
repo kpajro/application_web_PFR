@@ -30,9 +30,12 @@ class Panier
     #[ORM\Column]
     private ?int $etat = null;
 
-    public function __construct()
+    public function __construct(?Users $user)
     {
         $this->produits = new ArrayCollection();
+        $this->etat = 1;
+        $this->createdAt = new \DateTimeImmutable();
+        $this->user = $user;
     }
 
     public function getId(): ?int

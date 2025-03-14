@@ -25,7 +25,7 @@ class PanierController extends AbstractController
         $panier = $this->panierHandler->getActivePanier($this->getUser(), $request);
         $produits = $panier->getProduits();
         $prixTotal = 0;
-        
+
         foreach ($produits as $produit) {
             $prix = $produit->getPrix();
             $prixTotal += $prix;
@@ -44,7 +44,7 @@ class PanierController extends AbstractController
         /** @var Users $user */
         $user = $this->getUser();
         $session = $request->getSession();
-        $panier = $this->panierHandler->createNewPanier($user);
+        $panier = new Panier($user);
 
         if (!$user) {
             $session->set('panier', $panier);    
@@ -54,11 +54,10 @@ class PanierController extends AbstractController
             if ($user->getPanierActif() !== null) {
                 $oldPanier = $user->getPanierActif();
                 $oldPanier->setEtat(2);
-
                 $user->setPanierActif($panier);
-
-                $em->persist($user);
             }
+
+            $em->persist($user);
         }
 
         $em->persist($panier);

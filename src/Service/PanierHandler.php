@@ -13,16 +13,6 @@ class PanierHandler
     public function __construct(private EntityManagerInterface $em, private PanierRepository $panierRepo)
     {}
 
-    public function createNewPanier(?Users $user) : Panier
-    {
-        $panier = new Panier();
-        $panier->setEtat(1);
-        $panier->setCreatedAt(new \DateTimeImmutable('now'));
-        $panier->setUser($user);
-
-        return $panier;
-    }
-
     public function getActivePanier(?Users $user, Request $request) : Panier
     {
         $panier = null;
@@ -34,7 +24,7 @@ class PanierHandler
             $this->checkPanierLifespan($panier);
             
             if ($panier->getEtat() !== 1) {
-                $panier = $this->createNewPanier($user);
+                $panier = new Panier($user);
                 $user->addPanier($panier);
                 $user->setPanierActif($panier);
                 
@@ -45,7 +35,7 @@ class PanierHandler
             $this->em->flush();
         }
         elseif ($user && !$user->getPanierActif()) {
-            $panier = $this->createNewPanier($user);
+            $panier = new Panier($user);
             $user->addPanier($panier);
             $user->setPanierActif($panier);
             
@@ -59,7 +49,7 @@ class PanierHandler
             $this->checkPanierLifespan($panier);
 
             if($panier->getEtat() !== 1) {
-                $panier = $this->createNewPanier($user);
+                $panier = new Panier($user);
                 $this->em->persist($panier);
             }
             
@@ -67,7 +57,7 @@ class PanierHandler
             $session->set('panier', $panier);
         }
         elseif (!$user && !$session->get('panier')) {
-            $panier = $this->createNewPanier($user);
+            $panier = new Panier($user);
             $this->em->persist($panier);
             $this->em->flush();
     

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Panier;
 use App\Entity\Users;
 use App\Form\RegistrationFormType;
 use App\Service\PanierHandler;
@@ -27,7 +28,7 @@ class ConnectionController extends AbstractController
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword)); //encodage du mdp
             $user->setCreatedAt(new \DateTimeImmutable());
 
-            $panier = $panierHandler->createNewPanier($user);
+            $panier = new Panier($user);
             $user->addPanier($panier);
             $user->setPanierActif($panier);
 

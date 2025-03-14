@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use App\Entity\Panier;
 use App\Repository\UsersRepository;
 use App\Service\PanierHandler;
 use Doctrine\ORM\EntityManagerInterface;
@@ -65,14 +66,14 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
             }
             
             if ($user->getPanierActif() === null) {
-                $newPanier = $this->panierHandler->createNewPanier($user);
+                $newPanier = new Panier($user);
                 $this->em->persist($newPanier);
     
                 $user->addPanier($newPanier);
                 $user->setPanierActif($newPanier);
             }
         } elseif(empty($paniers)) {
-            $panier = $this->panierHandler->createNewPanier($user);
+            $panier = new Panier($user);
             $this->em->persist($panier);
     
             $user->addPanier($panier);
