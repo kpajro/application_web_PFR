@@ -105,7 +105,7 @@ class PanierHandler
         $totalPrice = 0;
 
         foreach ($panier->getPanierProduits() as $pp) {
-            $totalPrice = $pp->getProduit()->getPrix() * $pp->getAmount();
+            $totalPrice += $pp->getProduit()->getPrix() * $pp->getAmount();
         }
 
         return $totalPrice;
