@@ -45,23 +45,25 @@ class PanierHandler
             $this->em->flush();
         }
         elseif (!$user && $session->get('panier')) {
-            $panier = $session->get('panier');
+            $panierID = $session->get('panier');
+            $panier = $this->panierRepo->findOneBy(['id' => $panierID]);
             $this->checkPanierLifespan($panier);
 
             if($panier->getEtat() !== 1) {
                 $panier = new Panier($user);
                 $this->em->persist($panier);
+
+                $session->set('panier', $panier->getId());
             }
-            
+
             $this->em->flush();
-            $session->set('panier', $panier);
         }
         elseif (!$user && !$session->get('panier')) {
             $panier = new Panier($user);
             $this->em->persist($panier);
             $this->em->flush();
-    
-            $session->set('panier', $panier);
+
+            $session->set('panier', $panier->getId());
         }
 
         return $panier;
@@ -70,7 +72,7 @@ class PanierHandler
     public function checkPanierLifespan (Panier $panier) : void
     {
         $creationDate = $panier->getCreatedAt();
-        $currentDate = new \DateTimeImmutable('now');
+        $currentDate = new \DateTimeImmutable();
         $diff = date_diff($creationDate, $currentDate);
         $user = $panier->getUser();
         
