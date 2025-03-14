@@ -4,6 +4,6 @@
 
 <h1 class="text-2xl font-bold text-end">{{ produit.nom }}</h1>
 <div>
-    <a href="">Ajouter au panier</a>
+    <a href="{{ path('app_panier_add_product', {produit: produit.id}) }}">Ajouter au panier</a>
 </div>
 {% endblock %}

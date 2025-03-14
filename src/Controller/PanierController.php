@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Panier;
+use App\Entity\Produit;
 use App\Entity\Users;
 use App\Repository\PanierRepository;
 use App\Service\PanierHandler;
@@ -36,6 +37,18 @@ class PanierController extends AbstractController
             'produits' => $produits,
             'prixTotal' => $prixTotal
         ]);
+    }
+
+    #[Route('/panier/add-produit/{produit}', name: 'app_panier_add_product')]
+    public function addProductToPanier(Produit $produit, Request $request, EntityManagerInterface $em) : Response 
+    {
+        $panier = $this->panierHandler->getActivePanier($this->getUser(), $request);
+        $panier->addProduit($produit, $em);
+
+        $em->persist($panier);
+        $em->flush();
+        
+        return new Response('Produit ajouté au panier', 200);
     }
 
     #[Route('/panier/create/', name: 'app_panier_create')]
