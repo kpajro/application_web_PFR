@@ -46,12 +46,16 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        dump('Début de la génération de données.\n');
-        $this->createUsers(100, $manager);              // création de 100 utilisateurs exemples
+        dump('Début de la génération de données.');
+        dump(' ');
+
+        $this->createUsers(300, $manager);              // création de 300 utilisateurs exemples
         $this->createCategories(10, $manager);          // création de 10 catégories exemples
-        $this->createProducts(750, $manager);           // création de 750 produits exemples
-        $this->createPaniers(400, $manager);            // création de 400 paniers exemples
-        dump('Toutes les données ont été générées.\n');
+        $this->createProducts(1500, $manager);          // création de 1500 produits exemples
+        $this->createPaniers(600, $manager);            // création de 600 paniers exemples
+
+        dump(' ');
+        dump('Toutes les données ont été générées.');
     }
 
     public function createUsers(int $amount, ObjectManager $m) : void
@@ -136,10 +140,10 @@ class AppFixtures extends Fixture
             $produit->setLangages($langages);
             $produit->setOs($os);
 
-            $produit->setIsBulkSale(rand(0,1) == 1);
-            $produit->setBulkSize($produit->isBulkSale() ? rand(50, 500) : null);
-            $produit->setIsLimitedStock(rand(0,1) == 1);
-            $produit->setStock($produit->isLimitedStock() ? rand(500, 5000) : null);
+            $produit->setIsBulkSale(rand(0,3) == 1); // 1/4 chance d'être vendu par lot
+            $produit->setBulkSize($produit->isBulkSale() ? rand(10, 100) : null);
+            $produit->setIsLimitedStock(rand(0,4) == 1); // 1/5 chance d'être en stock limité
+            $produit->setStock($produit->isLimitedStock() ? rand(100, 5000) : null);
 
             $m->persist($produit);
             $m->persist($categorie);
