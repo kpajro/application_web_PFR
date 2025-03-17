@@ -1,1 +1,5 @@
 @import "tailwindcss";
+
+.bo-page-ttl {
+    @apply text-xl text-end mb-8 font-bold;
+}
