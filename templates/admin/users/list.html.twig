@@ -2,36 +2,38 @@
 
 {% block body %}
 
-    <div class="flex justify-between">
-        <h1>Gestion des utilisateurs</h1>
-        <a href="{{ path('app_admin_home') }}">Retour au menu</a>
+    <div class="mb-8">
+        <h1 class="bo-page-ttl">Gestion des utilisateurs</h1>
+        <a class="text-end italic text-gray-600 hover:text-gray-400 block" href="{{ path('app_admin_home') }}">&lt; Retour au menu</a>
     </div>
-    <div>
-        <table>
+    <div class="admin-table-parent">
+        <table class="admin-table">
             <thead>
-                <th>ID</th>
+                <th class="w-15">ID</th>
                 <th>Nom</th>
                 <th>Prénom</th>
                 <th>E-mail</th>
-                <th>Pays</th>
-                <th>Téléphone</th>
-                <th>Date de naissance</th>
-                <th>Type de compte</th>
-                <th>Membre depuis</th>
-                <th>Compte Administrateur</th>
+                <th class="w-15">Pays</th>
+                <th class="w-35">Téléphone</th>
+                <th class="w-33">Date de naissance</th>
+                <th class="w-33">Type de compte</th>
+                <th class="w-33">Membre depuis</th>
+                <th class="w-33">Dernière connexion</th>
+                <th class="w-17">Admin</th>
             </thead>
             <tbody>
                 {% for user in users %}
-                    <tr data-modal-url="{{ path('app_admin_users_edit', {id: user.id}) }}" data-action="click->modal#open">
+                    <tr class="modal-launcher"data-modal-url="{{ path('app_admin_users_edit', {id: user.id}) }}" data-action="click->modal#open">
                         <td>{{ user.id }}</td>
                         <td>{{ user.name }}</td>
                         <td>{{ user.firstname }}</td>
                         <td>{{ user.email }}</td>
                         <td>{{ user.country }}</td>
                         <td>{{ user.phoneNumber }}</td>
-                        <td>{{ user.birthday|date('d-m-y') }}</td>
+                        <td>{{ user.birthday|date('d-m-Y') }}</td>
                         <td>{{ user.accountType == 1 ? 'Entreprise' : 'Particulier' }}</td>
-                        <td>{{ user.createdAt|date('d-m-y') }}</td>
+                        <td>{{ user.createdAt|date('d-m-Y') }}</td>
+                        <td>{{ user.lastLogIn == null ? 'Jamais' : user.lastLogIn|date('d-m-Y') }}</td>
                         <td>{{ 'ROLE_ADMIN' in user.roles ? 'Oui' : 'Non' }}</td>
                     </tr>
                 {% endfor %}
