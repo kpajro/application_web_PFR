@@ -15,6 +15,7 @@ use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /*
 
@@ -36,7 +37,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
 class AppFixtures extends Fixture
 {
     public function __construct(
-        private UserPasswordHasher $hasher,
+        private UserPasswordHasherInterface $hasher,
         private CategorieRepository $categorieRepo,
         private ProduitRepository $produitRepo,
         private UsersRepository $usersRepo,
@@ -45,11 +46,12 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
+        dump('Début de la génération de données.\n');
         $this->createUsers(100, $manager);              // création de 100 utilisateurs exemples
         $this->createCategories(10, $manager);          // création de 10 catégories exemples
         $this->createProducts(750, $manager);           // création de 750 produits exemples
-
-        $manager->flush();
+        $this->createPaniers(400, $manager);            // création de 400 paniers exemples
+        dump('Toutes les données ont été générées.\n');
     }
 
     public function createUsers(int $amount, ObjectManager $m) : void
@@ -58,8 +60,10 @@ class AppFixtures extends Fixture
             $user = new Users();
 
             $user->setEmail('testuser-' . $i . '@datafixtures.orm');
+            $user->setName('TESTEUR' . $i);
+            $user->setFirstname('Exemple');
             $plainPassword = 'Test-Password-' . $i;
-            $this->hasher->hashPassword($user, $plainPassword);
+            $user->setPassword($this->hasher->hashPassword($user, $plainPassword));
             $user->setAccountType(rand(1, 2));
             $user->setCountry('FR');
 
@@ -68,7 +72,7 @@ class AppFixtures extends Fixture
             $creationDate = date('Y-m-d H:i:s', rand($minCreationDate, $maxCreationDate));
             $user->setCreatedAt(new DateTimeImmutable($creationDate));
 
-            $minLogDate = strtotime(date('Y-m-d H:i:s', $user->getCreatedAt()));
+            $minLogDate = strtotime($user->getCreatedAt()->format('Y-m-d H:i:s'));
             $maxLogDate = strtotime('2025-03-01');
             $LogDate = date('Y-m-d H:i:s', rand($minLogDate, $maxLogDate));
             $user->setLastLogIn(new DateTimeImmutable($LogDate));
@@ -84,6 +88,9 @@ class AppFixtures extends Fixture
 
             $m->persist($user);
         }
+
+        $m->flush();
+        dump('Utilisateurs générés.');
     }
 
     public function createCategories(int $amount, ObjectManager $m) : void
@@ -91,9 +98,13 @@ class AppFixtures extends Fixture
         for($i = 0; $i < $amount; $i++) {
             $categorie = new Categorie();
             $categorie->setNom('Catégorie de test ' . $i);
+            $categorie->setNbProduits(0);
 
             $m->persist($categorie);
         }
+
+        $m->flush();
+        dump('Catégories générées.');
     }
 
     public function createProducts(int $amount, ObjectManager $m) : void
@@ -103,25 +114,27 @@ class AppFixtures extends Fixture
             $editeurs[$j] = 'Editeur ' . $j;
         }
 
-        $languages = ['FR', 'EN', 'ITA', 'GER', 'SPA'];
+        $langages = ['FR', 'EN', 'ITA', 'GER', 'SPA'];
         $os = ['WIN', 'LIN', 'MacOS'];
         $priceDecimals = [0.5, 0.99, 0.25, 0, 0.9];
+        $description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sed dui tincidunt, aliquet dolor non, tempus ipsum.';
+        $categories = $this->categorieRepo->findAll();
 
         for ($i = 0; $i < $amount; $i++) {
             $produit = new Produit();
             $produit->setNom('Produit Exemple ' . $i);
             $produit->setEditeur($editeurs[rand(0, 29)]);
-            $produit->setPrix(rand(100, 3000) + array_rand($priceDecimals, 1));
-            
-            $categorie = $this->categorieRepo->findOneBy(['id' => rand(1, 10)]);
+            $produit->setPrix(rand(100, 3000) + $priceDecimals[array_rand($priceDecimals)]);
+
+            $categorie = $categories[array_rand($categories)];
             $produit->setCategorie($categorie);
             $categorie->setNbProduits($categorie->getNbProduits() + 1);
 
-            $produit->setDescription($this->lorem->ipsum(1));
-            $produit->setLongDescription($this->lorem->ipsum(15));
+            $produit->setDescription($description);
+            $produit->setLongDescription($this->lorem->ipsum(8));
 
-            $produit->setLangages(array_rand($languages, rand(1, 5)));
-            $produit->setOs(array_rand($os, rand(1, 3)));
+            $produit->setLangages($langages);
+            $produit->setOs($os);
 
             $produit->setIsBulkSale(rand(0,1) == 1);
             $produit->setBulkSize($produit->isBulkSale() ? rand(50, 500) : null);
@@ -131,26 +144,35 @@ class AppFixtures extends Fixture
             $m->persist($produit);
             $m->persist($categorie);
         }
+
+        $m->flush();
+        dump('Produits générés.');
     }
 
     public function createPaniers(int $amount, ObjectManager $m) : void
     {
+        $produits = $this->produitRepo->findAll();
+        $users = $this->usersRepo->findAll();
+
         for ($i = 0; $i < $amount; $i++) {
-            $user = rand(1, 3) == 1 ? null : $this->usersRepo->findOneBy(['id' => rand(1, 100)]);     // l'utilisateur lié au panier a 1/3 chance d'être anonyme
+            $user = rand(1, 3) == 1 ? null : $users[array_rand($users)];     // l'utilisateur lié au panier a 1/3 chance d'être anonyme
             $panier = new Panier($user);
             $panier->setEtat(rand(1, 3));
 
-            $minCreateDate = $user !== null ? strtotime(date('Y-m-d H:i:s', $user->getCreatedAt())) : strtotime('2024-01-01');
+            $minCreateDate = $user !== null ? strtotime($user->getCreatedAt()->format('Y-m-d H:i:s')) : strtotime('2024-01-01');
             $maxCreateDate = strtotime('2025-03-01');
             $createDate = date('Y-m-d H:i:s', rand($minCreateDate, $maxCreateDate));
             $panier->setCreatedAt(new DateTimeImmutable($createDate));
 
             for ($j = 0; $j < rand(1, 5); $j++) {
-                $produit = $this->produitRepo->findOneBy(['id' => rand(1, 750)]);
+                $produit = $produits[array_rand($produits)];
                 $panier->addProduit($produit, $m);
             }
 
             $m->persist($panier);
         }
+
+        $m->flush();
+        dump('Paniers générés.');
     }
 }
