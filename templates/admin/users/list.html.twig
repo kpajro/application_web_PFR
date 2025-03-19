@@ -4,29 +4,31 @@
 
 {% block body %}
 
-    <div class="mb-8">
-        <h1 class="bo-page-ttl">Gestion des utilisateurs</h1>
-        <a class="text-end italic text-gray-600 hover:text-gray-400 block" href="{{ path('app_admin_home') }}">&lt; Retour au menu</a>
+    <div class="mb-8 flex flex-col items-end">
+        <div class="w-fit flex flex-col items-end">
+            <h1 class="bo-page-ttl">Gestion des utilisateurs</h1>
+            <a class="text-end italic text-gray-600 hover:text-gray-400" href="{{ path('app_admin_home') }}">&lt; Retour au menu</a>
+        </div>
     </div>
-    <div class="admin-table-parent">
-        <table class="admin-table">
+    <div class="admin-table-parent" data-controller="tablesorter">
+        <table class="admin-table table tablesorter-init" id="tablesorter-init">
             <thead>
-                <th class="w-15">ID</th>
-                <th>Nom</th>
-                <th>Prénom</th>
-                <th>E-mail</th>
-                <th class="w-15">Pays</th>
-                <th class="w-35">Téléphone</th>
-                <th class="w-33">Date de naissance</th>
-                <th class="w-33">Type de compte</th>
-                <th class="w-33">Membre depuis</th>
-                <th class="w-33">Dernière connexion</th>
-                <th class="w-17">Admin</th>
+                <th scope="col" class="w-15">ID</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Prénom</th>
+                <th scope="col">E-mail</th>
+                <th scope="col" class="w-33">Pays</th>
+                <th scope="col" class="w-33">Téléphone</th>
+                <th scope="col" class="w-33">Date de naissance</th>
+                <th scope="col" class="w-33">Type de compte</th>
+                <th scope="col" class="w-33">Membre depuis</th>
+                <th scope="col" class="w-33">Dernière connexion</th>
+                <th scope="col" class="w-17">Admin</th>
             </thead>
             <tbody>
                 {% for user in users %}
                     <tr class="modal-launcher"data-modal-url="{{ path('app_admin_users_edit', {id: user.id}) }}" data-action="click->modal#open">
-                        <td>{{ user.id }}</td>
+                        <td class="id">{{ user.id }}</td>
                         <td>{{ user.name }}</td>
                         <td>{{ user.firstname }}</td>
                         <td>{{ user.email }}</td>
