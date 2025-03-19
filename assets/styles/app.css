@@ -55,6 +55,6 @@
     }
 
     td {
-        @apply border-l border-indigo-200/50 px-2;
+        @apply border-l border-indigo-200/50 px-2 max-h-7;
     }
 }

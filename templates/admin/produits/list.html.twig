@@ -1,46 +1,52 @@
 {% extends "base.html.twig" %}
 
+{% block title %}Administration | Produits{% endblock %}
+
 {% block body %}
 
-<div class="flex justify-between">
-    <h1>Gestion des produits</h1>
-    <a href="{{ path('app_admin_home') }}">Retour au menu</a>
-</div>
+<div class="mb-8 flex flex-col items-end">
+        <div class="w-fit flex flex-col items-end">
+            <h1 class="bo-page-ttl">Gestion des produits</h1>
+            <a class="text-end italic text-gray-600 hover:text-gray-400" href="{{ path('app_admin_home') }}">&lt; Retour au menu</a>
+        </div>
+    </div>
 
 <div>
-    <div data-action="click->modal#open" data-modal-url="{{ path('app_admin_produits_create') }}">Ajouter un produit</div>
-    <table>
-        <thead>
-            <th>ID</th>
-            <th>Nom du produit</th>
-            <th>Editeur</th>
-            <th>Catégorie</th>
-            <th>Description courte</th>
-            <th>Prix</th>
-            <th>OS Compatibles</th>
-            <th>Stock limité</th>
-            <th>Vente par lot</th>
-            <th>Langages</th>
-            <th>Déscription détaillée</th>
-        </thead>
-        <tbody>
-            {% for produit in produits %}
-                <tr data-action="click->modal#open" data-modal-url="{{ path('app_admin_produits_edit', {id: produit.id}) }}">
-                    <td>{{ produit.id }}</td>
-                    <td>{{ produit.nom }}</td>
-                    <td>{{ produit.editeur }}</td>
-                    <td>{{ produit.categorie.nom }}</td>
-                    <td>{{ produit.description }}</td>
-                    <td>{{ produit.prix }}</td>
-                    <td>{% for os in produit.os %} {{ os }}<br> {% endfor %}</td>
-                    <td>{{ produit.isLimitedStock ? 'Oui : ' ~ produit.stock : 'Non' }}</td>
-                    <td>{{ produit.isBulkSale ? 'Oui : ' ~ produit.bulkSize : 'Non' }}</td>
-                    <td>{% for langage in produit.langages %} {{ langage }}<br> {% endfor %}</td>
-                    <td>{{ produit.longDescription }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div data-action="click->modal#open" data-modal-url="{{ path('app_admin_produits_create') }}" class="w-full border-t border-sky-200 shadow-[0px_-4px_6px] shadow-sky-300/50 text-center fixed bottom-0 bg-white z-50 left-0 right-0">Ajouter un produit</div>
+    <div class="admin-table-parent" data-controller="tablesorter">
+        <table class="admin-table table tablesorter-init" id="tablesorter-init">
+            <thead>
+                <th>ID</th>
+                <th>Nom du produit</th>
+                <th>Editeur</th>
+                <th>Catégorie</th>
+                <th>Description courte</th>
+                <th>Prix</th>
+                <th>OS Compatibles</th>
+                <th>Stock limité</th>
+                <th>Vente par lot</th>
+                <th>Langages</th>
+                <th>Déscription détaillée</th>
+            </thead>
+            <tbody>
+                {% for produit in produits %}
+                    <tr data-action="click->modal#open" data-modal-url="{{ path('app_admin_produits_edit', {id: produit.id}) }}" class="modal-launcher">
+                        <td>{{ produit.id }}</td>
+                        <td>{{ produit.nom }}</td>
+                        <td>{{ produit.editeur }}</td>
+                        <td>{{ produit.categorie.nom }}</td>
+                        <td>{{ produit.description }}</td>
+                        <td>{{ produit.prix }}</td>
+                        <td>{% for os in produit.os %} {{ os }}<br> {% endfor %}</td>
+                        <td>{{ produit.isLimitedStock ? 'Oui : ' ~ produit.stock : 'Non' }}</td>
+                        <td>{{ produit.isBulkSale ? 'Oui : ' ~ produit.bulkSize : 'Non' }}</td>
+                        <td>{% for langage in produit.langages %} {{ langage }}<br> {% endfor %}</td>
+                        <td>{{ produit.longDescription }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 
 {% endblock %}
