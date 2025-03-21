@@ -30,14 +30,7 @@
     }
 
     tr.modal-launcher {
-        @apply hover:cursor-pointer h-7 hover:shadow-lg hover:shadow-indigo-400/30 border border-white hover:border-indigo-200/50 transition-all overflow-visible hover:bg-indigo-100 hover:z-50 max-h-7;
-    }
-
-    tr.modal-launcher:first-child {
-        @apply rounded-l-lg border-l border-indigo-100;
-    }
-    tr.modal-launcher:last-child {
-        @apply rounded-r-lg border-r border-indigo-100;
+        @apply hover:cursor-pointer h-7 hover:shadow-lg hover:shadow-indigo-400/30 border border-white hover:border-indigo-200/50 transition-all overflow-visible hover:bg-indigo-100 max-h-7 border-b-indigo-50;
     }
 
     .input{
@@ -49,16 +42,18 @@
     .tablesorter-headerRow {
         @apply h-7;
     }
-
+    
     td.id {
         @apply text-center font-medium;
     }
-
+    
     td {
         @apply border-l border-indigo-200/50 px-2 py-1 max-h-7;
     }
-
-    .alt-row {
-        @apply bg-gray-50
+    tr.modal-launcher td:first-child {
+        @apply border-l border-indigo-100;
+    }
+    tr.modal-launcher td:last-child {
+        @apply border-r border-indigo-100;
     }
 }
