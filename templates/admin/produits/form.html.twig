@@ -16,14 +16,14 @@
     <div id="1" class="admin-form">
         {{ form_row(form.nom) }}
         {{ form_row(form.editeur) }}
-        {{ form_row(form.description) }}
         {{ form_row(form.prix) }}
         {{ form_row(form.categorie) }}
-        {{ form_row(form.os) }}
         {{ form_row(form.isLimitedStock) }}
-        {{ form_row(form.stock) }}
+        {{ form_row(form.stock, {attr: {class: 'hidden'}}) }}
         {{ form_row(form.isBulkSale) }}
-        {{ form_row(form.bulkSize) }}
+        {{ form_row(form.bulkSize, {attr: {class: 'hidden'}}) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.os) }}
         {{ form_row(form.langages) }}
     </div>
 
@@ -63,5 +63,5 @@
 </div>
 {{ form_end(form) }}
 
-<div id="go-left" class="rounded-full bg-indigo-300 text-white text-5xl absolute top-0 bottom-0 left-1/4">&gt;</div>
-<div id="go-left" class="rounded-full bg-indigo-300 text-white text-5xl absolute top-0 bottom-0 right-1/4">&lt;</div>
+<div id="go-left" class="rounded-[50%] bg-indigo-300 text-white text-5xl absolute top-1/2 left-1/12 h-fit hover:cursor-pointer p-5">&lt;</div>
+<div id="go-right" class="rounded-[50%] bg-indigo-300 text-white text-5xl absolute top-1/2 right-1/12 h-fit hover:cursor-pointer p-5">&gt;</div>

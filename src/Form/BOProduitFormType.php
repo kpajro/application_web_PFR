@@ -68,7 +68,8 @@ class BOProduitFormType extends AbstractType
                 'label' => 'Disponible sur les plateformes',
                 'expanded' => true,
                 'multiple' => true,
-                'row_attr' => ['class' => 'admin-form-section']
+                'row_attr' => ['class' => 'admin-form-section'],
+                'attr' => ['class' => 'admin-form-checks']
             ])
             ->add('langages', ChoiceType::class, [
                 'choices' => [
@@ -79,12 +80,14 @@ class BOProduitFormType extends AbstractType
                 'label' => 'Disponible en',
                 'expanded' => true,
                 'multiple' => true,
-                'row_attr' => ['class' => 'admin-form-section']
+                'row_attr' => ['class' => 'admin-form-section'],
+                'attr' => ['class' => 'admin-form-checks']
             ])
             ->add('isLimitedStock', CheckboxType::class, [
                 'label' => 'Le stock est limité',
                 'required' => false,
-                'row_attr' => ['class' => 'admin-form-section']
+                'row_attr' => ['class' => 'admin-form-section'],
+                'attr' => ['class' => 'admin-form-checks']
             ])
             ->add('stock', IntegerType::class, [
                 'label' => 'Limite de vente',
@@ -94,7 +97,8 @@ class BOProduitFormType extends AbstractType
             ->add('isBulkSale', CheckboxType::class, [
                 'label' => 'La vente se fait par lot',
                 'required' => false,
-                'row_attr' => ['class' => 'admin-form-section']
+                'row_attr' => ['class' => 'admin-form-section'],
+                'attr' => ['class' => 'admin-form-checks']
             ])
             ->add('bulkSize', IntegerType::class, [
                 'label' => 'Taille des lots',
