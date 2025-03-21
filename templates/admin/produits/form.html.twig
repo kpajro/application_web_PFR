@@ -1,0 +1,67 @@
+<div class="flex mb-2 justify-between bg-gradient-to-br from-indigo-900 to-indigo-500 text-white p-3 rounded-lg items-center">
+    <h1 class="font-medium text-lg">
+        {% if action == 'ajout' %}
+            Création de produit
+        {% elseif action == 'modif' %}
+            Modification de produit &lpar;{{ produit.nom }}&rpar;
+        {% endif %}
+        
+    </h1>
+    <p class="close-modal text-white/70 py-1 px-4 bg-black/20 hover:bg-black/45 hover:text-white text-lg rounded-lg transition-all hover:cursor-pointer hover:shadow-sm">&times;</p>
+</div>
+
+
+{{ form_start(form) }}
+<div id="content">
+    <div id="1" class="admin-form">
+        {{ form_row(form.nom) }}
+        {{ form_row(form.editeur) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.prix) }}
+        {{ form_row(form.categorie) }}
+        {{ form_row(form.os) }}
+        {{ form_row(form.isLimitedStock) }}
+        {{ form_row(form.stock) }}
+        {{ form_row(form.isBulkSale) }}
+        {{ form_row(form.bulkSize) }}
+        {{ form_row(form.langages) }}
+    </div>
+
+    <div id="2">
+        {{ form_row(form.longDescription) }}
+    </div>
+
+    <div id="3">
+        {{ form_row(form.image) }}
+    </div>
+</div>
+
+<div class="mt-2 rounded-lg bg-indigo-100/70 h-fit px-2">
+    {% if deletable is defined and deletable == true %}
+        <div class="h-[60px]" data-controller="confdelete" id="footer">
+            <div id="footer-content" class="flex justify-between h-full items-center transition-all">
+                <button id="delete-btn" class="admin-button delete">{{ deleteAction is defined ? deleteAction : "Supprimer l'élément"}}</button>
+                <div>
+                    <button class="close-modal mr-3 admin-button">Annuler</button>
+                    <button type="submit" class="admin-button confirm">{{ btnAction }}</button>
+                </div>
+            </div>
+            <div id="delete-conf" class="pt-1 hidden h-full opacity-0 items-center transition-all rounded-lg">
+                <p class="italic text-center text-sm text-rose-600 mb-1" id="delete-warning">{{ deleteWarning is defined ? deleteWarning : "Êtes-vous sûr(e) de vouloir supprimer l'élément ?"}}</p>
+                <div class="flex justify-center gap-6">
+                    <a href="{{ deleteLink }}" class="admin-button delete">Supprimer</a>
+                    <button id="cancel-delete" class="admin-button">Annuler</button>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="flex justify-end h-[60px]">
+            <button class="close-modal admin-button">Annuler</button>
+            <button type="submit" class="admin-button confirm">{{ btnAction }}</button>
+        </div>
+    {% endif %}
+</div>
+{{ form_end(form) }}
+
+<div id="go-left" class="rounded-full bg-indigo-300 text-white text-5xl absolute top-0 bottom-0 left-1/4">&gt;</div>
+<div id="go-left" class="rounded-full bg-indigo-300 text-white text-5xl absolute top-0 bottom-0 right-1/4">&lt;</div>

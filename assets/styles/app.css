@@ -70,10 +70,10 @@ select {
 }
 
 .admin-button {
-    @apply rounded-md text-center bg-gray-300 hover:bg-gray-200 text-gray-800 hover:text-gray-600 border active:border-indigo-100 hover:shadow-md  p-2 hover:cursor-pointer transition-all duration-200 active:-translate-y-1 border-transparent;
+    @apply rounded-md text-center bg-gray-300 hover:bg-gray-200 text-gray-800 hover:text-gray-600 border active:border-indigo-100 hover:shadow-md  p-2 hover:cursor-pointer transition-all duration-200 active:-translate-y-1 border-transparent hover:shadow-gray-600/70;
 }
 .admin-button.confirm {
-    @apply  hover:bg-sky-300 bg-sky-400 hover:shadow-sky-500/50 text-white/90 hover:text-white;
+    @apply  hover:bg-sky-600 bg-sky-500 hover:shadow-sky-500/50 text-white/90 hover:text-white;
 }
 .admin-button.delete {
     @apply  hover:bg-rose-600 bg-rose-500 hover:shadow-rose-500/50 text-white/90 hover:text-white;

@@ -84,10 +84,11 @@ class BOProduitsController extends AbstractController
             return $this->redirectToRoute('app_admin_produits_list');
         }
 
-        return $this->render('elements/form_backoffice.html.twig', [
+        return $this->render('admin/produits/form.html.twig', [
             'form' => $form,
-            'title' => 'Modification du produit "' . $produit->getNom() . '".',
+            'action' => 'modif',
             'btnAction' => 'Enregistrer',
+            'produit' => $produit,
             'deletable' => true,
             'deleteAction' => 'Supprimer le produit',
             'deleteWarning' => 'Êtes-vous sûr(e) de vouloir supprimer "' . $produit->getNom() . '" ? Cette action est irréversible.',
