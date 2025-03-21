@@ -1,11 +1,22 @@
 @import "tailwindcss";
 
+input {
+    @apply h-7 bg-gray-50 text-gray-800 text-sm border border-gray-400/70 hover:bg-white p-1 w-full  focus:border-blue-400 focus:bg-white outline-0 rounded-md transition-all z-50;
+}
+select {
+    @apply h-7 bg-gray-50 text-gray-800 text-sm border border-gray-400/70 hover:bg-white p-1 w-full  focus:border-blue-400 focus:bg-white outline-0 rounded-md transition-all z-50;
+}
+
+
+
+
+
 .bo-page-ttl {
     @apply text-xl text-end mb-1 font-bold;
 }
 
 .admin-table-parent {
-    @apply flex justify-center items-center -mx-55;
+    @apply flex justify-center items-center lg:-mx-55;
 }
 .admin-table {
     @apply  w-full table-fixed shadow-xl mb-15;
@@ -66,4 +77,12 @@
 }
 .admin-button.delete {
     @apply bg-gradient-to-br from-rose-600 to-indigo-400 hover:shadow-rose-500/50 text-white;
+}
+
+.admin-form {
+    @apply grid grid-cols-1 md:grid-cols-2
+}
+
+.admin-form-section {
+    @apply flex flex-col gap-2;
 }
