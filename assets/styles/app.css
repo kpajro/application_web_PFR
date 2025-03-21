@@ -11,7 +11,7 @@
     @apply  w-full table-fixed shadow-xl mb-12;
 
     thead {
-        @apply bg-gradient-to-r from-sky-400 to-indigo-300 to-65% p-2 h-12 text-sm font-medium;
+        @apply bg-gradient-to-r from-sky-400/70 to-indigo-300/70 to-65% p-2 h-12 text-sm font-medium backdrop-blur-sm;
     }
 
     tbody {
@@ -55,6 +55,6 @@
     }
 
     td {
-        @apply border-l border-indigo-200/50 px-2 max-h-7;
+        @apply border-l border-indigo-200/50 px-2 py-1 max-h-7;
     }
 }
