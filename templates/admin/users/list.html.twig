@@ -36,8 +36,8 @@
                         <td>{{ user.phoneNumber }}</td>
                         <td>{{ user.birthday|date('d-m-Y') }}</td>
                         <td>{{ user.accountType == 1 ? 'Entreprise' : 'Particulier' }}</td>
-                        <td>{{ user.createdAt|date('d-m-Y') }}</td>
-                        <td>{{ user.lastLogIn == null ? 'Jamais' : user.lastLogIn|date('d-m-Y') }}</td>
+                        <td>{{ user.createdAt|date('d-m-Y \à H:i:s') }}</td>
+                        <td>{{ user.lastLogIn == null ? 'Jamais' : user.lastLogIn|date('d-m-Y \à H:i:s') }}</td>
                         <td>{{ 'ROLE_ADMIN' in user.roles ? 'Oui' : 'Non' }}</td>
                     </tr>
                 {% endfor %}
