@@ -8,7 +8,7 @@
     @apply flex justify-center items-center -mx-55;
 }
 .admin-table {
-    @apply  w-full table-fixed shadow-xl mb-12;
+    @apply  w-full table-fixed shadow-xl mb-15;
 
     thead {
         @apply bg-gradient-to-r from-sky-400/70 to-indigo-300/70 to-65% p-2 h-12 text-sm font-medium backdrop-blur-sm;
@@ -56,4 +56,14 @@
     tr.modal-launcher td:last-child {
         @apply border-r border-indigo-100;
     }
+}
+
+.admin-button {
+    @apply rounded-md text-center bg-gray-300 text-black border hover:border-indigo-100 hover:shadow-md  p-2 hover:cursor-pointer transition-all active:-translate-y-1 border-transparent;
+}
+.admin-button.confirm {
+    @apply bg-gradient-to-br from-sky-400 to-indigo-400 hover:shadow-indigo-500/50 text-white;
+}
+.admin-button.delete {
+    @apply bg-gradient-to-br from-rose-600 to-indigo-400 hover:shadow-rose-500/50 text-white;
 }
