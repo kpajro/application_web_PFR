@@ -2,21 +2,22 @@
 
 {% block body %}
 
-<div class="flex justify-between">
-    <h1>Gestion des paniers</h1>
-    <a href="{{ path('app_admin_home') }}">Retour au menu</a>
+<div class="mb-8 flex flex-col items-end">
+    <div class="w-fit flex flex-col items-end">
+        <h1 class="bo-page-ttl">Gestion des paniers</h1>
+        <a class="text-end italic text-gray-600 hover:text-gray-400" href="{{ path('app_admin_home') }}">&lt; Retour au menu</a>
+    </div>
 </div>
 
-<div>
+<div class="w-full border-t border-sky-200 shadow-[0px_-4px_6px] shadow-sky-300/50 fixed bottom-0 z-50 left-0 right-0 py-2 flex justify-center bg-indigo-50/50 backdrop-blur-sm gap-6">
+    <a href="{{ path('app_admin_paniers_check_all') }}" class="rounded-md text-center bg-gradient-to-br from-sky-400 to-indigo-400 text-white border hover:border-indigo-100 hover:shadow-md hover:shadow-indigo-500/50 p-2 hover:cursor-pointer transition-all active:-translate-y-1">Actualiser l'état des paniers</a>
+    <a href="{{ path('app_admin_paniers_remove_deletables') }}" class="rounded-md text-center bg-gradient-to-br from-rose-600 to-indigo-400 text-white border hover:border-indigo-100 hover:shadow-md hover:shadow-rose-500/50 p-2 hover:cursor-pointer transition-all active:-translate-y-1">Nettoyer les paniers</a>
+</div>
 
-    <div class="flex justify-between">
-        <a href="{{ path('app_admin_paniers_check_all') }}">Actualiser l'état des paniers</a>
-        <a href="{{ path('app_admin_paniers_remove_deletables') }}">Supprimer les paniers supprimables</a>
-    </div>
-
-    <table>
+<div class="admin-table-parent" data-controller="tablesorter">
+    <table class="admin-table tablesorter-init">
         <thead>
-            <th>ID</th>
+            <th class="w-15">ID</th>
             <th>Propriétaire du panier</th>
             <th>Produits dans le panier</th>
             <th>Date de création</th>
@@ -24,18 +25,18 @@
         </thead>
         <tbody>
             {% for panier in paniers %}
-                <tr data-action="click->modal#open" data-modal-url="{{ path('app_admin_paniers_view', {id: panier.id}) }}">
-                    <td>{{ panier.id }}</td>
+                <tr data-action="click->modal#open" data-modal-url="{{ path('app_admin_paniers_view', {id: panier.id}) }}" class="modal-launcher">
+                    <td class="id">{{ panier.id }}</td>
                     <td>{{ panier.user ? panier.user.email : 'Anonyme' }}</td>
                     <td>{{ panier.produits|length }}</td>
-                    <td>{{ panier.createdAt|date() }}</td>
+                    <td>{{ panier.createdAt|date('d-m-Y \à H:i:s') }}</td>
                     <td>
                         {% if panier.etat == 1 %}
-                            Actif
+                            <p class="py-1 px-2 bg-emerald-400/50 rounded-md">Actif</p>
                         {% elseif panier.etat == 2 %}
-                            Inactif
+                            <p class="py-1 px-2 bg-orange-400/50 rounded-md">Inactif</p>
                         {% elseif panier.etat == 3 %}
-                            Supprimable
+                            <p class="py-1 px-2 bg-rose-500/50 rounded-md">Supprimable</p>
                         {% endif %}
                     </td>
                 </tr>
