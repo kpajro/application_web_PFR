@@ -29,7 +29,7 @@
                     <td class="id">{{ panier.id }}</td>
                     <td>{{ panier.user ? panier.user.email : 'Anonyme' }}</td>
                     <td>{{ panier.produits|length }}</td>
-                    <td>{{ panier.createdAt|date('d-m-Y \à H:i:s') }}</td>
+                    <td>{{ panier.createdAt|date('d/m/Y \à H:i:s') }}</td>
                     <td>
                         {% if panier.etat == 1 %}
                             <p class="py-1 px-2 bg-emerald-400/50 rounded-md">Actif</p>

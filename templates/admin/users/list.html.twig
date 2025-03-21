@@ -34,11 +34,11 @@
                         <td>{{ user.email }}</td>
                         <td>{{ user.country }}</td>
                         <td>{{ user.phoneNumber }}</td>
-                        <td>{{ user.birthday|date('d-m-Y') }}</td>
-                        <td>{{ user.accountType == 1 ? 'Entreprise' : 'Particulier' }}</td>
-                        <td>{{ user.createdAt|date('d-m-Y \à H:i:s') }}</td>
-                        <td>{{ user.lastLogIn == null ? 'Jamais' : user.lastLogIn|date('d-m-Y \à H:i:s') }}</td>
-                        <td>{{ 'ROLE_ADMIN' in user.roles ? 'Oui' : 'Non' }}</td>
+                        <td>{{ user.birthday|date('d/m/Y') }}</td>
+                        <td>{{ user.accountType == 1 ? '<p class="py-1 px-2 bg-indigo-500/50 rounded-md">Entreprise</p>' : '<p class="py-1 px-2 bg-sky-400/50 rounded-md">Particulier</p>' }}</td>
+                        <td>{{ user.createdAt|date('d/m/Y \à H:i:s') }}</td>
+                        <td>{{ user.lastLogIn == null ? 'Jamais' : user.lastLogIn|date('d/m/Y \à H:i:s') }}</td>
+                        <td>{{ 'ROLE_ADMIN' in user.roles ? '<p class="py-1 px-2 bg-emerald-400/50 rounded-md">Oui</p>' : '<p class="py-1 px-2 bg-rose-500/50 rounded-md">Non</p>' }}</td>
                     </tr>
                 {% endfor %}
             </tbody>

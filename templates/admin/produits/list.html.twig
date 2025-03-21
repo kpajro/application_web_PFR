@@ -42,8 +42,20 @@
                         <td>{{ produit.description }}</td>
                         <td>{{ produit.prix }} €</td>
                         <td>{% for os in produit.os %} {{ os }}<br> {% endfor %}</td>
-                        <td>{{ produit.isLimitedStock ? 'Oui : ' ~ produit.stock : 'Non' }}</td>
-                        <td>{{ produit.isBulkSale ? 'Oui : ' ~ produit.bulkSize : 'Non' }}</td>
+                        <td>
+                            {% if produit.isLimitedStock %}
+                                <p class="py-1 px-2 bg-emerald-400/50 rounded-md">{{ produit.stock }}</p>
+                            {% else %}
+                                <p class="py-1 px-2 bg-rose-500/50 rounded-md">Non</p>    
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if produit.isBulkSale %}
+                                <p class="py-1 px-2 bg-emerald-400/50 rounded-md">{{ produit.bulkSize }}</p>
+                            {% else %}
+                                <p class="py-1 px-2 bg-rose-500/50 rounded-md">Non</p>    
+                            {% endif %}
+                        </td>
                         <td>{% for langage in produit.langages %} {{ langage }}<br> {% endfor %}</td>
                     </tr>
                 {% endfor %}

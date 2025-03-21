@@ -30,7 +30,7 @@
     }
 
     tr.modal-launcher {
-        @apply hover:cursor-pointer h-7 hover:shadow-lg hover:shadow-indigo-400/30 border border-white hover:border-indigo-200/50 transition-all overflow-visible hover:bg-indigo-100 hover:z-50 max-h-7 hover:translate-x-1;
+        @apply hover:cursor-pointer h-7 hover:shadow-lg hover:shadow-indigo-400/30 border border-white hover:border-indigo-200/50 transition-all overflow-visible hover:bg-indigo-100 hover:z-50 max-h-7;
     }
 
     tr.modal-launcher:first-child {
