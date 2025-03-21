@@ -1,10 +1,10 @@
 @import "tailwindcss";
 
 input {
-    @apply h-7 bg-gray-50 text-gray-800 text-sm border border-gray-400/70 hover:bg-white p-1 w-full  focus:border-blue-400 focus:bg-white outline-0 rounded-md transition-all z-50;
+    @apply h-10 bg-gray-50 text-gray-800 text-sm border border-gray-400/70 hover:bg-white p-1 w-full  focus:border-blue-400 focus:bg-white outline-0 rounded-md transition-all z-50;
 }
 select {
-    @apply h-7 bg-gray-50 text-gray-800 text-sm border border-gray-400/70 hover:bg-white p-1 w-full  focus:border-blue-400 focus:bg-white outline-0 rounded-md transition-all z-50;
+    @apply h-10 bg-gray-50 text-gray-800 text-sm border border-gray-400/70 hover:bg-white p-1 w-full  focus:border-blue-400 focus:bg-white outline-0 rounded-md transition-all z-50;
 }
 
 
@@ -80,9 +80,26 @@ select {
 }
 
 .admin-form {
-    @apply grid grid-cols-1 md:grid-cols-2
+    @apply grid grid-cols-1 md:grid-cols-2 w-full gap-4
 }
 
 .admin-form-section {
-    @apply flex flex-col gap-2;
+    @apply rounded-lg;
+    label {
+        @apply mb-2 font-medium text-gray-800;
+    }
+    input,select {
+        @apply shadow-md;
+    }
+
+    .admin-form-checks {
+        @apply grid grid-cols-2 w-fit;
+
+        input {
+            @apply shadow-none w-fit self-center justify-self-end;
+        }
+        label {
+            @apply text-sm font-normal text-gray-700 w-full text-start self-center mb-0 pl-2;
+        }
+    }
 }
