@@ -70,13 +70,13 @@ select {
 }
 
 .admin-button {
-    @apply rounded-md text-center bg-gray-300 text-black border hover:border-indigo-100 hover:shadow-md  p-2 hover:cursor-pointer transition-all active:-translate-y-1 border-transparent;
+    @apply rounded-md text-center bg-gray-300 hover:bg-gray-200 text-gray-800 hover:text-gray-600 border active:border-indigo-100 hover:shadow-md  p-2 hover:cursor-pointer transition-all duration-200 active:-translate-y-1 border-transparent;
 }
 .admin-button.confirm {
-    @apply bg-gradient-to-br from-sky-400 to-indigo-400 hover:shadow-indigo-500/50 text-white;
+    @apply  hover:bg-sky-300 bg-sky-400 hover:shadow-sky-500/50 text-white/90 hover:text-white;
 }
 .admin-button.delete {
-    @apply bg-gradient-to-br from-rose-600 to-indigo-400 hover:shadow-rose-500/50 text-white;
+    @apply  hover:bg-rose-600 bg-rose-500 hover:shadow-rose-500/50 text-white/90 hover:text-white;
 }
 
 .admin-form {
