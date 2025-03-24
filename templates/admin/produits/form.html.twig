@@ -12,28 +12,43 @@
 
 
 {{ form_start(form) }}
-<div id="content">
+<div id="content" data-content-amount="3" data-current-content="1">
     <div id="1" class="admin-form">
         {{ form_row(form.nom) }}
         {{ form_row(form.editeur) }}
         {{ form_row(form.prix) }}
         {{ form_row(form.categorie) }}
-        {{ form_row(form.isLimitedStock) }}
-        {{ form_row(form.stock, {attr: {class: 'hidden'}}) }}
-        {{ form_row(form.isBulkSale) }}
-        {{ form_row(form.bulkSize, {attr: {class: 'hidden'}}) }}
-        {{ form_row(form.description) }}
+        <div>
+            <div class="admin-form-boolean">
+                {{ form_widget(form.isLimitedStock) }}
+                {{ form_label(form.isLimitedStock) }}
+            </div>
+            {{ form_row(form.stock, {attr: {class: 'hidden'}}) }}
+        </div>
+        <div>
+            <div class="admin-form-boolean">
+                {{ form_widget(form.isBulkSale) }}
+                {{ form_label(form.isBulkSale) }}
+            </div>
+            {{ form_row(form.bulkSize, {attr: {class: 'hidden'}}) }}
+        </div>
         {{ form_row(form.os) }}
         {{ form_row(form.langages) }}
     </div>
 
-    <div id="2">
+    <div id="2" class="hidden-imp">
+        {{ form_row(form.description) }}
         {{ form_row(form.longDescription) }}
     </div>
 
-    <div id="3">
+    <div id="3" class="hidden-imp">
         {{ form_row(form.image) }}
     </div>
+</div>
+
+<div class="flex justify-around mt-4">
+    <div id="left" class="modal-navigation-btn" data-action="click->modal#changeWindow">&lt; Précédent</div>
+    <div id="right" class="modal-navigation-btn activated" data-action="click->modal#changeWindow">Suivant &gt;</div>
 </div>
 
 <div class="mt-2 rounded-lg bg-indigo-100/70 h-fit px-2">
@@ -62,6 +77,3 @@
     {% endif %}
 </div>
 {{ form_end(form) }}
-
-<div id="go-left" class="rounded-[50%] bg-indigo-300 text-white text-5xl absolute top-1/2 left-1/12 h-fit hover:cursor-pointer p-5">&lt;</div>
-<div id="go-right" class="rounded-[50%] bg-indigo-300 text-white text-5xl absolute top-1/2 right-1/12 h-fit hover:cursor-pointer p-5">&gt;</div>

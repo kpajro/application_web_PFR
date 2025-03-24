@@ -86,24 +86,22 @@ class BOProduitFormType extends AbstractType
             ->add('isLimitedStock', CheckboxType::class, [
                 'label' => 'Le stock est limité',
                 'required' => false,
-                'row_attr' => ['class' => 'admin-form-section'],
-                'attr' => ['class' => 'admin-form-checks']
+                'row_attr' => ['class' => 'admin-form-boolean'],
             ])
             ->add('stock', IntegerType::class, [
                 'label' => 'Limite de vente',
                 'required' => false,
-                'row_attr' => ['class' => 'admin-form-section']
+                'row_attr' => ['class' => 'admin-form-section, hidden']
             ])
             ->add('isBulkSale', CheckboxType::class, [
                 'label' => 'La vente se fait par lot',
                 'required' => false,
-                'row_attr' => ['class' => 'admin-form-section'],
-                'attr' => ['class' => 'admin-form-checks']
+                'row_attr' => ['class' => 'admin-form-boolean'],
             ])
             ->add('bulkSize', IntegerType::class, [
                 'label' => 'Taille des lots',
                 'required' => false,
-                'row_attr' => ['class' => 'admin-form-section']
+                'row_attr' => ['class' => 'admin-form-section hidden']
             ])
             ->add('longDescription', TextareaType::class, [
                 'label' => 'Déscription détaillée du produit',
