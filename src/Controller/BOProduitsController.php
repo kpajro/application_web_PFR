@@ -56,10 +56,11 @@ class BOProduitsController extends AbstractController
             return $this->redirectToRoute('app_admin_produits_list');
         }
 
-        return $this->render('elements/form_backoffice.html.twig', [
+        return $this->render('admin/produits/form.html.twig', [
             'form' => $form,
             'title' => 'Création de produit',
-            'btnAction' => 'Créer'
+            'btnAction' => 'Créer',
+            'action' => 'ajout'
         ]);
     }
 
