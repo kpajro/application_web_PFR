@@ -106,12 +106,31 @@ export default class extends Controller {
         const direction = event.currentTarget.id;
         const next = parseInt(currentPosition) + 1 <= parseInt(contentAmount) ? parseInt(currentPosition) + 1 : 1;
         const previous = parseInt(currentPosition) - 1 >= 1 ? parseInt(currentPosition) - 1 : parseInt(contentAmount);
-        const newContent = direction === 'left' ? document.getElementById(previous) : document.getElementById(next);
+        
+        if (direction === 'left') {
+            const newContent = document.getElementById(previous);
+            currentContent.classList.add('translate-x-[100rem]');
+            setTimeout(() => {
+                currentContent.classList.add('hidden-imp');
+                newContent.classList.remove('hidden-imp');
+                setTimeout(() => {
+                    newContent.classList.remove('-translate-x-[100rem]');
+                }, 5);
+            }, 150);           
+            document.getElementById('content').dataset.currentContent = newContent.id;
+        } else if (direction === 'right') {
+            const newContent = document.getElementById(next);
+            currentContent.classList.add('-translate-x-[100rem]');
+            setTimeout(() => {
+                currentContent.classList.add('hidden-imp');
+                newContent.classList.remove('hidden-imp');
+                setTimeout(() => {
+                    newContent.classList.remove('translate-x-[100rem]');
+                }, 5);
+            }, 150);           
+            document.getElementById('content').dataset.currentContent = newContent.id;
+        }
 
-        currentContent.classList.add('hidden-imp');
-        newContent.classList.remove('hidden-imp');
-
-        document.getElementById('content').dataset.currentContent = newContent.id;
 
         this.updateNavButtons();
     }

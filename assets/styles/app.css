@@ -83,7 +83,7 @@ select {
 }
 
 .admin-form {
-    @apply grid grid-cols-1 md:grid-cols-2 w-full gap-4 min-h-40 max-h-8/12 overflow-y-scroll;
+    @apply grid grid-cols-1 md:grid-cols-2 w-full gap-4 min-h-40 overflow-y-scroll;
 }
 
 .admin-form-section {
@@ -104,6 +104,16 @@ select {
         label {
             @apply text-sm font-normal text-gray-700 w-full text-start self-center mb-0 pl-2;
         }
+    }
+}
+
+.admin-form-section.secondary {
+    @apply flex flex-col items-end justify-center;
+    label {
+        @apply text-sm italic font-normal text-gray-700 mb-0 pr-1;
+    }
+    input {
+        @apply text-sm h-7 w-fit text-center;
     }
 }
 
