@@ -12,16 +12,19 @@ export default class extends Controller {
     }
 
     displayForm(check, form) {
+        const input = form.querySelector('input');
         check.addEventListener('change', () => {
             if (check.checked && form.classList.contains('hidden')) {
                 form.classList.remove('hidden');
                 setTimeout(() => {
                     form.classList.remove('opacity-0');
+                    input.required = true;
                 }, 10);
             } else if (!check.checked && !form.classList.contains('hidden')) {
                 form.classList.add('opacity-0');
                 setTimeout(() => {
                     form.classList.add('hidden');
+                    input.required = false;
                 }, 150);
             }
         });
