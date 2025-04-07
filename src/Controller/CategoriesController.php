@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class CategoriesController extends AbstractController
 {
@@ -32,6 +33,42 @@ class CategoriesController extends AbstractController
             'produits' => $products,
             'filtre' => $filtre,
             'categories' => $categories
+        ]);
+    }
+    
+    // ~#Klaudiusz -> on peux faire mieux ? ~@leosu1
+    #[Route('/{id}/categorie/json', name: 'app_categorie_json', methods: ['GET'])]
+    public function listProductsToJson(int $id, ProduitRepository $produitRepository, CategorieRepository $categorieRepository, Request $request): JsonResponse 
+    {
+        $filtre = $request->query->get('filtre', 'default');
+        $products = $produitRepository->findByCategory($id, $filtre);
+
+        $categories = $categorieRepository->findAll();
+
+        $produitsArray = array_map(function($prod){
+            return [
+                'id'=> $prod->getId(),
+                'nom'=> $prod->getNom(),
+                'description'=> $prod->getDescription(),
+                'prix'=> $prod->getPrix(),
+                'image'=> $prod->getImage(),
+                'categorie'=> [
+                    'id'=> $prod->getCategorie()->getId(),
+                    'nom'=> $prod->getCategorie()->getNom()
+                ]
+            ];
+        }, $products);
+        $categoriesArray = array_map(function($categ){
+            return [
+                'id'=> $categ->getId(),
+                'nom'=> $categ->getNom(),
+                'nbProduits'=> $categ->getNbProduits()
+            ];
+        }, $categories);
+        return $this->json([
+            'produits'=> $produitsArray,
+            'filtre'=> $filtre,
+            'categories'=> $categoriesArray
         ]);
     }
 }
