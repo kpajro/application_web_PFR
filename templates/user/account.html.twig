@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User Profile{% endblock %}
+
+{% block body %}
+            {{ form_start(profileForm) }}
+                <div class="mb-4">
+                    {{ form_label(profileForm.email, null, {'label_attr': {'class': 'block font-bold mb-2'}}) }}
+                    {{ form_widget(profileForm.email, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
+                </div>
+                <div class="mb-4">
+                    {{ form_label(profileForm.name, null, {'label_attr': {'class': 'block font-bold mb-2'}}) }}
+                    {{ form_widget(profileForm.name, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
+                </div>
+                <div class="mb-4">
+                    {{ form_label(profileForm.firstname, null, {'label_attr': {'class': 'block font-bold mb-2'}}) }}
+                    {{ form_widget(profileForm.firstname, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
+                </div>
+                <div class="mb-4">
+                    {{ form_label(profileForm.country, null, {'label_attr': {'class': 'block font-bold mb-2'}}) }}
+                    {{ form_widget(profileForm.country, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
+                </div>
+                <div class="mb-4">
+                    {{ form_label(profileForm.phoneNumber, null, {'label_attr': {'class': 'block font-bold mb-2'}}) }}
+                    {{ form_widget(profileForm.phoneNumber, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
+                </div>
+                <div class="mb-4">
+                    {{ form_label(profileForm.birthday, null, {'label_attr': {'class': 'block font-bold mb-2'}}) }}
+                    {{ form_widget(profileForm.birthday, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
+                </div>
+                <button class="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-700">Save changes</button>
+            {{ form_end(profileForm) }}
+        </div>
+    </div>
+{% endblock %}
