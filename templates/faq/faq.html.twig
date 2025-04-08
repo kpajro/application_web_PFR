@@ -1,0 +1,15 @@
+{% extends "base.html.twig" %}
+{% block title %}FAQ{% endblock %}
+{% block body %}
+    {#% for categorie in categories %#}
+    <h2>{{ "categorie questions" }}</h2>
+    <ul>
+        {#% for question in categorie.questions %#}
+            <li>
+                <strong>Q : {{ "question" }}</strong><br>
+                <em>R : {{ "reponse" }}</em>
+            </li>
+        {#% endfor %#}
+    </ul>
+    {#% endfor %#}
+{% endblock %}

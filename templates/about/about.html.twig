@@ -1,0 +1,14 @@
+{% extends "base.html.twig" %}
+
+{% block title %}About{% endblock %}
+
+{% block body %}
+    {% if is_granted('ROLE_ADMIN') %}
+        <form method="post">
+            <textarea name="contenu">{{ "test" }}</textarea><br>
+            <button type="submit">Enregistrer</button>
+        </form>
+    {% else %}
+        <p>{{ "test" }}</p>
+    {% endif %}
+{% endblock %}
