@@ -1,15 +1,15 @@
 {% extends "base.html.twig" %}
 {% block title %}FAQ{% endblock %}
 {% block body %}
-    {#% for categorie in categories %#}
-    <h2>{{ "categorie questions" }}</h2>
-    <ul>
-        {#% for question in categorie.questions %#}
-            <li>
-                <strong>Q : {{ "question" }}</strong><br>
-                <em>R : {{ "reponse" }}</em>
-            </li>
-        {#% endfor %#}
-    </ul>
-    {#% endfor %#}
+    {% for categorie in categories %}
+    <h2>RGPD</h2>
+        <ul>
+            {% for i in 0..(categorie.questions|length - 1) %}
+                <li>
+                    <strong> Question :</strong> {{ categorie.questions[i] }}<br>
+                    <em> Réponse :</em> {{ categorie.reponses[i] ?? 'Pas de réponse disponible' }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
 {% endblock %}
