@@ -17,10 +17,10 @@ class Faq
     #[ORM\Column]
     private ?int $categorie = null;
 
-    #[ORM\Column(type: Types::ARRAY)]
+    #[ORM\Column(type: Types::JSON)]
     private array $questions = [];
 
-    #[ORM\Column(type: Types::ARRAY)]
+    #[ORM\Column(type: Types::JSON)]
     private array $reponses = [];
 
     public function getId(): ?int
