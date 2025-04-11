@@ -25,7 +25,6 @@
                 <th>Nom du produit</th>
                 <th>Editeur</th>
                 <th>Catégorie</th>
-                <th>Description courte</th>
                 <th class="w-25">Prix</th>
                 <th class="w-25">OS Compatibles</th>
                 <th class="w-25">Stock limité</th>
@@ -39,7 +38,6 @@
                         <td>{{ produit.nom }}</td>
                         <td>{{ produit.editeur }}</td>
                         <td>{{ produit.categorie.nom }}</td>
-                        <td>{{ produit.description }}</td>
                         <td>{{ produit.prix }} €</td>
                         <td>{% for os in produit.os %} {{ os }}<br> {% endfor %}</td>
                         <td>

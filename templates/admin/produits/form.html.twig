@@ -1,4 +1,4 @@
-<div class="flex mb-2 justify-between bg-gradient-to-br from-indigo-900 to-indigo-500 text-white p-3 rounded-lg items-center">
+<div class="flex mb-2 justify-between bg-gradient-to-br from-indigo-900 to-indigo-500 text-white p-3 rounded-lg items-center" >
     <h1 class="font-medium text-lg">
         {% if action == 'ajout' %}
             Création de produit
@@ -12,28 +12,61 @@
 
 
 {{ form_start(form) }}
-<div id="content">
-    <div id="1" class="admin-form">
+<div id="content" data-content-amount="3" data-current-content="1" class="h-[60vh]" data-controller="boproduits">
+    <div id="1" class="transition-all duration-300 h-full admin-form items-start">
         {{ form_row(form.nom) }}
         {{ form_row(form.editeur) }}
         {{ form_row(form.prix) }}
         {{ form_row(form.categorie) }}
-        {{ form_row(form.isLimitedStock) }}
-        {{ form_row(form.stock, {attr: {class: 'hidden'}}) }}
-        {{ form_row(form.isBulkSale) }}
-        {{ form_row(form.bulkSize, {attr: {class: 'hidden'}}) }}
-        {{ form_row(form.description) }}
+        <div class="flex items-center gap-8">
+            <div class="admin-form-boolean">
+                {{ form_widget(form.isLimitedStock) }}
+                {{ form_label(form.isLimitedStock) }}
+            </div>
+            <div
+                {% if produit is not defined or produit.isLimitedStock == false %}
+                    class="hidden opacity-0 transition-all"
+                {% else %}
+                    class="transition-all"
+                {% endif %}
+                id="stock-form"
+            >
+                {{ form_row(form.stock) }}
+            </div>
+        </div>
+        <div class="flex items-center gap-8 ">
+            <div class="admin-form-boolean">
+                {{ form_widget(form.isBulkSale) }}
+                {{ form_label(form.isBulkSale) }}
+            </div>
+            <div
+                {% if produit is not defined or produit.isBulkSale == false %}
+                    class="hidden opacity-0 transition-all"
+                {% else %}
+                    class="transition-all"
+                {% endif %}
+                id="bulk-form"
+            >
+                {{ form_row(form.bulkSize) }}
+            </div>
+        </div>
         {{ form_row(form.os) }}
         {{ form_row(form.langages) }}
     </div>
 
-    <div id="2">
+    <div id="2" class="hidden-imp transition-all translate-x-[100rem] duration-300 h-full">
+        {{ form_row(form.description) }}
         {{ form_row(form.longDescription) }}
     </div>
 
-    <div id="3">
+    <div id="3" class="hidden-imp transition-all translate-x-[100rem] duration-300 h-full">
         {{ form_row(form.image) }}
     </div>
+</div>
+
+<div class="flex justify-around mt-4">
+    <div id="left" class="modal-navigation-btn" data-action="click->modal#changeWindow">&lt; Précédent</div>
+    <div id="right" class="modal-navigation-btn activated" data-action="click->modal#changeWindow">Suivant &gt;</div>
 </div>
 
 <div class="mt-2 rounded-lg bg-indigo-100/70 h-fit px-2">
@@ -62,6 +95,3 @@
     {% endif %}
 </div>
 {{ form_end(form) }}
-
-<div id="go-left" class="rounded-[50%] bg-indigo-300 text-white text-5xl absolute top-1/2 left-1/12 h-fit hover:cursor-pointer p-5">&lt;</div>
-<div id="go-right" class="rounded-[50%] bg-indigo-300 text-white text-5xl absolute top-1/2 right-1/12 h-fit hover:cursor-pointer p-5">&gt;</div>
