@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Categorie;
 use App\Entity\Produit;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -55,5 +56,43 @@ class ProduitRepository extends ServiceEntityRepository
         }
 
         return $qb->getQuery()->getResult();
+    }
+
+    public function findByCategoryAndFilter(Categorie $categorie, array $filtres)
+    {
+        $queryBuilder = $this->createQueryBuilder('p')
+            ->select('p.id, p.nom, p.description, p.prix, p.image')
+            ->where('p.categorie = :categorie')
+            ->setParameter('categorie', $categorie)
+        ;
+
+        $prixMin = $filtres['prix_minimum'];
+        $prixMax = $filtres['prix_maximum'];
+        $orderBy = $filtres['order'];
+        $asc = $filtres['asc'];
+        
+        if ($prixMin !== null && $prixMin > 0) {
+            $queryBuilder
+                ->andWhere('p.prix > :prixMin')
+                ->setParameter('prixMin', $prixMin)
+            ;
+        }
+            if ($prixMax !== null && $prixMax < 5000) {       // valeur 5000 à changer avec le prix le plus haut qu'on aie
+            $queryBuilder
+                ->andWhere('p.prix < :prixMax')
+                ->setParameter('prixMax', $prixMax)
+            ;
+        }
+        if ($orderBy === 'prix' && $asc === true) {
+            $queryBuilder
+                ->orderBy('p.prix', 'ASC')
+            ;
+        } else if ($orderBy === 'prix' && $asc === false) {
+            $queryBuilder
+                ->orderBy('p.prix', 'DESC')
+            ;
+        }
+        
+        return $queryBuilder->getQuery()->getResult();
     }
 }

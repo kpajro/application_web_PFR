@@ -1,8 +1,10 @@
 <?php
 namespace App\Controller;
 
+use App\Entity\Categorie;
 use App\Repository\CategorieRepository;
 use App\Repository\ProduitRepository;
+use ContainerKKo5JGl\getProduitControllerviewProduitService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -70,5 +72,21 @@ class CategoriesController extends AbstractController
             'filtre'=> $filtre,
             'categories'=> $categoriesArray
         ]);
+    }
+
+
+    // ce que je ferais #léo @klaudiusz
+    #[Route('/categorie/{id}/produits/list', name: 'app_categorie_produits_json')]
+    public function productListInJson(Categorie $categorie, ProduitRepository $produitRepo, Request $request): JsonResponse
+    {
+        $filtres = [
+            'prix_minimum' => $request->get('prixMin'),
+            'prix_maximum' => $request->get('prixMax'),
+            'order' => $request->get('orderBy'),
+            'asc' => $request->get('asc')
+        ];
+
+        $produits = $produitRepo->findByCategoryAndFilter($categorie, $filtres);
+        return $this->json(['produits' => $produits]);
     }
 }
