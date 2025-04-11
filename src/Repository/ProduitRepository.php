@@ -77,17 +77,17 @@ class ProduitRepository extends ServiceEntityRepository
                 ->setParameter('prixMin', $prixMin)
             ;
         }
-            if ($prixMax !== null && $prixMax < 5000) {       // valeur 5000 à changer avec le prix le plus haut qu'on aie
+        if ($prixMax !== null && $prixMax < 5000) {       // valeur 5000 à changer avec le prix le plus haut qu'on aie
             $queryBuilder
                 ->andWhere('p.prix < :prixMax')
                 ->setParameter('prixMax', $prixMax)
             ;
         }
-        if ($orderBy === 'prix' && $asc === true) {
+        if ($orderBy === 'prix' && $asc === 'true') {
             $queryBuilder
                 ->orderBy('p.prix', 'ASC')
             ;
-        } else if ($orderBy === 'prix' && $asc === false) {
+        } else if ($orderBy === 'prix' && $asc === 'false') {
             $queryBuilder
                 ->orderBy('p.prix', 'DESC')
             ;
