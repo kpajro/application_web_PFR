@@ -7,7 +7,7 @@
             </div>
             <div class="flex justify-between">
                 {% if app.user %}
-                    <a href="{{ path('app_user_profile') }}" class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white">Profil</a>
+                    <a href="{{ path('app_user_profile', { id: app.user.id }) }}" class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white">Profil</a>
                     {% if is_granted('ROLE_ADMIN') %}
                         <div class="relative">
                             <button type="button" id="menu-button" class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white" aria-expanded="true" aria-haspopup="true">Administration</button>
