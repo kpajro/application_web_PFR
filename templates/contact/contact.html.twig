@@ -3,5 +3,8 @@
 {% block title %}Contact{% endblock %}
 
 {% block body %}
-
+    {{ form_start(form) }}
+        {{ form_row(form) }}
+        <button class="bg-blue-600 text-white py-2 px-4 rounded">Envoyer</button>
+    {{ form_end(form) }}
 {% endblock %}
