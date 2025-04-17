@@ -26,20 +26,17 @@ class CategoriesController extends AbstractController
     #[Route('/{id}/categorie', name: 'app_categorie')]
     public function listProducts(int $id, ProduitRepository $produitRepository, CategorieRepository $categorieRepository, Request $request): Response
     {
-        $filtre = $request->query->get('filtre', 'default');
-        $products = $produitRepository->findByCategory($id, $filtre);
+        $products = $produitRepository->findByCategory($id);
 
         $categories = $categorieRepository->findAll();
 
         return $this->render('categories/categorie.html.twig', [
             'produits' => $products,
-            'filtre' => $filtre,
             'categories' => $categories
         ]);
     }
     
-    // ~#Klaudiusz -> on peux faire mieux ? ~@leosu1
-    #[Route('/{id}/categorie/json', name: 'app_categorie_json', methods: ['GET'])]
+    /*#[Route('/{id}/categorie/json', name: 'app_categorie_json', methods: ['GET'])]
     public function listProductsToJson(int $id, ProduitRepository $produitRepository, CategorieRepository $categorieRepository, Request $request): JsonResponse 
     {
         $filtre = $request->query->get('filtre', 'default');
@@ -72,10 +69,8 @@ class CategoriesController extends AbstractController
             'filtre'=> $filtre,
             'categories'=> $categoriesArray
         ]);
-    }
+    }*/
 
-
-    // ce que je ferais #léo @klaudiusz
     #[Route('/categorie/{id}/produits/list', name: 'app_categorie_produits_json')]
     public function productListInJson(Categorie $categorie, ProduitRepository $produitRepo, Request $request): JsonResponse
     {
