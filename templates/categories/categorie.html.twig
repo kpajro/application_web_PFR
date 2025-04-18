@@ -4,23 +4,42 @@
 
 {% block body %}
     <h1>Produits de la catégorie</h1>
+    <div id="prixErreur" style="color: red;"></div>
+    <input id="recherche" type="text"></input>
+    <label for="ordreAlpha">Trier par nom :</label>
+    <select id="ordreAlpha">
+        <option value=""> Aucun tri </option>
+        <option value="asc">A → Z</option>
+        <option value="desc">Z → A</option>
+    </select>
+    <label for="prixMin">Prix min :</label>
+    <input id="prixMin" type="number"/>
+    <label for="prixMax">Prix max :</label>
+    <input id="prixMax" type="number"/>
     <div id="produits" class="produits">
     </div>
     <script>
-    const pathname = window.location.pathname.split('/')
+    const pathname = window.location.pathname.split("/")
     const categorieId = pathname[1]
 
-    let allProducts = []
+    let allProduits = []
 
     document.addEventListener("DOMContentLoaded", () => {
         fetch(`/categorie/${categorieId}/produits/list`)
             .then(res => res.json())
             .then(data => {
-                allProducts = data.produits
-                displayProducts(allProducts)
+                allProduits = data.produits
+                displayProducts(allProduits)
+                attachFilterListeners()
+                applyFilters()
             })
     })
-
+    function attachFilterListeners() {
+        document.getElementById("recherche").addEventListener("input", applyFilters)
+        document.getElementById("prixMin").addEventListener("input", applyFilters)
+        document.getElementById("prixMax").addEventListener("input", applyFilters)
+        document.getElementById('ordreAlpha').addEventListener("change", applyFilters)
+    }
     function displayProducts(produits) {
         const container = document.getElementById("produits")
         container.innerHTML = ""
@@ -45,6 +64,37 @@
                 <p>Prix : ${p.prix} €</p>`
             container.appendChild(div)
         })
+    }
+
+    function applyFilters() {
+        const rech = document.getElementById("recherche").value.toLowerCase()
+        const minPrix = parseFloat(document.getElementById("prixMin").value) || 0
+        const maxPrix = parseFloat(document.getElementById("prixMax").value) || Infinity
+        const ordreAlpha = document.getElementById("ordreAlpha").value
+        const erreurTxt = document.getElementById("prixErreur")
+
+        if (minPrix > maxPrix) {
+            erreurTxt.textContent = "Le prix minimum ne peut pas être supérieur au prix maximum."
+            return
+        } else {
+            erreurTxt.textContent = ""
+        }
+
+        let filtered = allProduits.filter(p => {
+            return (
+                (p.nom.toLowerCase().includes(rech) || p.description.toLowerCase().includes(rech)) &&
+                p.prix >= minPrix &&
+                p.prix <= maxPrix
+            )
+        })
+
+        if (ordreAlpha === "asc") {
+            filtered.sort((a, b) => a.nom.localeCompare(b.nom))
+        } else if (ordreAlpha === "desc") {
+            filtered.sort((a, b) => b.nom.localeCompare(a.nom))
+        }
+
+        displayProducts(filtered)
     }
     </script>
 {% endblock %}
