@@ -3,16 +3,36 @@
 {% block title %}Enregistrement{% endblock %}
 
 {% block body %}
+<div class="flex justify-center items-center h-screen bg-gray-100">
+    <div class="w-1/2 p-8 border border-gray-400 rounded-lg bg-gray-200">
+        <h1 class="text-2xl font-bold mb-8 text-center">Créer un compte</h1>
 
-    <h1>Enregistrement</h1>
+        <div class="bg-white p-6 rounded-lg shadow mb-6">
+            {{ form_start(registrationForm) }}
+                <div class="space-y-4">
+                    {{ form_row(registrationForm.email, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
+                    {{ form_row(registrationForm.firstname, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
+                    {{ form_row(registrationForm.name, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
+                    {{ form_row(registrationForm.birthday, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
+                    {{ form_row(registrationForm.phoneNumber, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
+                    {{ form_row(registrationForm.country, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
+                    {{ form_row(registrationForm.accountType) }}
+                    {{ form_row(registrationForm.plainPassword.first, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
+                    {{ form_row(registrationForm.plainPassword.second, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
+                    {{ form_row(registrationForm.agreeTerms) }}
+                </div>
 
-    {{ form_errors(registrationForm) }}
+                <button type="submit" class="w-full mt-6 p-3 bg-blue-500 text-white rounded hover:bg-blue-700">
+                    S'inscrire
+                </button>
+            {{ form_end(registrationForm) }}
+        </div>
 
-    {{ form_start(registrationForm) }}
-
-        {{ form_row(registrationForm) }}
-        <button type="submit" class="btn">S'enregistrer</button>
-        
-    {{ form_end(registrationForm) }}
-
+        <div class="text-center">
+            <a href="{{ path('app_login') }}" class="text-blue-500 hover:underline">
+                Déjà un compte ? Se connecter
+            </a>
+        </div>
+    </div>
+</div>
 {% endblock %}
