@@ -71,14 +71,15 @@ class CategoriesController extends AbstractController
         ]);
     }*/
 
-    #[Route('/categorie/{id}/produits/list', name: 'app_categorie_produits_json', methods: 'POST')]
+    #[Route('/categorie/{id}/produits/list', name: 'app_categorie_produits_json', methods: ['POST'])]
     public function productListInJson(Categorie $categorie, ProduitRepository $produitRepo, Request $request): JsonResponse
     {
         $filtres = [
             'prix_minimum' => $request->get('prixMin'),
             'prix_maximum' => $request->get('prixMax'),
             'order' => $request->get('orderBy'),
-            'asc' => $request->get('asc')
+            'asc' => $request->get('asc'),
+            'recherche' => $request->get('recherche')
         ];
 
         $produits = $produitRepo->findByCategoryAndFilter($categorie, $filtres);

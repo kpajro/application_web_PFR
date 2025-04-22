@@ -7,99 +7,20 @@
     copie la structure du fichier sur un controlleur qui existe déjà
     sépare ton code, une fonction par évènement, et invoque les évènements dans le twig avec l'attribut 'data-action="click->categorie#tonévènement"' #}
 
-
-    <h1 data-controller="categorie">Produits de la catégorie</h1>
-    <div id="prixErreur" style="color: red;"></div>
-    <input id="recherche" type="text"></input>
+<div data-controller="categorie">
+    <h1>Produits de la catégorie</h1>
+    <div data-categorie-target="erreur" style="color: red;"></div>
+    <input id="recherche" data-categorie-target="recherche" type="text" data-action="input->categorie#rechercher">
     <label for="ordreAlpha">Trier par nom :</label>
-    <select id="ordreAlpha">
+    <select id="ordreAlpha" data-categorie-target="ordreAlpha" data-action="change->categorie#tri">
         <option value=""> Aucun tri </option>
         <option value="asc">A → Z</option>
         <option value="desc">Z → A</option>
     </select>
     <label for="prixMin">Prix min :</label>
-    <input id="prixMin" type="number"/>
+    <input id="prixMin" data-categorie-target="prixMin" type="number" data-action="input->categorie#prix"/>
     <label for="prixMax">Prix max :</label>
-    <input id="prixMax" type="number"/>
-    <div id="produits" class="produits">
-    </div>
-    <script>
-    const pathname = window.location.pathname.split("/")
-    const categorieId = pathname[1]
-
-    let allProduits = []
-
-    document.addEventListener("DOMContentLoaded", () => {
-        fetch(`/categorie/${categorieId}/produits/list`)
-            .then(res => res.json())
-            .then(data => {
-                allProduits = data.produits
-                displayProducts(allProduits)
-                attachFilterListeners()
-                applyFilters()
-            })
-    })
-    function attachFilterListeners() {
-        document.getElementById("recherche").addEventListener("input", applyFilters)
-        document.getElementById("prixMin").addEventListener("input", applyFilters)
-        document.getElementById("prixMax").addEventListener("input", applyFilters)
-        document.getElementById('ordreAlpha').addEventListener("change", applyFilters)
-    }
-    function displayProducts(produits) {
-        const container = document.getElementById("produits")
-        container.innerHTML = ""
-        if(produits.length === 0){
-            const div = document.createElement("p")
-            div.textContent = "Aucun produit trouvé pour cette catégorie."
-            container.appendChild(div)
-            return
-        }
-
-        produits.forEach(p => {
-            const div = document.createElement("div")
-            div.className = "article"
-            div.innerHTML = 
-               `<img src="${p.image}" alt="${p.nom}" />
-                <h3>${p.nom}</h3>
-                <p>${p.description}</p>
-                <p>Note : ${p.note}</p>
-                <p>OS : ${p.os}</p>
-                <p>Éditeur : ${p.editeur}</p>
-                <p>Catégorie : ${p.categorie}</p>
-                <p>Prix : ${p.prix} €</p>`
-            container.appendChild(div)
-        })
-    }
-
-    function applyFilters() {
-        const rech = document.getElementById("recherche").value.toLowerCase()
-        const minPrix = parseFloat(document.getElementById("prixMin").value) || 0
-        const maxPrix = parseFloat(document.getElementById("prixMax").value) || Infinity
-        const ordreAlpha = document.getElementById("ordreAlpha").value
-        const erreurTxt = document.getElementById("prixErreur")
-
-        if (minPrix > maxPrix) {
-            erreurTxt.textContent = "Le prix minimum ne peut pas être supérieur au prix maximum."
-            return
-        } else {
-            erreurTxt.textContent = ""
-        }
-
-        let filtered = allProduits.filter(p => {
-            return (
-                (p.nom.toLowerCase().includes(rech) || p.description.toLowerCase().includes(rech)) &&
-                p.prix >= minPrix &&
-                p.prix <= maxPrix
-            )
-        })
-
-        if (ordreAlpha === "asc") {
-            filtered.sort((a, b) => a.nom.localeCompare(b.nom))
-        } else if (ordreAlpha === "desc") {
-            filtered.sort((a, b) => b.nom.localeCompare(a.nom))
-        }
-
-        displayProducts(filtered)
-    }
-    </script>
+    <input id="prixMax" data-categorie-target="prixMax" type="number" data-action="input->categorie#prix"/>
+    <div id="produits" class="produits" data-categorie-target="produits"></div>
+</div>
 {% endblock %}
