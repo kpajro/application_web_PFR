@@ -53,11 +53,12 @@ class BOProduitFormType extends AbstractType
                 'label' => 'Catégorie du produit',
                 'row_attr' => ['class' => 'admin-form-section']
             ])
-            ->add('image', FileType::class, [
+            ->add('images', FileType::class, [
                 'label' => 'Image du produit',
                 'required' => false,
                 'mapped' => false,
-                'row_attr' => ['class' => 'admin-form-section']
+                'row_attr' => ['class' => 'admin-form-section' ],
+                'multiple' => true
             ])
             ->add('os', ChoiceType::class, [
                 'choices' => [
