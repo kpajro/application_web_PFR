@@ -18,7 +18,7 @@
         {{ form_row(form.editeur) }}
         {{ form_row(form.prix) }}
         {{ form_row(form.categorie) }}
-        <div class="flex items-center gap-8">
+        <div class="flex items-center gap-15">
             <div class="admin-form-boolean">
                 {{ form_widget(form.isLimitedStock) }}
                 {{ form_label(form.isLimitedStock) }}
@@ -34,8 +34,8 @@
                 {{ form_row(form.stock) }}
             </div>
         </div>
-        <div class="flex items-center gap-8 ">
-            <div class="admin-form-boolean">
+        <div class="flex items-center gap-15">
+            <div class="admin-form-boolean transition-all">
                 {{ form_widget(form.isBulkSale) }}
                 {{ form_label(form.isBulkSale) }}
             </div>
