@@ -71,7 +71,7 @@ class CategoriesController extends AbstractController
         ]);
     }*/
 
-    #[Route('/categorie/{id}/produits/list', name: 'app_categorie_produits_json')]
+    #[Route('/categorie/{id}/produits/list', name: 'app_categorie_produits_json', methods: 'POST')]
     public function productListInJson(Categorie $categorie, ProduitRepository $produitRepo, Request $request): JsonResponse
     {
         $filtres = [
