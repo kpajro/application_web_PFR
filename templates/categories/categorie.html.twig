@@ -8,6 +8,7 @@
     sépare ton code, une fonction par évènement, et invoque les évènements dans le twig avec l'attribut 'data-action="click->categorie#tonévènement"' #}
 
 
+<<<<<<< HEAD
     <h1 data-controller="categorie">Produits de la catégorie</h1>
     <div id="prixErreur" style="color: red;"></div>
     <input id="recherche" type="text"></input>
@@ -22,6 +23,18 @@
     <label for="prixMax">Prix max :</label>
     <input id="prixMax" type="number"/>
     <div id="produits" class="produits">
+=======
+    <div class="produits">
+        {% for produit in produits %}
+            <div class="produit">
+                <h2><a href="{{ path('app_produit_view', {id: produit.id}) }}">{{ produit.nom }}</a></h2>
+                <p>{{ produit.description }}</p>
+                <p><strong>Prix :</strong> {{ produit.prix }} €</p>
+            </div>
+        {% else %}
+            <p>Aucun produit trouvé dans cette catégorie.</p>
+        {% endfor %}
+>>>>>>> a53d8ed68f409956c35bec3b510957409265bedf
     </div>
     <script>
     const pathname = window.location.pathname.split("/")

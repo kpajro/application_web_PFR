@@ -2,6 +2,10 @@
 
 namespace App\Security;
 
+use App\Entity\Panier;
+use App\Repository\UsersRepository;
+use App\Service\PanierHandler;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,8 +25,9 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
     use TargetPathTrait;
 
     public const LOGIN_ROUTE = 'app_login';
+    
 
-    public function __construct(private UrlGeneratorInterface $urlGenerator)
+    public function __construct(private UrlGeneratorInterface $urlGenerator, private UsersRepository $usersRepo, private EntityManagerInterface $em, private PanierHandler $panierHandler)
     {
     }
 
@@ -47,6 +52,36 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
+
+        $user = $this->usersRepo->findOneBy(['email' => $request->get('email')]);
+        $user->setLastLogIn(new \DateTimeImmutable('now'));
+        $paniers = $user->getPaniers();
+
+        if (!empty($paniers) && !$user->getPanierActif()) {
+            foreach ($paniers as $panier) {
+                if ($panier->getEtat() === 1) {
+                    $user->setPanierActif($panier);
+                    break;
+                }
+            }
+            
+            if ($user->getPanierActif() === null) {
+                $newPanier = new Panier($user);
+                $this->em->persist($newPanier);
+    
+                $user->addPanier($newPanier);
+                $user->setPanierActif($newPanier);
+            }
+        } elseif(empty($paniers)) {
+            $panier = new Panier($user);
+            $this->em->persist($panier);
+    
+            $user->addPanier($panier);
+            $user->setPanierActif($panier);
+        }
+
+        $this->em->persist($user);
+        $this->em->flush();
 
         // For example:
         return new RedirectResponse($this->urlGenerator->generate('app_index'));

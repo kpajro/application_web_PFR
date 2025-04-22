@@ -1,0 +1,25 @@
+<h1>Mon panier</h1>
+
+<ul>
+    {{ form_start(form) }}
+    {% for pp in panier.panierProduits %}
+        <li class="flex justify-between">
+            <div class="flex">
+                <h2>{{ pp.produit.nom }}</h2>
+                <div>
+                    {{ form_widget(attribute(form, pp.id)) }}
+                </div>
+            </div>
+            <div>
+                <h3>{{ pp.produit.prix }}€</h3>
+                <a href="{{ path('app_panier_remove_product', {produit: pp.produit.id}) }}">Retirer du panier</a>
+            </div>
+        </li>
+    {% else %}
+        <p>Votre panier est vide!</p>
+    {% endfor %}
+        <button type="submit">Enregistrer</button>
+    {{ form_end(form) }}
+
+    <p>{{ prixTotal }}€</p>
+</ul>
