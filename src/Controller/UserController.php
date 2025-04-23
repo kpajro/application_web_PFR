@@ -10,10 +10,9 @@ use App\Form\UserProfileFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Users;
 use App\Repository\UsersRepository;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-
-
 use Symfony\Component\Mailer\MailerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -22,56 +21,62 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 
 class UserController extends AbstractController
 {
-    #[Route('/profile/{id}', name: 'app_user_profile')]
-    public function profile(int $id, UsersRepository $usersRepo): Response
+    private $logger;
+    
+    public function __construct(LoggerInterface $logger)
     {
-        $user = $this->getUser();
-    
-        if (!$user) {
-            throw new AccessDeniedException('Vous devez être connecté pour voir ce profil.');
-        }
-    
-        $targetUser = $usersRepo->find($id);
-    
-        if (!$targetUser) {
-            throw new NotFoundHttpException('Utilisateur non trouvé');
-        }
-    
-        if ($user !== $targetUser) {
-            throw new AccessDeniedException('Vous ne pouvez accéder qu’à votre propre profil.');
+        $this->logger = $logger;
+    }
+
+    #[Route('/profile/{id}', name: 'app_user_profile')]
+    public function profile(Users $user): Response
+    {
+        $loggedUser = $this->getUser();
+        if (!$loggedUser || $loggedUser !== $user) {
+            throw new AccessDeniedException('Connexion au compte ciblé requise.');
         }
     
         return $this->render('user/profile.html.twig', [
-            'user' => $targetUser,
-            'form' => $this->createForm(UserProfileFormType::class, $targetUser)->createView()
+            'user' => $user,
+            'form' => $this->createForm(UserProfileFormType::class, $user)->createView()
         ]);
     }
     
     // Route pour le traitement du formulaire (AJAX ou POST depuis la modale)
-    #[Route('/profile/{id}/parametre', name: 'app_user_profile_update')]
-    public function updateProfile(int $id, Request $request, UsersRepository $usersRepo, EntityManagerInterface $em): Response
+    #[Route('/profile/{id}/parametre', name: 'app_profile_settings')]
+    public function updateProfile(Users $user, Request $request, EntityManagerInterface $em): Response
     {
-        $user = $this->getUser();
+        $loggedUser = $this->getUser();
     
-        if (!$user) {
-            throw new AccessDeniedException();
+        if (!$loggedUser || $user !== $loggedUser) {
+            throw new AccessDeniedException('Connexion au compte ciblé requise');
         }
     
-        $targetUser = $usersRepo->find($id);
-    
-        if (!$targetUser || $user !== $targetUser) {
-            throw new AccessDeniedException();
-        }
-    
-        $form = $this->createForm(UserProfileFormType::class, $targetUser);
+        $form = $this->createForm(UserProfileFormType::class, $loggedUser, [
+            'action' => $this->generateUrl('app_profile_settings', ['id' => $user->getId()])
+        ]);
         $form->handleRequest($request);
     
         if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($user);
             $em->flush();
             $this->addFlash('success', 'Profil mis à jour.');
+            
+            return $this->redirectToRoute('app_user_profile', ['id' => $user->getId()]);
         }
     
-        return $this->redirectToRoute('app_user_profile', ['id' => $id]);
+        return $this->render('/user/profileModale.html.twig', [
+            'user' => $user,
+            'form' => $form
+        ]);
+    }
+
+    #[Route('/profile/{id}/supprimer-mon-profil', name:'app_profile_delete_account')]
+    public function deleteAccount(Users $user, EntityManagerInterface $em, Request $resquest): Response
+    {
+        return $this->render('users/deleteProfile.html.twig', [
+            'user' => $user
+        ]);
     }
 
 
@@ -87,14 +92,8 @@ class UserController extends AbstractController
     //     return $this->render('commandes.html.twig');
     // }
 
-    private $logger;
 
-    public function __construct(LoggerInterface $logger)
-    {
-        $this->logger = $logger;
-    }
-
-    #[Route('/test-mail', name: 'test_mail')]
+   /*  #[Route('/test-mail', name: 'test_mail')]
     public function testMail(MailerInterface $mailer): Response
     {
         $email = (new TemplatedEmail())
@@ -111,5 +110,5 @@ class UserController extends AbstractController
         }
 
         return new Response('Email envoyé!');
-    }
+    }*/
 }
