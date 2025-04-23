@@ -72,10 +72,31 @@ class UserController extends AbstractController
     }
 
     #[Route('/profile/{id}/supprimer-mon-profil', name:'app_profile_delete_account')]
-    public function deleteAccount(Users $user, EntityManagerInterface $em, Request $resquest): Response
+    public function deleteAccount(Users $user, EntityManagerInterface $em, Request $request): Response
     {
-        return $this->render('users/deleteProfile.html.twig', [
-            'user' => $user
+        $loggedUser = $this->getUser();
+
+        if (!$loggedUser || $user !== $loggedUser) {
+            throw new AccessDeniedException('Connexion au compte ciblé requise');
+        }
+
+        $formBuilder = $this->createFormBuilder(null, [
+            'action' => $this->generateUrl('app_profile_delete_account', ['id' => $user->getId()])
+        ])
+        ;
+        $form = $formBuilder->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            $em->remove($user);
+            $em->flush();
+
+            return $this->redirectToRoute('app_index');
+        }
+        
+        return $this->render('user/delete-account.html.twig', [
+            'user' => $user,
+            'form'=> $form
         ]);
     }
 
