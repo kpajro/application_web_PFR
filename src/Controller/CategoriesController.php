@@ -5,6 +5,8 @@ use App\Entity\Categorie;
 use App\Repository\CategorieRepository;
 use App\Repository\ProduitRepository;
 use ContainerKKo5JGl\getProduitControllerviewProduitService;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,10 +31,45 @@ class CategoriesController extends AbstractController
         $products = $produitRepository->findByCategory($id);
 
         $categories = $categorieRepository->findAll();
+        $formBuilder = $this->createFormBuilder(
+            null,
+            ['action' => $this->generateUrl('app_categorie', ['id' => $id])]
+        );
+        $formBuilder->add('prixMin', NumberType::class, [
+                        'label' => 'Prix Min'
+                    ])
+                    ->add('prixMax', NumberType::class, [
+                        'label' => 'Prix Max'
+                    ])
+                    ->add('ordreAlpha', ChoiceType::class, [
+                        'label' => 'Ordre',
+                        'choices' => [
+                            'Prix' => 'prix',
+                        ],
+                        'multiple' => false,
+                        'expanded' => false,
+                        'placeholder' => 'Filtrez par'
+                    ])
+                    ->add('asc', ChoiceType::class, [
+                        'label' => "asc/desc",
+                        'choices' => [
+                            'asc' => true,
+                            'desc' => false,
+                        ],
+                        'multiple' => false,
+                        'expanded' => false,
+                        'placeholder' => '- - -'
+                        ])
+                    ->add('recherche')
+        ;
+
+        $form = $formBuilder->getForm();
+        $form->handleRequest($request);
 
         return $this->render('categories/categorie.html.twig', [
             'produits' => $products,
-            'categories' => $categories
+            'categories' => $categories,
+            'filterForm' => $form->createView()
         ]);
     }
     
@@ -74,6 +111,7 @@ class CategoriesController extends AbstractController
     #[Route('/categorie/{id}/produits/list', name: 'app_categorie_produits_json', methods: ['POST'])]
     public function productListInJson(Categorie $categorie, ProduitRepository $produitRepo, Request $request): JsonResponse
     {
+        dd($request);
         $filtres = [
             'prix_minimum' => $request->get('prixMin'),
             'prix_maximum' => $request->get('prixMax'),

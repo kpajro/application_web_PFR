@@ -65,7 +65,7 @@ class ProduitRepository extends ServiceEntityRepository
         $orderBy = $filtres['order'];
         $asc = $filtres['asc'];
         $recherche = $filtres['recherche'];
-        
+
         if ($prixMin !== null && $prixMin > 0) {
             $queryBuilder
                 ->andWhere('p.prix > :prixMin')
@@ -87,10 +87,11 @@ class ProduitRepository extends ServiceEntityRepository
                 ->orderBy('p.prix', 'DESC')
             ;
         }
-        if (!empty($recherche)) {
+        if ($recherche){
             $queryBuilder
-                ->andWhere('LOWER(p.nom) LIKE :rech OR LOWER(p.description) LIKE :rech')
-                ->setParameter('rech', '%' . strtolower($recherche) . '%');
+                ->andWhere('p.recherche LIKE :rech')
+                ->setParameter('rech', $recherche)
+            ;
         }
         
         return $queryBuilder->getQuery()->getResult();

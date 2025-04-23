@@ -7,20 +7,13 @@
     copie la structure du fichier sur un controlleur qui existe déjà
     sépare ton code, une fonction par évènement, et invoque les évènements dans le twig avec l'attribut 'data-action="click->categorie#tonévènement"' #}
 
-<div data-controller="categorie">
+<div>
     <h1>Produits de la catégorie</h1>
-    <div data-categorie-target="erreur" style="color: red;"></div>
-    <input id="recherche" data-categorie-target="recherche" type="text" data-action="input->categorie#rechercher">
-    <label for="ordreAlpha">Trier par nom :</label>
-    <select id="ordreAlpha" data-categorie-target="ordreAlpha" data-action="change->categorie#tri">
-        <option value=""> Aucun tri </option>
-        <option value="asc">A → Z</option>
-        <option value="desc">Z → A</option>
-    </select>
-    <label for="prixMin">Prix min :</label>
-    <input id="prixMin" data-categorie-target="prixMin" type="number" data-action="input->categorie#prix"/>
-    <label for="prixMax">Prix max :</label>
-    <input id="prixMax" data-categorie-target="prixMax" type="number" data-action="input->categorie#prix"/>
-    <div id="produits" class="produits" data-categorie-target="produits"></div>
+    <div class="fixed left-0">
+        {{ form_start(filterForm) }}
+        {{ form_end(filterForm) }}
+        <button type="button" data-action="click->categorie#submitted">Filtrer</button>
+    </div>
+    <div id="produits" class="produits"></div>
 </div>
 {% endblock %}
