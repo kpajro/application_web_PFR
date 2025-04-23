@@ -32,7 +32,8 @@ class BOUserEditFormType extends AbstractType
                         'match' => true,
                         'message' => 'L\'adresse e-mail doit finir par un nom de domaine valide (".fr", ".com", ".net", etc.).'
                     ])
-                ]
+                ],
+                'row_attr' => ['class' => 'admin-form-section']
             ])
             ->add('firstname', TextType::class, [
                 'label' => 'Prénom',
@@ -43,7 +44,8 @@ class BOUserEditFormType extends AbstractType
                         'minMessage' => 'Le prénom doit contenir au minimum 2 caractères.',
                         'minMessage' => 'Le prénom ne peut pas contenir plus de 50 caractères.'
                     ])
-                ]
+                ],
+                'row_attr' => ['class' => 'admin-form-section']
             ])
             ->add('name', TextType::class, [
                 'label' => 'Nom',
@@ -54,12 +56,14 @@ class BOUserEditFormType extends AbstractType
                         'minMessage' => 'Le nom de famille doit contenir au minimum 2 caractères.',
                         'minMessage' => 'Le nom de famille ne peut pas contenir plus de 50 caractères.'
                     ])
-                ]
+                ],
+                'row_attr' => ['class' => 'admin-form-section']
             ])
             ->add('birthday', DateType::class, [
                 'label' => 'Date de naissance',
                 'constraints' => [
-                ]
+                ],
+                'row_attr' => ['class' => 'admin-form-section']
             ])
             ->add('phoneNumber', TextType::class, [
                 'label' => 'Numéro de téléphone',
@@ -75,7 +79,8 @@ class BOUserEditFormType extends AbstractType
                         'match' => true,
                         'message' => 'Le numéro de téléphone ne peut contenir que des chiffres, des espaces et le caractère "+".'
                     ])
-                ]
+                ],
+                'row_attr' => ['class' => 'admin-form-section']
             ])
             ->add('country', ChoiceType::class, [
                 'label' => 'Pays de résidence',
@@ -87,7 +92,8 @@ class BOUserEditFormType extends AbstractType
                 ],
                 'multiple' => false,
                 'expanded' => false,
-                'placeholder' => 'Séléctionnez un pays de résidence.'
+                'placeholder' => 'Séléctionnez un pays de résidence.',
+                'row_attr' => ['class' => 'admin-form-section']
             ])
             ->add('accountType', ChoiceType::class, [
                 'label' => 'Type de compte',
@@ -96,7 +102,9 @@ class BOUserEditFormType extends AbstractType
                     'Compte pour particulier' => 2
                 ],
                 'multiple' => false,
-                'expanded' => true
+                'expanded' => true,
+                'row_attr' => ['class' => 'admin-form-section'],
+                'attr' => ['class' => 'admin-form-checks']
             ])
             ->add('roles', ChoiceType::class, [
                 'label' => "Rôles de l'utilisateur",
@@ -107,6 +115,8 @@ class BOUserEditFormType extends AbstractType
                 'required' => false,
                 'multiple' => true,
                 'expanded' => true,
+                'row_attr' => ['class' => 'admin-form-section'],
+                'attr' => ['class' => 'admin-form-checks']
             ])
         ;
     }
