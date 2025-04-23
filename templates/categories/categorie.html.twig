@@ -10,9 +10,14 @@
 <div>
     <h1>Produits de la catégorie</h1>
     <div class="fixed left-0">
-        {{ form_start(filterForm) }}
-        {{ form_end(filterForm) }}
-        <button type="button" data-action="click->categorie#submitted">Filtrer</button>
+    {{ form_start(filterForm, {'attr': {'data-controller': 'categorie','data-action': 'submit->categorie#submitted'}}) }}
+        {{ form_row(filterForm.prixMin) }}
+        {{ form_row(filterForm.prixMax) }}
+        {{ form_row(filterForm.ordreAlpha) }}
+        {{ form_row(filterForm.asc) }}
+        {{ form_row(filterForm.recherche) }}
+        <button type="submit">Filtrer</button>
+    {{ form_end(filterForm) }}
     </div>
     <div id="produits" class="produits"></div>
 </div>

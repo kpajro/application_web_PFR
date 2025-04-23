@@ -59,7 +59,6 @@ class ProduitRepository extends ServiceEntityRepository
             ->where('p.categorie = :categorie')
             ->setParameter('categorie', $categorie)
         ;
-
         $prixMin = $filtres['prix_minimum'];
         $prixMax = $filtres['prix_maximum'];
         $orderBy = $filtres['order'];
@@ -78,19 +77,15 @@ class ProduitRepository extends ServiceEntityRepository
                 ->setParameter('prixMax', $prixMax)
             ;
         }
-        if ($orderBy === 'prix' && $asc === 'true') {
+        if ($orderBy === 'prix' && $asc !== '') {
             $queryBuilder
-                ->orderBy('p.prix', 'ASC')
-            ;
-        } else if ($orderBy === 'prix' && $asc === 'false') {
-            $queryBuilder
-                ->orderBy('p.prix', 'DESC')
+                ->orderBy('p.prix', $asc === '1' ? 'ASC' : 'DESC')
             ;
         }
-        if ($recherche){
+        if (!empty($recherche)){
             $queryBuilder
-                ->andWhere('p.recherche LIKE :rech')
-                ->setParameter('rech', $recherche)
+                ->andWhere('LOWER(p.nom) LIKE :rech')
+                ->setParameter('rech', '%' . strtolower($recherche) . '%')
             ;
         }
         

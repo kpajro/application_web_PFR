@@ -5,13 +5,17 @@ use App\Entity\Categorie;
 use App\Repository\CategorieRepository;
 use App\Repository\ProduitRepository;
 use ContainerKKo5JGl\getProduitControllerviewProduitService;
+use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+
+use function PHPUnit\Framework\isInfinite;
 
 class CategoriesController extends AbstractController
 {
@@ -36,10 +40,15 @@ class CategoriesController extends AbstractController
             ['action' => $this->generateUrl('app_categorie', ['id' => $id])]
         );
         $formBuilder->add('prixMin', NumberType::class, [
-                        'label' => 'Prix Min'
+                        'label' => 'Prix Min',
+                        'required' => false,
+                        'empty_data' => 0
                     ])
                     ->add('prixMax', NumberType::class, [
-                        'label' => 'Prix Max'
+                        'label' => 'Prix Max',
+                        'required' => true,
+                        'data' => 10000,
+                        'empty_data' => 10000
                     ])
                     ->add('ordreAlpha', ChoiceType::class, [
                         'label' => 'Ordre',
@@ -48,7 +57,8 @@ class CategoriesController extends AbstractController
                         ],
                         'multiple' => false,
                         'expanded' => false,
-                        'placeholder' => 'Filtrez par'
+                        'placeholder' => 'Filtrez par',
+                        'required' => false
                     ])
                     ->add('asc', ChoiceType::class, [
                         'label' => "asc/desc",
@@ -58,9 +68,12 @@ class CategoriesController extends AbstractController
                         ],
                         'multiple' => false,
                         'expanded' => false,
-                        'placeholder' => '- - -'
+                        'placeholder' => '- - -',
+                        'required' => false
                         ])
-                    ->add('recherche')
+                    ->add('recherche', TextType::class, [
+                        'required' => false
+                    ])
         ;
 
         $form = $formBuilder->getForm();
@@ -111,13 +124,14 @@ class CategoriesController extends AbstractController
     #[Route('/categorie/{id}/produits/list', name: 'app_categorie_produits_json', methods: ['POST'])]
     public function productListInJson(Categorie $categorie, ProduitRepository $produitRepo, Request $request): JsonResponse
     {
-        dd($request);
+        $filtres = json_decode($request->getContent(), true);
+
         $filtres = [
-            'prix_minimum' => $request->get('prixMin'),
-            'prix_maximum' => $request->get('prixMax'),
-            'order' => $request->get('orderBy'),
-            'asc' => $request->get('asc'),
-            'recherche' => $request->get('recherche')
+            'prix_minimum' => $filtres['prixMin'] ?? null,
+            'prix_maximum' => $filtres['prixMax'] ?? null,
+            'order' => $filtres['ordreAlpha'] ?? null,
+            'asc' => $filtres['asc'] ?? null,
+            'recherche' => $filtres['recherche'] ?? null
         ];
 
         $produits = $produitRepo->findByCategoryAndFilter($categorie, $filtres);

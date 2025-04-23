@@ -6,35 +6,44 @@ export default class extends Controller {
         this.charger()
     }
 
-    // confirmation des filtres
-    confirmation(){
-        this.charger()
+    submitted(event){
+        event.preventDefault()
+
+        const form = event.target
+        const formData = new FormData(form)
+        
+        const json = {}
+        // je fais un regex dégeu pour enlever <form[>donnée<]>, faudra fix plutard
+        formData.forEach((value, key) => {
+            const k = key.replace(/^form\[(.+)\]$/, "$1")
+            json[k] = value
+        })
+        
+        this.charger(json)
     }
 
-    // recupération des données de la route categorie
-    charger(){
+    charger(filter = {}){
         fetch(`/categorie/${this.categorieId}/produits/list`, {
             method: "POST",
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "application/json"
             },
-            body: JSON.stringify("rien")
+            body: JSON.stringify(filter)
         })
-        .then(result => result.json())
-        .then(data => this.afficher(data.produits))
+        .then(res => res.json())
+        .then(data => {
+            //console.log(data.produits)
+            this.afficher(data.produits)
+        })
+        .catch(err => console.error("Erreur", err))
     }
 
-    submitted(){
-        
-    }
-
-    // affichage des produits filtrés
     afficher(produits) {
-        const box = this.produits
+        const box = document.getElementById("produits")
         box.innerHTML = ""
 
         if (produits.length === 0) {
-            box.innerHTML = "<p>Aucun produit trouvé pour cette catégorie.</p>"
+            box.innerHTML = "<p>Aucun produit trouvé.</p>"
             return
         }
 
@@ -42,12 +51,11 @@ export default class extends Controller {
             const div = document.createElement("div")
             div.className = "article"
             div.innerHTML = `
-              <img src="${p.image}" alt="${p.nom}" />
-              <h3>${p.nom}</h3>
-              <p>${p.description}</p>
-              <p>Prix : ${p.prix} €</p>`
-            
-            this.produits.appendChild(div)
+                <h3>${p.nom}</h3>
+                <p>${p.description}</p>
+                <p>Prix : ${p.prix} €</p>
+            `
+            box.appendChild(div)
         })
     }
 }
