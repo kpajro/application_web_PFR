@@ -44,5 +44,9 @@
             </tbody>
         </table>
     </div>
+
+    <div class="w-full border-t border-sky-200 shadow-[0px_-4px_6px] shadow-sky-300/50 fixed bottom-0 z-50 left-0 right-0 py-2 flex justify-center bg-indigo-50/50 backdrop-blur-sm gap-6">
+        <a href="{{ path('app_admin_users_inactivity_check') }}" class="rounded-md text-center bg-gradient-to-br from-rose-600 to-indigo-400 text-white border hover:border-indigo-100 hover:shadow-md hover:shadow-rose-500/50 p-2 hover:cursor-pointer transition-all active:-translate-y-1">Supprimer les utilisateurs inactifs &lpar;2ans&rpar;</a>
+    </div>
     
 {% endblock %}
