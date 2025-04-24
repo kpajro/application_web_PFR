@@ -15,12 +15,13 @@
     <body data-controller="modal">
         {% include "elements/navbar.html.twig" %}
         
-        <div class="w-4/5 mx-auto" id="container">
+        <div class="w-full md:w-4/5 lg:w-2/3 mx-auto p-4" id="container">
             {% block body %}{% endblock %}
         </div>
 
         {% block modale %}
             {% include "elements/modal.html.twig" %}
         {% endblock %}
+        {% include "elements/footer.html.twig" %}
     </body>
 </html>

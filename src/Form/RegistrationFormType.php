@@ -133,6 +133,15 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
+            ->add('consent', CheckboxType::class, [
+                'label' => "Je donne mon consentement",
+                'mapped' => false,
+                'constraints' => [
+                    new IsTrue([
+                        'message' => 'Vous devez donner votre consentement afin de compléter l\'inscription.',
+                    ]),
+                ],
+            ])
         ;
     }
 

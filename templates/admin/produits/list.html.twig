@@ -1,36 +1,65 @@
 {% extends "base.html.twig" %}
 
+{% block title %}Administration | Produits{% endblock %}
+
 {% block body %}
 
-<div class="flex justify-between">
-    <h1>Gestion des produits</h1>
-    <a href="{{ path('app_admin_home') }}">Retour au menu</a>
+<div class="mb-8 flex flex-col items-end">
+    <div class="w-fit flex flex-col items-end">
+        <h1 class="bo-page-ttl">Gestion des produits</h1>
+        <a class="text-end italic text-gray-600 hover:text-gray-400" href="{{ path('app_admin_home') }}">&lt; Retour au menu</a>
+    </div>
 </div>
 
 <div>
-    <div data-action="click->modal#open" data-modal-url="{{ path('app_admin_produits_create') }}">Ajouter un produit</div>
-    <table>
-        <thead>
-            <th>ID</th>
-            <th>Nom du produit</th>
-            <th>Description du produit</th>
-            <th>Prix</th>
-            <th>Catégorie</th>
-            <th>Image</th>
-        </thead>
-        <tbody>
-            {% for produit in produits %}
-                <tr data-action="click->modal#open" data-modal-url="{{ path('app_admin_produits_edit', {id: produit.id}) }}">
-                    <td>{{ produit.id }}</td>
-                    <td>{{ produit.nom }}</td>
-                    <td>{{ produit.description }}</td>
-                    <td>{{ produit.prix }}</td>
-                    <td>{{ produit.categorie.nom }}</td>
-                    <td>{{ produit.image }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="w-full border-t border-sky-200 shadow-[0px_-4px_6px] shadow-sky-300/50 fixed bottom-0 z-50 left-0 right-0 py-2 flex justify-center bg-indigo-50/50 backdrop-blur-sm">
+        <button data-action="click->modal#open" data-modal-url="{{ path('app_admin_produits_create') }}" class="rounded-md text-center bg-gradient-to-br from-sky-400 to-indigo-400 text-white border hover:border-indigo-100 hover:shadow-md hover:shadow-indigo-500/50 p-2 hover:cursor-pointer transition-all active:-translate-y-1">
+            Ajouter un produit
+        </button>
+    </div>
+
+    <div class="admin-table-parent" data-controller="tablesorter">
+        <table class="admin-table table tablesorter-init" id="tablesorter-init">
+            <thead>
+                <th class="w-15">ID</th>
+                <th>Nom du produit</th>
+                <th>Editeur</th>
+                <th>Catégorie</th>
+                <th class="w-25">Prix</th>
+                <th class="w-25">OS Compatibles</th>
+                <th class="w-25">Stock limité</th>
+                <th class="w-25">Vente par lot</th>
+                <th class="w-25">Langages</th>
+            </thead>
+            <tbody>
+                {% for produit in produits %}
+                    <tr data-action="click->modal#open" data-modal-url="{{ path('app_admin_produits_edit', {id: produit.id}) }}" class="modal-launcher">
+                        <td class="id">{{ produit.id }}</td>
+                        <td>{{ produit.nom }}</td>
+                        <td>{{ produit.editeur }}</td>
+                        <td>{{ produit.categorie.nom }}</td>
+                        <td>{{ produit.prix }} €</td>
+                        <td>{% for os in produit.os %} {{ os }}<br> {% endfor %}</td>
+                        <td>
+                            {% if produit.isLimitedStock %}
+                                <p class="py-1 px-2 bg-emerald-400/50 rounded-md">{{ produit.stock }}</p>
+                            {% else %}
+                                <p class="py-1 px-2 bg-rose-500/50 rounded-md">Non</p>    
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if produit.isBulkSale %}
+                                <p class="py-1 px-2 bg-emerald-400/50 rounded-md">{{ produit.bulkSize }}</p>
+                            {% else %}
+                                <p class="py-1 px-2 bg-rose-500/50 rounded-md">Non</p>    
+                            {% endif %}
+                        </td>
+                        <td>{% for langage in produit.langages %} {{ langage }}<br> {% endfor %}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 
 {% endblock %}

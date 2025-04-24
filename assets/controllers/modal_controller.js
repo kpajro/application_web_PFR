@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
     connect() {
-
+        
     }
 
     open(event) {
@@ -65,5 +65,73 @@ export default class extends Controller {
                 this.close(e, modal, box);
             }
         })
+    }
+
+    updateNavButtons () {
+        const contentDiv = document.getElementById('content');
+        const contentAmount = contentDiv.dataset.contentAmount;
+        const currentPosition = contentDiv.dataset.currentContent;
+        const leftBtn = document.getElementById('left');
+        const rightBtn = document.getElementById('right');
+
+        if (contentAmount === currentPosition) {
+            if (!leftBtn.classList.contains('activated')) {
+                leftBtn.classList.add('activated');
+            }
+            rightBtn.classList.remove('activated');
+        } else if (currentPosition <= 1) {
+            if (!rightBtn.classList.contains('activated')) {
+                rightBtn.classList.add('activated');
+            }
+            leftBtn.classList.remove('activated');
+        } else {
+            if (!rightBtn.classList.contains('activated')) {
+                rightBtn.classList.add('activated');
+            }
+            if (!leftBtn.classList.contains('activated')) {
+                leftBtn.classList.add('activated');
+            }
+        }
+    }
+
+    changeWindow(event) {
+        if (!event.currentTarget.classList.contains('activated')) {
+            return;
+        }
+
+        const currentPosition = document.getElementById('content').dataset.currentContent;
+        const contentAmount = document.getElementById('content').dataset.contentAmount;
+        const currentContent = document.getElementById(currentPosition);
+        
+        const direction = event.currentTarget.id;
+        const next = parseInt(currentPosition) + 1 <= parseInt(contentAmount) ? parseInt(currentPosition) + 1 : 1;
+        const previous = parseInt(currentPosition) - 1 >= 1 ? parseInt(currentPosition) - 1 : parseInt(contentAmount);
+        
+        if (direction === 'left') {
+            const newContent = document.getElementById(previous);
+            currentContent.classList.add('translate-x-[100rem]');
+            setTimeout(() => {
+                currentContent.classList.add('hidden-imp');
+                newContent.classList.remove('hidden-imp');
+                setTimeout(() => {
+                    newContent.classList.remove('-translate-x-[100rem]');
+                }, 5);
+            }, 150);           
+            document.getElementById('content').dataset.currentContent = newContent.id;
+        } else if (direction === 'right') {
+            const newContent = document.getElementById(next);
+            currentContent.classList.add('-translate-x-[100rem]');
+            setTimeout(() => {
+                currentContent.classList.add('hidden-imp');
+                newContent.classList.remove('hidden-imp');
+                setTimeout(() => {
+                    newContent.classList.remove('translate-x-[100rem]');
+                }, 5);
+            }, 150);           
+            document.getElementById('content').dataset.currentContent = newContent.id;
+        }
+
+
+        this.updateNavButtons();
     }
 }

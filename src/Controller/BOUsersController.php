@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Users;
 use App\Form\BOUserEditFormType;
 use App\Repository\UsersRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -58,6 +59,25 @@ class BOUsersController extends AbstractController
     public function userDelete(Users $user, EntityManagerInterface $em) : Response
     {
         $em->remove($user);
+        $em->flush();
+
+        return $this->redirectToRoute('app_admin_users_list');
+    }
+
+    #[Route('/check-user-inactivity', name:'app_admin_users_inactivity_check')]
+    public function checkInactivity(UsersRepository $userRepo, EntityManagerInterface $em): Response
+    {
+        $users = $userRepo->findAll();
+
+        foreach ($users as $user) {
+            $lastLogin = $user->getLastLogIn();
+            $currentDate = new \DateTimeImmutable();
+
+            $diff = date_diff($lastLogin, $currentDate);
+            if ($diff->y >= 2) {
+                $em->remove($user);
+            }
+        }
         $em->flush();
 
         return $this->redirectToRoute('app_admin_users_list');
