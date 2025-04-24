@@ -12,6 +12,6 @@
             <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-md"> Enregistrer </button>
         </form>
     {% else %}
-        <p class="text-center text-gray-700 text-lg mx-auto max-w-3xl">{{ about.description }}</p>
+        <p class="text-center text-gray-700 text-lg mx-auto max-w-3xl">{{ about.description ?? "Aucune description n'a encore été enregistrée." }}</p>
     {% endif %}
 {% endblock %}

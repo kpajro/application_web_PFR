@@ -51,6 +51,7 @@ export default class extends Controller {
             const div = document.createElement("div")
             div.className = "article"
             div.innerHTML = `
+                <img src="${p.img}" alt="${p.nom}">
                 <h3>${p.nom}</h3>
                 <p>${p.description}</p>
                 <p>Prix : ${p.prix} €</p>

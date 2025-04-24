@@ -3,11 +3,13 @@
 {% block body %}
 <div class="p-4">
     {% for categorie in categories %}
-    <h2 class="max-w-md mx-auto">RGPD</h2>
+    {% if categories is empty %}
+        <p class="text-center text-gray-700 text-lg mx-auto max-w-3xl">Aucune question trouvée.</p>
+    {% endif %}
         <ul>
             {% for i in 0..(categorie.questions|length - 1) %}
                 <li class="max-w-md mx-auto">
-                    <strong> Question :</strong> {{ categorie.questions[i] }}<br>
+                    <strong> Question :</strong> {{ categorie.questions[i] ?? 'Pas de question disponible' }}<br>
                     <em> Réponse :</em> {{ categorie.reponses[i] ?? 'Pas de réponse disponible' }}
                 </li>
             {% endfor %}
