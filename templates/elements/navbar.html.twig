@@ -5,17 +5,17 @@
                 <a href="{{ url('app_index') }}" class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white">Page Accueil</a>
                 <a href="{{ path('app_categories_list') }}" class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white">Catégories</a>
             </div>
-            <div class="flex justify-between">
+            <div class="flex justify-between items-center">
                 {% if app.user %}
                     <a href="{{ path('app_user_profile') }}" class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white">Profil</a>
                     {% if is_granted('ROLE_ADMIN') %}
                         <div class="relative">
-                            <button type="button" id="menu-button" class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white" aria-expanded="true" aria-haspopup="true">Administration</button>
+                            <a href="{{ path('app_admin_home') }}" id="menu-button" class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white" aria-expanded="true" aria-haspopup="true">Administration</a>
                             <div id="dropdown-menu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-                                <a href="{{ path('app_admin_home') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="menu-item-0">Panneau Admin</a>
-                                <a href="{{ path('app_admin_users_list') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="menu-item-1">Panneau Users</a>
-                                <a href="{{ path('app_admin_categories_list') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="menu-item-2">Panneau Catégories</a>
-                                <a href="{{ path('app_admin_produits_list') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="menu-item-2">Panneau Produits</a>
+                                <a href="{{ path('app_admin_users_list') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="menu-item-1">Gérer les utilisateurs</a>
+                                <a href="{{ path('app_admin_categories_list') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="menu-item-2">Gérer les catégories</a>
+                                <a href="{{ path('app_admin_produits_list') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="menu-item-2">Gérer les produits</a>
+                                <a href="{{ path('app_admin_paniers_list') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="menu-item-2">Gérer les paniers</a>
                             </div>
                         </div>
                     {% endif %}
@@ -30,7 +30,7 @@
 </nav>
 
 <script>
-  document.getElementById("menu-button").addEventListener("click", function () {
+  document.getElementById("menu-button").addEventListener("mouseover", function () {
     document.getElementById("dropdown-menu").classList.toggle("hidden")
   })
   document.addEventListener("click", function (evt) {

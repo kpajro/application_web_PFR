@@ -29,9 +29,6 @@ class Produit
     #[ORM\JoinColumn(nullable: false)]
     private ?Categorie $categorie = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $image = null;
-
     #[ORM\Column(type: Types::ARRAY, nullable: true)]
     private ?array $os = null;
 
@@ -64,6 +61,9 @@ class Produit
      */
     #[ORM\OneToMany(targetEntity: PanierProduits::class, mappedBy: 'produit', orphanRemoval: true, cascade:['persist'])]
     private Collection $panierProduits;
+
+    #[ORM\Column(nullable: true)]
+    private ?array $images = null;
 
     public function __construct()
     {
@@ -119,18 +119,6 @@ class Produit
     public function setCategorie(?Categorie $categorie): static
     {
         $this->categorie = $categorie;
-
-        return $this;
-    }
-
-    public function getImage(): ?string
-    {
-        return $this->image;
-    }
-
-    public function setImage(?string $image): static
-    {
-        $this->image = $image;
 
         return $this;
     }
@@ -269,6 +257,18 @@ class Produit
                 $panierProduit->setProduit(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getImages(): ?array
+    {
+        return $this->images;
+    }
+
+    public function setImages(?array $images): static
+    {
+        $this->images = $images;
 
         return $this;
     }

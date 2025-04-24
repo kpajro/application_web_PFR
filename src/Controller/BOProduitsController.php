@@ -7,6 +7,7 @@ use App\Form\BOProduitFormType;
 use App\Repository\ProduitRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,10 +41,10 @@ class BOProduitsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $image = $form->get('image')->getData();
+            $images = $form->get('images')->getData();
 
-            if ($image) {
-                $this->handleImages($image, $slugger, $produit);
+            if ($images) {
+                $this->handleImages($images, $slugger, $produit);
             }
 
             $prCategorie = $produit->getCategorie();
@@ -56,10 +57,11 @@ class BOProduitsController extends AbstractController
             return $this->redirectToRoute('app_admin_produits_list');
         }
 
-        return $this->render('elements/form_backoffice.html.twig', [
+        return $this->render('admin/produits/form.html.twig', [
             'form' => $form,
             'title' => 'Création de produit',
-            'btnAction' => 'Créer'
+            'btnAction' => 'Créer',
+            'action' => 'ajout'
         ]);
     }
 
@@ -84,10 +86,11 @@ class BOProduitsController extends AbstractController
             return $this->redirectToRoute('app_admin_produits_list');
         }
 
-        return $this->render('elements/form_backoffice.html.twig', [
+        return $this->render('admin/produits/form.html.twig', [
             'form' => $form,
-            'title' => 'Modification du produit "' . $produit->getNom() . '".',
+            'action' => 'modif',
             'btnAction' => 'Enregistrer',
+            'produit' => $produit,
             'deletable' => true,
             'deleteAction' => 'Supprimer le produit',
             'deleteWarning' => 'Êtes-vous sûr(e) de vouloir supprimer "' . $produit->getNom() . '" ? Cette action est irréversible.',
@@ -108,17 +111,22 @@ class BOProduitsController extends AbstractController
         return $this->redirectToRoute('app_admin_produits_list');
     }
 
-    public function handleImages(UploadedFile $image, SluggerInterface $slugger, Produit $produit)
+    public function handleImages(array $images, SluggerInterface $slugger, Produit $produit)
     {
+        $filesystem = new Filesystem();
         $timestamp = date('YmdHis');
-        $cleanFileName = $slugger->slug($produit->getNom()) . '_' . $timestamp . '.' . $image->guessExtension();
+        $imageNames = [];
+        foreach ($images as $image) {
+            $cleanFileName = $slugger->slug($produit->getNom()) . '_' . $timestamp . '.' . $image->guessExtension();
 
-        try {
-            $image->move('uploadedFiles/productImages/' . $slugger->slug($produit->getCategorie()->getNom()) . '/', $cleanFileName);
-        } catch (FileException $e) {
+            try {
+                $image->move('uploadedFiles/productImages/' . $slugger->slug($produit->getCategorie()->getNom()) . '/', $cleanFileName);
+            } catch (FileException $e) {
 
+            }
+            $imageNames[] = $cleanFileName;
         }
 
-        $produit->setImage($cleanFileName);
+        $produit->setImages($imageNames);
     }
 }

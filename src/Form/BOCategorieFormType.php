@@ -21,7 +21,8 @@ class BOCategorieFormType extends AbstractType
                         'min' => 3,
                         'max' => 100
                     ])
-                ]
+                    ],
+                    'row_attr' => ['class' => 'admin-form-section']
             ])
         ;
     }

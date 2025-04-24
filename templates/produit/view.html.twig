@@ -1,9 +1,35 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-
-<h1 class="text-2xl font-bold text-end">{{ produit.nom }}</h1>
-<div>
-    <a href="{{ path('app_panier_add_product', {produit: produit.id}) }}">Ajouter au panier</a>
+<div class="p-3 my-4 mx-auto rounded-lg bg-indigo-200">
+    <h1 class="text-2xl font-bold">{{ produit.nom }}</h1>
 </div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div>
+        {% if produit.image %}
+            <img src="{{asset('uploadedFiles/' ~ produit.categorie.nom ~ '/' ~ produit.image)}}" alt="">
+        {% endif %}
+    </div>
+    <div id="main-info">
+        <ul>
+            <li>Édité par : {{ produit.editeur }}</li> 
+            <li>Note : {{ produit.note }} / 5</li>
+            <li>{{ produit.description }}</li>
+        </ul>
+    </div>
+    <div class="md:col-span-2 lg:col-span-1">
+        <p class="font-bold text-2xl text-center text-gray-900 my-2">{{ produit.prix }}€</p>
+        {% if produit.isBulkSale %}
+            <p class="italic text-sm text-gray-700 text-center mb-1">Se vend par lot de {{ produit.bulkSize }} &lpar;{{ produit.prix * produit.bulkSize }}€/lot).</p>
+        {% endif %}
+        <a href="{{ path('app_panier_add_product', {produit: produit.id}) }}" class="mt-4 rounded-xl text-center bg-gradient-to-br from-sky-400 to-indigo-400 text-white border hover:border-indigo-100 hover:shadow-md hover:shadow-indigo-500/50 p-5 text-lg hover:cursor-pointer transition-all active:-translate-y-1 mx-auto w-full">Ajouter au panier</a>
+    </div>
+</div>
+
+<div>
+
+</div>
+
+
 {% endblock %}
