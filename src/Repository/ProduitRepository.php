@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Categorie;
 use App\Entity\Produit;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -41,19 +42,53 @@ class ProduitRepository extends ServiceEntityRepository
     //        ;
     //    }
     
-    // recherche des produits par catégorie + ordre par prix
-    public function findByCategory(int $categoryId, string $filtre = 'default'){
+    // recherche des produits par catégorie
+    public function findByCategory(int $categorie){
         $qb = $this->createQueryBuilder('p')
-            ->join('p.categorie', 'c')
-            ->where('c.id = :categoryId')
-            ->setParameter('categoryId', $categoryId);
-
-        if ($filtre === 'prix') {
-            $qb->orderBy('p.prix', 'ASC');
-        } else if ($filtre === 'alphabet') {
-            $qb->orderBy('p.nom', 'ASC');
-        }
+        ->select('p.id, p.nom, p.description, p.prix, p.image')
+        ->where('p.categorie = :categorie')
+        ->setParameter('categorie', $categorie);
 
         return $qb->getQuery()->getResult();
+    }
+
+    public function findByCategoryAndFilter(Categorie $categorie, array $filtres)
+    {
+        $queryBuilder = $this->createQueryBuilder('p')
+            ->select('p.id, p.nom, p.description, p.prix, p.image')
+            ->where('p.categorie = :categorie')
+            ->setParameter('categorie', $categorie)
+        ;
+        $prixMin = $filtres['prix_minimum'];
+        $prixMax = $filtres['prix_maximum'];
+        $orderBy = $filtres['order'];
+        $asc = $filtres['asc'];
+        $recherche = $filtres['recherche'];
+
+        if ($prixMin !== null && $prixMin > 0) {
+            $queryBuilder
+                ->andWhere('p.prix > :prixMin')
+                ->setParameter('prixMin', $prixMin)
+            ;
+        }
+        if ($prixMax !== null && $prixMax < 5000) {       // valeur 5000 à changer avec le prix le plus haut qu'on aie
+            $queryBuilder
+                ->andWhere('p.prix < :prixMax')
+                ->setParameter('prixMax', $prixMax)
+            ;
+        }
+        if ($orderBy === 'prix' && $asc !== '') {
+            $queryBuilder
+                ->orderBy('p.prix', $asc === '1' ? 'ASC' : 'DESC')
+            ;
+        }
+        if (!empty($recherche)){
+            $queryBuilder
+                ->andWhere('LOWER(p.nom) LIKE :rech')
+                ->setParameter('rech', '%' . strtolower($recherche) . '%')
+            ;
+        }
+        
+        return $queryBuilder->getQuery()->getResult();
     }
 }

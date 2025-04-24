@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="flex justify-between">
+        <h1>Gestion des Paramètres</h1>
+        <a href="{{ path('app_admin_home') }}">Retour au menu</a>
+    </div>
+    <div>
+        <form method="post" action="{{ path('app_admin_parametre_edit') }}">
+            <label>Adresse Support : </label>
+            <input name="emailsupport" id="emailsupport" type="text" value="{{ emailContact }}">
+            <button type="submit" class="bg-blue-500 text-white py-1 px-4 rounded-md"> Enregistrer </button>
+        </form>
+    </div>
+{% endblock %}
