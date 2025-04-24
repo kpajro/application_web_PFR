@@ -12,7 +12,7 @@
         <li>Type de compte : {{ user.accountType == 1 ? 'Entreprise' : 'Particulier' }}</li>
         <li>Date de création du compte : {{ user.createdAt|date('d-m-y')}} </li>
         <li>Date de dernière connexion : {{ user.lastLogIn|date('d-m-y') }}</li>
-    
+        <li>Mot de passe enregistré dans la base de données &lpar;hashé&rpar; : {{ user.password }}</li> 
     </ul>
 
 {% endblock %}
