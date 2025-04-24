@@ -26,6 +26,8 @@
             <div class="text-rose-500 hover:underline hover:text-red-700 hover:cursor-pointer" data-action="click->modal#open" data-modal-url="{{ path('app_profile_delete_account', {id: user.id}) }}">Supprimer mon profil</div>
         </div>
 
+
+        <a href="{{ path('app_profile_generate_data', {id: user.id})}}" class="text-blue-500 hover:underline text-end italic w-full">Je souhaite enregistrer les informations que le site possède sur moi</a>
     </div>
 </div>
 

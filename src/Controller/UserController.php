@@ -9,15 +9,12 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Form\UserProfileFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Users;
-use App\Repository\UsersRepository;
-use Doctrine\ORM\EntityManager;
+use Dompdf\Dompdf;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Mailer\MailerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-
-
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class UserController extends AbstractController
 {
@@ -98,6 +95,29 @@ class UserController extends AbstractController
             'user' => $user,
             'form'=> $form
         ]);
+    }
+
+    #[Route('/profile/{id}/generer-données', name: 'app_profile_generate_data')]
+    public function generateData(Users $user,  SluggerInterface $slugger): Response
+    {
+        $loggedUser = $this->getUser();
+        if (!$loggedUser || $loggedUser !== $user) {
+            throw new AccessDeniedException('Connexion au compte ciblé requise.');
+        }
+
+        $html = $this->renderView('/user/user-data.html.twig', [
+            'user' => $user
+        ]);
+        $filename = $slugger->slug($user->getName()) . '_' . $slugger->slug($user->getFirstname()) . '-data.pdf';
+        $pdf = new Dompdf();
+        $pdf->loadHtml($html);
+        $pdf->render();
+
+        return new Response(
+            $pdf->stream($filename, []),
+            Response::HTTP_OK,
+            ['Content-Type' => 'application/pdf']
+        );
     }
 
 
