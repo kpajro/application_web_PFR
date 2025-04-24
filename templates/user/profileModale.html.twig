@@ -1,0 +1,39 @@
+<h2 class="text-xl font-bold mb-4">Modifier mon profil</h2>
+
+{{ form_start(form) }}
+    <div class="mb-4">
+        {{ form_label(form.name) }}
+        {{ form_widget(form.name) }}
+        {% for error in form.name.vars.errors %}
+            <div class="text-red-500">{{ error.message }}</div>
+        {% endfor %}
+    </div>
+    <div class="mb-4">
+        {{ form_label(form.firstname) }}
+        {{ form_widget(form.firstname) }}
+        {% for error in form.firstname.vars.errors %}
+            <div class="text-red-500">{{ error.message }}</div>
+        {% endfor %}
+    </div>
+    <div class="mb-4">
+        {{ form_label(form.phoneNumber) }}
+        {{ form_widget(form.phoneNumber) }}
+    </div>
+    <div class="mb-4">
+        {{ form_label(form.email) }}
+        {{ form_widget(form.email) }}
+    </div>
+    <div class="mb-4">
+        {{ form_label(form.country) }}
+        {{ form_widget(form.country) }}
+    </div>
+    <div class="mb-4">
+        {{ form_label(form.birthday) }}
+        {{ form_widget(form.birthday) }}
+    </div>
+
+    <div class="flex justify-between">
+        <button type="submit" class="p-2 bg-blue-500 text-white rounded hover:bg-blue-700">Enregistrer</button>
+        <button class="p-2 bg-red-500 text-white rounded hover:bg-red-700 close-modal">Annuler</button>
+    </div>
+{{ form_end(form) }}

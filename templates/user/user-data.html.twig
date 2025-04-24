@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" >
+    <title>Données</title>
+</head>
+<body>
+    <div>
+        <h1 class="font-bold mb-4">Données de {{ user.name }} {{ user.firstname }}</h1>
+        <ul class="flex flex-row justify-start gap-3">
+            <li>ID enregistré dans la base de données : {{ user.id }}</li>
+            <li>Nom : {{ user.name }}</li>
+            <li>Prénom : {{ user.firstname }}</li>
+            <li>Pays de résidence : {{ user.country }}</li>
+            <li>Numéro de téléphone : {{ user.phoneNumber }}</li>
+            <li>Type de compte : {{ user.accountType == 1 ? 'Entreprise' : 'Particulier' }}</li>
+            <li>Date de création du compte : {{ user.createdAt|date('d-m-y')}} </li>
+            <li>Date de dernière connexion : {{ user.lastLogIn|date('d-m-y') }}</li>
+            <li>Mot de passe enregistré dans la base de données &lpar;hashé&rpar; : {{ user.password }}</li> 
+        </ul>
+    </div>
+</body>
+</html>
