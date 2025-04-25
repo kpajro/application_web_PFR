@@ -1,25 +1,27 @@
-<h1>Mon panier</h1>
+<div class="flex mb-2 justify-between bg-gradient-to-br from-indigo-900 to-indigo-500 text-white p-3 rounded-lg items-center">
+    <div>
+        <h1 class="font-medium text-lg">Mon panier</h1>
+    </div>
+    <p class="close-modal text-white/70 py-1 px-4 bg-black/20 hover:bg-black/45 hover:text-white text-lg rounded-lg transition-all hover:cursor-pointer hover:shadow-sm">&times;</p>
+</div>
 
-<ul>
-    {{ form_start(form) }}
-    {% for pp in panier.panierProduits %}
-        <li class="flex justify-between">
-            <div class="flex">
-                <h2>{{ pp.produit.nom }}</h2>
-                <div>
-                    {{ form_widget(attribute(form, pp.id)) }}
+<div>
+    <h3 class="font-medium mb-3">Produits dans le panier &lpar;{{ panier.produits|length }}&rpar; :</h3>
+    <ul class="min-h-40 max-h-9/12 overflow-y-scroll rounded-lg p-2 mb-3">
+        {% for pp in panier.panierProduits %}
+            <li class="flex justify-between text-sm items-center">
+                <div class="flex">
+                    <a href="{{ path('app_produit_view', {id: pp.produit.id}) }}" class="text-indigo-700 hover:underline hover:cursor-pointer">{{ pp.produit.nom }} &lpar;{{ pp.produit.prix }} €&rpar;</a>
+                    <p class="text-gray-700 italic ml-4">&times; {{ pp.amount }}</p>
                 </div>
-            </div>
-            <div>
-                <h3>{{ pp.produit.prix }}€</h3>
-                <a href="{{ path('app_panier_remove_product', {produit: pp.produit.id}) }}">Retirer du panier</a>
-            </div>
-        </li>
-    {% else %}
-        <p>Votre panier est vide!</p>
-    {% endfor %}
-        <button type="submit">Enregistrer</button>
-    {{ form_end(form) }}
-
-    <p>{{ prixTotal }}€</p>
-</ul>
+                <p class="rounded-md bg-indigo-50/70 p-2">Prix : {{ pp.produit.prix * pp.amount}} €</p>
+            </li>
+            <hr class="w-11/12 opacity-70 mt-2 mb-4 mx-auto">
+        {% else %}
+            <li class="italic text-center">
+                Aucun produit dans votre panier.
+            </li>       
+        {% endfor %}
+    </ul>
+</div>
+    <p class="text-end font-medium">Prix total : {{ prixTotal }}€</p>
