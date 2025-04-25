@@ -3,23 +3,32 @@
 {% block title %}Enregistrement{% endblock %}
 
 {% block body %}
-<div class="flex justify-center items-center h-screen bg-gray-100">
-    <div class="w-1/2 p-8 border border-gray-400 rounded-lg bg-gray-200">
+
+    <div class="w-full  p-8 border border-gray-400 rounded-lg bg-gray-200">
         <h1 class="text-2xl font-bold mb-8 text-center">Créer un compte</h1>
 
         <div class="bg-white p-6 rounded-lg shadow mb-6">
             {{ form_start(registrationForm) }}
-                <div class="space-y-4">
+                <div class="space-y-4 grid grid-cols-1 md:grid-cols-2 gap-3">
                     {{ form_row(registrationForm.email, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
                     {{ form_row(registrationForm.firstname, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
                     {{ form_row(registrationForm.name, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
                     {{ form_row(registrationForm.birthday, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
                     {{ form_row(registrationForm.phoneNumber, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
                     {{ form_row(registrationForm.country, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
-                    {{ form_row(registrationForm.accountType) }}
-                    {{ form_row(registrationForm.plainPassword.first, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
-                    {{ form_row(registrationForm.plainPassword.second, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
-                    {{ form_row(registrationForm.agreeTerms) }}
+                    {{ form_row(registrationForm.accountType, {'attr': {'class': 'md:col-span-2 flex justify-center items-center'}}) }}
+                    <div class="md:col-span-2">
+                        {{ form_row(registrationForm.plainPassword.first, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
+                        {{ form_row(registrationForm.plainPassword.second, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
+                    </div>
+                    <div id="consent" class="md:col-span-2 flex justify-start items-center">
+                        {{ form_widget(registrationForm.consent) }} 
+                        {{ form_label(registrationForm.consent) }}
+                    </div>
+                    <div id="agree-terms" class="md:col-span-2 flex justify-start items-center">
+                        {{ form_widget(registrationForm.agreeTerms) }} 
+                        {{ form_label(registrationForm.agreeTerms) }}
+                    </div>
                 </div>
 
                 <button type="submit" class="w-full mt-6 p-3 bg-blue-500 text-white rounded hover:bg-blue-700">
@@ -34,5 +43,4 @@
             </a>
         </div>
     </div>
-</div>
 {% endblock %}
