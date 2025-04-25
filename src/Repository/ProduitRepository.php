@@ -45,7 +45,7 @@ class ProduitRepository extends ServiceEntityRepository
     // recherche des produits par catégorie
     public function findByCategory(int $categorie){
         $qb = $this->createQueryBuilder('p')
-        ->select('p.id, p.nom, p.description, p.prix, p.image')
+        ->select('p.id, p.nom, p.description, p.prix')
         ->where('p.categorie = :categorie')
         ->setParameter('categorie', $categorie);
 
@@ -55,7 +55,7 @@ class ProduitRepository extends ServiceEntityRepository
     public function findByCategoryAndFilter(Categorie $categorie, array $filtres)
     {
         $queryBuilder = $this->createQueryBuilder('p')
-            ->select('p.id, p.nom, p.description, p.prix, p.image')
+            ->select('p.id, p.nom, p.description, p.prix')
             ->where('p.categorie = :categorie')
             ->setParameter('categorie', $categorie)
         ;
