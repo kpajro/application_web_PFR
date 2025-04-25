@@ -68,7 +68,8 @@ class RegistrationFormType extends AbstractType
                 'label' => 'Date de naissance',
                 'constraints' => [
                 ],
-                'label_attr' => ['font-semibold']
+                'label_attr' => ['font-semibold'],
+                'required' => false
             ])
             ->add('phoneNumber', TextType::class, [
                 'label' => 'Numéro de téléphone',
@@ -85,7 +86,8 @@ class RegistrationFormType extends AbstractType
                         'message' => 'Le numéro de téléphone ne peut contenir que des chiffres, des espaces et le caractère "+".'
                     ])
                     ],
-                'label_attr' => ['font-semibold']
+                'label_attr' => ['font-semibold'],
+                'required' => false
             ])
             ->add('country', ChoiceType::class, [
                 'label' => 'Pays de résidence',
@@ -98,7 +100,8 @@ class RegistrationFormType extends AbstractType
                 'multiple' => false,
                 'expanded' => false,
                 'placeholder' => 'Séléctionnez votre pays de résidence.',
-                'label_attr' => ['font-semibold']
+                'label_attr' => ['font-semibold'],
+                'required' => false
             ])
             ->add('accountType', ChoiceType::class, [
                 'label' => 'Type de compte',
@@ -144,7 +147,7 @@ class RegistrationFormType extends AbstractType
                 'attr' => ['class' => 'w-fit']
             ])
             ->add('consent', CheckboxType::class, [
-                'label' => "Je donne mon consentement",
+                'label' => "Je consente à ce que mes données soient utilisées à des fins commerciales et marketing",
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
