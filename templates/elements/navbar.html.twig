@@ -6,6 +6,7 @@
                 <a href="{{ path('app_categories_list') }}" class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white">Catégories</a>
             </div>
             <div class="flex justify-between items-center">
+                <div data-action="click->modal#open" data-modal-url="{{ path('app_panier_view') }}" class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white hover:cursor-pointer">Voir mon panier</div>
                 {% if app.user %}
                     <a href="{{ path('app_user_profile', { id: app.user.id }) }}" class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white">Profil</a>
                     {% if is_granted('ROLE_ADMIN') %}
