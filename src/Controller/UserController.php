@@ -14,6 +14,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Mailer\MailerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class UserController extends AbstractController
@@ -69,7 +70,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/profile/{id}/supprimer-mon-profil', name:'app_profile_delete_account')]
-    public function deleteAccount(Users $user, EntityManagerInterface $em, Request $request): Response
+    public function deleteAccount(Users $user, EntityManagerInterface $em, Request $request, TokenStorageInterface $tokenStorage): Response
     {
         $loggedUser = $this->getUser();
 
@@ -85,9 +86,28 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
+            $panierActif = $user->getPanierActif();
+            if ($panierActif !== null) {
+                $panierActif->setUser(null);
+                $em->persist($panierActif);
+            }
+            $paniers = $user->getPaniers();
+            foreach ($paniers as $panier) {
+                if ($panier) {
+                    $panier->setUser(null);
+                    $em->persist($panier);    
+                }
+                # code...
+            }
+            $user->setPanierActif(null);
+
+            $em->persist($user);
+
+            //dd($user);
             $em->remove($user);
             $em->flush();
-
+            $request->getSession()->invalidate();
+            $tokenStorage->setToken(null); // TokenStorageInterface
             return $this->redirectToRoute('app_index');
         }
         

@@ -37,7 +37,8 @@ class RegistrationFormType extends AbstractType
                         'match' => true,
                         'message' => 'L\'adresse e-mail doit finir par un nom de domaine valide (".fr", ".com", ".net", etc.).'
                     ])
-                ]
+                ],
+                'label_attr' => ['font-semibold']
             ])
             ->add('firstname', TextType::class, [
                 'label' => 'Prénom',
@@ -48,7 +49,8 @@ class RegistrationFormType extends AbstractType
                         'minMessage' => 'Le prénom doit contenir au minimum 2 caractères.',
                         'minMessage' => 'Le prénom ne peut pas contenir plus de 50 caractères.'
                     ])
-                ]
+                ],
+                'label_attr' => ['font-semibold']
             ])
             ->add('name', TextType::class, [
                 'label' => 'Nom',
@@ -59,12 +61,15 @@ class RegistrationFormType extends AbstractType
                         'minMessage' => 'Le nom de famille doit contenir au minimum 2 caractères.',
                         'minMessage' => 'Le nom de famille ne peut pas contenir plus de 50 caractères.'
                     ])
-                ]
+                ],
+                'label_attr' => ['font-semibold']
             ])
             ->add('birthday', DateType::class, [
                 'label' => 'Date de naissance',
                 'constraints' => [
-                ]
+                ],
+                'label_attr' => ['font-semibold'],
+                'required' => false
             ])
             ->add('phoneNumber', TextType::class, [
                 'label' => 'Numéro de téléphone',
@@ -80,7 +85,9 @@ class RegistrationFormType extends AbstractType
                         'match' => true,
                         'message' => 'Le numéro de téléphone ne peut contenir que des chiffres, des espaces et le caractère "+".'
                     ])
-                ]
+                    ],
+                'label_attr' => ['font-semibold'],
+                'required' => false
             ])
             ->add('country', ChoiceType::class, [
                 'label' => 'Pays de résidence',
@@ -92,7 +99,9 @@ class RegistrationFormType extends AbstractType
                 ],
                 'multiple' => false,
                 'expanded' => false,
-                'placeholder' => 'Séléctionnez votre pays de résidence.'
+                'placeholder' => 'Séléctionnez votre pays de résidence.',
+                'label_attr' => ['font-semibold'],
+                'required' => false
             ])
             ->add('accountType', ChoiceType::class, [
                 'label' => 'Type de compte',
@@ -101,7 +110,8 @@ class RegistrationFormType extends AbstractType
                     'Compte pour particulier' => 2
                 ],
                 'multiple' => false,
-                'expanded' => true
+                'expanded' => true,
+                'label_attr' => ['font-semibold']
             ])
             ->add('plainPassword', RepeatedType::class, [
                 'first_options' => [
@@ -123,6 +133,7 @@ class RegistrationFormType extends AbstractType
                         'message' => 'Le mot de passe doit contenir au minimum 6 caractères, une minuscules, une majuscule, un chiffre et un caractère spécial.'
                     ])
                 ],
+                'label_attr' => ['font-semibold']
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'label' => "J'accepte les conditions d'utilisation du site",
@@ -132,15 +143,18 @@ class RegistrationFormType extends AbstractType
                         'message' => 'Merci d\'accepter les conditions d\'utilisation pour continuer.',
                     ]),
                 ],
+                'label_attr' => ['class' => 'text-sm italic text-gray-700'],
+                'attr' => ['class' => 'w-fit']
             ])
             ->add('consent', CheckboxType::class, [
-                'label' => "Je donne mon consentement",
+                'label' => "Je consente à ce que mes données soient utilisées à des fins commerciales et marketing",
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
                         'message' => 'Vous devez donner votre consentement afin de compléter l\'inscription.',
                     ]),
                 ],
+                'label_attr' => ['class' => 'text-sm italic text-gray-700']
             ])
         ;
     }

@@ -52,7 +52,7 @@ export default class extends Controller {
             div.className = "article"
             div.innerHTML = `
                 <img src="${p.img}" alt="${p.nom}">
-                <h3>${p.nom}</h3>
+                <h3><a href="/produit/${p.id}/page-produit" class="text-lg text-semibold hover:underline text-indigo-700">${p.nom}</a></h3>
                 <p>${p.description}</p>
                 <p>Prix : ${p.prix} €</p>
             `
