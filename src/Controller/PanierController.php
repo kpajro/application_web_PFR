@@ -64,7 +64,7 @@ class PanierController extends AbstractController
         ]);
     }
 
-    #[Route('/panier/add-produit/{produit}', name: 'app_panier_add_product')]
+    #[Route('/panier/add-produit/{id}', name: 'app_panier_add_product')]
     public function addProductToPanier(Produit $produit, Request $request, EntityManagerInterface $em) : Response 
     {
         $amount = $produit->isBulkSale() ? $produit->getBulkSize() : 1;
