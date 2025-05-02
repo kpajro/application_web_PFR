@@ -146,5 +146,5 @@ input[type=file]::file-selector-button:hover {
 }
 
 .produit-content-selected {
-    @apply border-b-8 border-b-indigo-300 px-15 bg-gradient-to-b from-indigo-200 to-sky-100 from-70%;
+    @apply border-b-8 border-b-indigo-300 px-15 bg-gradient-to-b from-indigo-300/30 to-sky-200/40 from-70%;
 }
