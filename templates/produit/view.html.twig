@@ -51,10 +51,62 @@
     </div>
     <div id="produit-content" class="min-h-100">
         <div id="description" class="p-2 text-gray-700">
-            {{ produit.longDescription }}
+            {{ produit.longDescription|raw }}
         </div>
         <div id="fiche-technique" class="p-2 text-gray-700 hidden">
-            
+            <table class="produit-table">
+                <tr class="alt-row">
+                    <th>Catégorie</th>
+                    <td>{{ produit.categorie.nom }}</td>
+                </tr>
+                <tr>
+                    <th>Disponible sur</th>
+                    <td>
+                        {% set win = '<i class="fa-brands fa-windows text-xl mr-2"></i>' %}
+                        {% set lin = '<i class="fa-brands fa-linux text-xl mr-2"></i>' %}
+                        {% set mac = '<i class="fa-brands fa-apple text-xl mr-2"></i>' %}
+                        {% for os in produit.os %}
+                            {% if os == 'WIN' %}
+                                {{ win|raw }}
+                            {% elseif os == 'LIN' %}
+                                {{ lin|raw }}
+                            {% elseif os == 'MacOS' %}
+                                {{ mac|raw }}
+                            {% endif %}
+                        {% else %}
+                            'Non renseigné'  
+                        {% endfor %}
+                    </td>
+                </tr>
+                <tr class="alt-row">
+                    <th>Disponible en</th>
+                    <td>
+                        {% for langage in produit.langages %}
+                           {{ langage }}<br>
+                        {% endfor %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Édité par</th>
+                    <td>{{ produit.editeur }}</td>
+                </tr>
+                <tr class="alt-row">
+                    <th>Sorti le</th>
+                    <td></td>
+                </tr>
+                <tr >
+                    <th>Version la plus récente</th>
+                    <td></td>
+                </tr>
+                <tr class="alt-row">
+                    <th>Taille sur le disque requise</th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>Type de configuration requise</th>
+                    <td></td>
+                </tr>
+            </table>
         </div>
         <div id="avis" class="p-2 text-gray-700 hidden">
         
