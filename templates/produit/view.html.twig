@@ -33,10 +33,10 @@
                 {% endif %}
             </div>
             <div class="mt-8 mb-4 md:mb-0">
-                <div data-action="click->produits#add-to-cart" data-url="{{ path('app_panier_add_product', {id: produit.id}) }}" class=" rounded-3xl text-center bg-gradient-to-br from-sky-400 to-indigo-400 text-white border hover:border-indigo-100 hover:shadow-md hover:shadow-indigo-500/50 py-4 px-6 text-xl hover:cursor-pointer transition-all active:-translate-y-1 w-fit h-fit mx-auto">
+                <div data-action="click->produits#addToCart" data-url="{{ path('app_panier_add_product', {id: produit.id}) }}" class=" rounded-3xl text-center bg-gradient-to-br from-sky-400 to-indigo-400 text-white border hover:border-indigo-100 hover:shadow-md hover:shadow-indigo-500/50 py-4 px-6 text-xl hover:cursor-pointer transition-all active:-translate-y-1 w-fit h-fit mx-auto">
                     <i class="fa-solid fa-cart-shopping"></i> Ajouter au panier
                 </div>
-                <p id="confirmation"></p>
+                <p class="italic mt-2 mx-auto rounded-xl bg-green-300/60 hidden text-green-700 text-center p-2" id="confirmation"></p>
             </div>
         </div>
     </div>
