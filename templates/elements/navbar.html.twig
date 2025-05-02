@@ -1,24 +1,29 @@
-<nav class="bg-gradient-to-b from-indigo-200/50 to-transparent from-20% p-4">
+<nav class="bg-gradient-to-b from-indigo-200/50 to-transparent from-20% p-4 text-gray-800 transition-all" data-controller="navbar" id="navbar">
     <div class="flex justify-between items-center">
-        <div id="logo" class="w-[100px]">
+        <a id="logo" class="w-[100px]" href="{{ path('app_index') }}">
             <img class="box-border" src="{{ asset('images/logo-cyna.svg') }}" alt="logo cyna">
-        </div>
+        </a>
 
-        <div class="flex space-x-4 justify-center items-center w-full">
-            <a href="{{ url('app_index') }}" class="text-gray-800 px-3 py-2 rounded-lg text-sm font-medium hover:bg-indigo-500/30 hover:shadow-lg hover:shadow-indigo-500/30 transition-all"><i class="fa-solid fa-house"></i> Accueil</a>
-            <a href="{{ path('app_categories_list') }}" class="text-gray-800 px-3 py-2 rounded-lg text-sm font-medium hover:bg-indigo-500/30 hover:shadow-lg hover:shadow-indigo-500/30 transition-all"><i class="fa-solid fa-table-list"></i> Catégories</a>
+        <div class="space-x-4 justify-center items-center w-full hidden md:flex" id="links">
+            <a href="{{ url('app_index') }}" class="button-navbar"><i class="fa-solid fa-house"></i> Accueil</a>
+            <a href="{{ path('app_categories_list') }}" class=" button-navbar"><i class="fa-solid fa-table-list"></i> Catégories</a>
+            <a href="" class="button-navbar"><i class="fa-solid fa-magnifying-glass"></i> Rechercher</a>
             {% if app.user %}
                 {% if is_granted('ROLE_ADMIN') %}
-                    <a href="{{ path('app_admin_home') }}" id="menu-button" class="text-gray-800 px-3 py-2 rounded-lg text-sm font-medium hover:bg-indigo-500/30 hover:shadow-lg hover:shadow-indigo-500/30 transition-all" aria-expanded="true" aria-haspopup="true"><i class="fa-solid fa-wrench"></i> Administration</a>
+                    <a href="{{ path('app_admin_home') }}" id="menu-button" class="button-navbar" aria-expanded="true" aria-haspopup="true"><i class="fa-solid fa-wrench"></i> Administration</a>
                 {% endif %}
-                <a href="{{ path('app_user_profile', { id: app.user.id }) }}" class="text-gray-800 px-3 py-2 rounded-lg text-sm font-medium hover:bg-indigo-500/30 hover:shadow-lg hover:shadow-indigo-500/30 transition-all"><i class="fa-solid fa-user"></i> Mon profil</a>
-                <a href="{{ path('app_logout') }}" class="text-gray-800 px-3 py-2 rounded-lg text-sm font-medium hover:bg-indigo-500/30 hover:shadow-lg hover:shadow-indigo-500/30 transition-all"><i class="fa-solid fa-arrow-right-from-bracket"></i> Se déconnecter</a>
+                <a href="{{ path('app_user_profile', { id: app.user.id }) }}" class="button-navbar"><i class="fa-solid fa-user"></i> Mon profil</a>
+                <a href="{{ path('app_logout') }}" class="button-navbar"><i class="fa-solid fa-arrow-right-from-bracket"></i> Se déconnecter</a>
             {% else %}
-                <a href="{{ url('app_login') }}" class="text-gray-800 px-3 py-2 rounded-lg text-sm font-medium hover:bg-indigo-500/30 hover:shadow-lg hover:shadow-indigo-500/30 transition-all"><i class="fa-solid fa-right-to-bracket"></i> Se connecter</a>    
-                <a href="{{ url('app_register') }}" class="text-gray-800 px-3 py-2 rounded-lg text-sm font-medium hover:bg-indigo-500/30 hover:shadow-lg hover:shadow-indigo-500/30 transition-all"><i class="fa-regular fa-id-card"></i> S'enregister</a>
+                <a href="{{ url('app_login') }}" class="button-navbar"><i class="fa-solid fa-right-to-bracket"></i> Se connecter</a>    
+                <a href="{{ url('app_register') }}" class="button-navbar"><i class="fa-regular fa-id-card"></i> S'enregister</a>
             {% endif %}
         </div>
 
-        <div class="w-[100px]"></div>
+        <div class="md:w-[100px]">
+            <div class="md:hidden hover:cursor-pointer" data-action="click->navbar#openMobileMenu" id="mobile-menu-btn">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </div>
     </div>
 </nav>
