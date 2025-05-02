@@ -145,6 +145,6 @@ input[type=file]::file-selector-button:hover {
     @apply bg-indigo-300 text-white/90 hover:bg-indigo-400 hover:shadow-md hover:shadow-indigo-500/50 hover:text-white hover:cursor-pointer;
 }
 
-.produit-content-selected {
+.onglet-selected {
     @apply border-b-8 border-b-indigo-300 px-15 bg-gradient-to-b from-indigo-300/30 to-sky-200/40 from-70%;
 }

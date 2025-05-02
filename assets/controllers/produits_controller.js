@@ -3,17 +3,32 @@ import { Controller } from "@hotwired/stimulus";
 export default class extends Controller {
     connect() {
         // this.loadAvis();
+        const onglets= document.querySelectorAll('.onglet');
+        for (const onglet of onglets) {
+            onglet.addEventListener('click', event => {
+                this.changeSelectedContent(event);
+            })
+        }
     }
 
     changeSelectedContent(event) {
-        const currentSelected = document.querySelector('.produit-content-selected');
-        if (currentSelected === event.currentTarget) {
+        const currentSelected = document.querySelector('.onglet-selected');
+        const selected = event.currentTarget;
+        const currentContentType = currentSelected.dataset.content;
+        const targetContentType = selected.dataset.content;
+        const currentContent = document.getElementById(currentContentType);
+        const targetContent = document.getElementById(targetContentType);
+
+        if (currentSelected === selected) {
             return;
         }
-        currentSelected.classList.remove('produit-content-selected');
+
+        selected.classList.add('onglet-selected'); 
         setTimeout(() => {
-            event.currentTarget.classList.add('produit-content-selected');
-        }, 200);
+            currentSelected.classList.remove('onglet-selected');
+            currentContent.classList.add('hidden');
+            targetContent.classList.remove('hidden');
+        }, 50);
     }
 
     addToCart(event) {
@@ -36,6 +51,10 @@ export default class extends Controller {
         }).then(text => {
             confBox.classList.remove('hidden');
             confBox.innerHTML = "<i class='fa-solid fa-circle-check mr-2'></i>" + text;
+            setTimeout(() => {
+                confBox.classList.add('hidden');
+                confBox.innerHTML = "";
+            }, 3000);
         })
     }
 }
