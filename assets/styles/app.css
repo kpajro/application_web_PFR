@@ -147,7 +147,7 @@ input[type=file]::file-selector-button:hover {
 
 
 .onglet-selected {
-    @apply border-b-8 border-b-indigo-300 px-15 bg-gradient-to-b from-indigo-300/30 to-sky-200/40 from-70%;
+    @apply border-b-8 border-b-indigo-300 bg-gradient-to-b from-indigo-300/30 to-sky-200/40 from-70%;
 }
 
 .produit-table {
@@ -166,5 +166,4 @@ input[type=file]::file-selector-button:hover {
 
 .button-navbar {
     @apply px-3 py-2 rounded-t-lg md:rounded-lg text-sm font-medium hover:bg-indigo-500/30 hover:shadow-lg hover:shadow-indigo-500/30 transition-all border-b md:border-b-0 border-b-indigo-300 text-start md:text-center focus:bg-indigo-500/30 focus:shadow-lg focus:shadow-indigo-500/30;
-
 }

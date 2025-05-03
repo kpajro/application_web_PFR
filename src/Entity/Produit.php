@@ -65,9 +65,16 @@ class Produit
     #[ORM\Column(nullable: true)]
     private ?array $images = null;
 
+    /**
+     * @var Collection<int, Avis>
+     */
+    #[ORM\OneToMany(targetEntity: Avis::class, mappedBy: 'produit', orphanRemoval: true)]
+    private Collection $avis;
+
     public function __construct()
     {
         $this->panierProduits = new ArrayCollection();
+        $this->avis = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -269,6 +276,48 @@ class Produit
     public function setImages(?array $images): static
     {
         $this->images = $images;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Avis>
+     */
+    public function getAvis(): Collection
+    {
+        return $this->avis;
+    }
+
+    public function addAvis(Avis $avis): static
+    {
+        if (!$this->avis->contains($avis)) {
+            $this->avis->add($avis);
+            $avis->setProduit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAvis(Avis $avis): static
+    {
+        if ($this->avis->removeElement($avis)) {
+            // set the owning side to null (unless already changed)
+            if ($avis->getProduit() === $this) {
+                $avis->setProduit(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function updateNote(): static 
+    {
+        $avisArray = $this->getAvis();
+        $total = 0;
+        foreach ($avisArray as $avis) {
+            $total += $avis->getNote();
+        }
+        $this->note = $total/ count($avisArray);
 
         return $this;
     }
