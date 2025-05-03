@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Avis;
 use App\Entity\Categorie;
 use App\Entity\Panier;
 use App\Entity\PanierProduits;
@@ -11,6 +12,7 @@ use App\Repository\CategorieRepository;
 use App\Repository\ProduitRepository;
 use App\Repository\UsersRepository;
 use App\Service\LoremIpsumGenerator;
+use DateTime;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -53,6 +55,7 @@ class AppFixtures extends Fixture
         $this->createCategories(10, $manager);          // création de 10 catégories exemples
         $this->createProducts(1500, $manager);          // création de 1500 produits exemples
         $this->createPaniers(600, $manager);            // création de 600 paniers exemples
+        $this->createAvis(1000, $manager);              // création de 1000 avis exemples
 
         dump(' ');
         dump('Toutes les données ont été générées.');
@@ -178,5 +181,35 @@ class AppFixtures extends Fixture
 
         $m->flush();
         dump('Paniers générés.');
+    }
+
+    public function createAvis(int $amount, ObjectManager $m) : void
+    {
+        $produits = $this->produitRepo->findAll();
+        $users = $this->usersRepo->findAll();
+        $commentaire = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sed dui tincidunt, aliquet dolor non, tempus ipsum.';
+
+        for ($i = 0; $i < $amount; $i++) {
+            $avis = new Avis();
+            $produit = $produits[array_rand($produits)];
+            $user = $users[array_rand($users)];
+            $minDate = strtotime($user->getCreatedAt()->format('Y-m-d H:i:s'));
+            $maxDate = strtotime('2025-05-01');
+            $date = date('Y-m-d H:i:s', rand($minDate, $maxDate));
+
+            $avis->setUser($users[array_rand($users)]);
+            $avis->setProduit($produit);
+            $avis->setNote(rand(0, 50) / 10);
+            $avis->setCommentaire($commentaire);
+            $avis->setDate(new DateTime($date));
+            $m->persist($avis);
+            $produit->addAvis($avis);
+            $produit->updateNote();
+
+            $m->persist($produit);
+        }
+
+        $m->flush();
+        dump('Avis générés.');
     }
 }
