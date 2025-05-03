@@ -112,8 +112,9 @@
         </div>
 
         <div id="avis" class="p-2 text-gray-700 hidden relative">
-            <div class="w-full bottom-0 bg-indigo-200/50 rounded-2xl border-indigo-300 border mx-auto mt-3 mb-6 flex justify-end p-2">
-                <div class="bg-gradient-to-bl from-sky-400 to-emerald-400 text-white rounded-2xl hover:shadow-lg hover:shadow-emerald-500/30 hover:cursor-pointer transition-all text-lg px-4 py-3 active:-translate-y-1">Laisser un avis</div>
+            <div class="w-full bottom-0 bg-indigo-200/50 rounded-2xl border-indigo-300 border mx-auto mt-3 mb-6 flex py-2 px-4 justify-between items-center">
+                <p class="italic text-lg text-gray-700">Vous avez acheté le produit et souhaitez conseiller d'autres utilisateurs ? Donnez votre avis!</p>
+                <div class="bg-gradient-to-bl from-sky-400 to-emerald-400 text-white rounded-2xl hover:shadow-lg hover:shadow-emerald-500/30 hover:cursor-pointer transition-all text-xl px-4 py-3 active:-translate-y-1">Laisser un avis</div>
             </div>
             <ul class="">
                 {% for avis in produit.avis %}
