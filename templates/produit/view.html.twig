@@ -47,7 +47,7 @@
     <div class="rounded-t-xl border-b border-indigo-300 bg-indigo-300/30 md:flex justify-around text-xl font-bold text-center text-gray-800">
         <div data-content="description" class="min-h-[60px] onglet rounded-t-xl md:rounded-tr-none relative transition-all duration-200 w-full border-b md:border-b-0 md:border-r border-indigo-300 py-3 hover:cursor-pointer onglet-selected" >Déscription détaillée</div>
         <div data-content="fiche-technique" class="min-h-[60px] onglet border-b md:border-b-0 border-indigo-300 relative transition-all duration-200 w-full py-3 hover:cursor-pointer">Fiche technique</div>
-        <div data-content="avis" class="min-h-[60px] onglet relative transition-all duration-200 w-full border-b md:border-b-0 md:border-l border-indigo-300 py-3 hover:cursor-pointer">Avis</div>
+        <div data-content="avis" class="min-h-[60px] onglet relative rounded-tr-none md:rounded-tr-xl transition-all duration-200 w-full border-b md:border-b-0 md:border-l border-indigo-300 py-3 hover:cursor-pointer">Avis</div>
     </div>
 
     <div id="produit-content" class="min-h-100">
@@ -118,7 +118,7 @@
             </div>
             <ul class="">
                 {% for avis in produit.avis %}
-                   <li class="shadow-lg shadow-emerald-200/30 border border-sky-300 bg-sky-200/30 mb-6 p-3 rounded-xl">
+                   <li class="mb-6 rounded-xl">
                         <div class="flex gap-6 justify-between text-lg text-900 items-center">
                             <div>
                                 <p class="font-bold">{{ avis.user.email }}</p>
