@@ -2,8 +2,7 @@ import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
     connect() {
-        // this.loadAvis();
-        const onglets= document.querySelectorAll('.onglet');
+        const onglets = document.querySelectorAll('.onglet');
         for (const onglet of onglets) {
             onglet.addEventListener('click', event => {
                 this.changeSelectedContent(event);

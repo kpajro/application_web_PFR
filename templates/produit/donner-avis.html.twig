@@ -1,0 +1,17 @@
+<div> 
+    <div class="flex mb-2 justify-between bg-gradient-to-br from-indigo-900 to-indigo-500 text-white p-3 rounded-lg items-center">
+        <h1 class="font-medium text-lg">Laisser un avis</h1>
+        <p class="close-modal text-white/70 py-1 px-4 bg-black/20 hover:bg-black/45 hover:text-white text-lg rounded-lg transition-all hover:cursor-pointer hover:shadow-sm">&times;</p>
+    </div>
+
+    {{form_start(form)}}
+        <div>
+            {{ form_row(form) }}
+        </div>
+        
+        <div class="flex justify-end h-[60px]">
+            <button class="close-modal admin-button">Annuler</button>
+            <button type="submit" class="admin-button confirm">Envoyer</button>
+        </div>
+    {{ form_end(form) }}
+</div>
