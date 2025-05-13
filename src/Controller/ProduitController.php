@@ -18,6 +18,7 @@ class ProduitController extends AbstractController
     #[Route('/produit/{id}/page-produit', name: 'app_produit_view')]
     public function viewProduit(Produit $produit, ) : Response
     {
+        dd($produit);
         return $this->render('produit/view.html.twig', [
             'produit' => $produit
         ]);
@@ -40,8 +41,10 @@ class ProduitController extends AbstractController
             $avis->setDate(new DateTime());
             $avis->setProduit($produit);
             $avis->setUser($this->getUser());
+            $produit->updateNote();
         
             $em->persist($avis);
+            $em->persist($produit);
             $em->flush();
 
             return $this->redirectToRoute('app_produit_view', ['id' => $produit->getId()]);
