@@ -14,7 +14,7 @@
                     <a href="{{ path('app_admin_home') }}" id="menu-button" class="button-navbar" aria-expanded="true" aria-haspopup="true"><i class="fa-solid fa-wrench"></i> Administration</a>
                 {% endif %}
                 <a href="{{ path('app_user_profile', { id: app.user.id }) }}" class="button-navbar"><i class="fa-solid fa-user"></i> Mon profil</a>
-                <div class="button-navbar hover:cursor-pointer" data-action="click->modal#open" data-modal-url="{{ path('app_panier_view') }}"><i class="fa-solid fa-cart-shopping"></i> Mon panier</div>
+                <div class="button-navbar hover:cursor-pointer" data-action="click->modal#open" data-modal-url="{{ path('app_panier_view') }}"><i class="fa-solid fa-cart-shopping"></i> Mon panier <span class="text-xs">&lpar;{{ app.user.panierActif.panierProduits|length }}&rpar;</span></div>
                 <a href="{{ path('app_logout') }}" class="button-navbar"><i class="fa-solid fa-arrow-right-from-bracket"></i> Se déconnecter</a>
             {% else %}
                 <div class="button-navbar hover:cursor-pointer" data-action="click->modal#open" data-modal-url="{{ path('app_panier_view') }}"><i class="fa-solid fa-cart-shopping"></i> Mon panier</div>
