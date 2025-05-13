@@ -18,7 +18,6 @@ class ProduitController extends AbstractController
     #[Route('/produit/{id}/page-produit', name: 'app_produit_view')]
     public function viewProduit(Produit $produit, ) : Response
     {
-        dd($produit);
         return $this->render('produit/view.html.twig', [
             'produit' => $produit
         ]);
