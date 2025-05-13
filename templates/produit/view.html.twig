@@ -37,7 +37,7 @@
                 {% endif %}
             </div>
             <div class="mt-8 mb-4 md:mb-0">
-                <div data-action="click->produits#addToCart" data-url="{{ path('app_panier_add_product', {id: produit.id}) }}" class=" rounded-2xl text-center bg-gradient-to-br from-indigo-400 to-sky-400 text-white hover:shadow-lg hover:shadow-sky-500/30 py-4 px-6 text-xl hover:cursor-pointer transition-all active:-translate-y-1 w-fit h-fit mx-auto">
+                <div data-action="click->produits#addToCart" data-url="{{ path('app_panier_add_product', {id: produit.id}) }}" class="button from-indigo-400 to-sky-400 hover:shadow-sky-500/30 py-4 px-6 text-xl mx-auto">
                     <i class="fa-solid fa-cart-shopping"></i> Ajouter au panier
                 </div>
                 <p class="italic mt-2 mx-auto rounded-xl bg-green-300/60 hidden text-green-700 text-center p-2" id="confirmation"></p>
@@ -49,9 +49,9 @@
 
 <div class="rounded-xl bg-gradient-to-b from-transparent from-10% to-indigo-300/20">
     <div class="md:flex justify-around text-xl font-bold text-center text-gray-800 gap-2 mb-4 sticky top-2 backdrop-blur-md z-">
-        <div data-content="description" class="mb-2 md:mb-0 min-h-[60px] bg-indigo-300/30 onglet rounded-xl transition-all duration-200 w-full border-indigo-300 py-3 hover:cursor-pointer onglet-selected hover:shadow-md shadow-sky-400/20" >Déscription détaillée</div>
-        <div data-content="fiche-technique" class="mb-2 md:mb-0 min-h-[60px] onglet bg-indigo-300/30 rounded-xl transition-all duration-200 w-full border-indigo-300 py-3 hover:cursor-pointer hover:shadow-md shadow-sky-400/20">Fiche technique</div>
-        <div data-content="avis" class="min-h-[60px] onglet rounded-xl bg-indigo-300/30  transition-all duration-200 border-indigo-300 w-full py-3 hover:cursor-pointer hover:shadow-md shadow-sky-400/20">Avis des utilisateurs</div>
+        <div data-content="description" class="mb-2 md:mb-0 min-h-[40px] bg-indigo-300/30 onglet rounded-xl transition-all duration-200 w-full border-indigo-300 py-3 hover:cursor-pointer onglet-selected hover:shadow-md shadow-sky-400/20" >Déscription détaillée</div>
+        <div data-content="fiche-technique" class="mb-2 md:mb-0 min-h-[40px] onglet bg-indigo-300/30 rounded-xl transition-all duration-200 w-full border-indigo-300 py-3 hover:cursor-pointer hover:shadow-md shadow-sky-400/20">Fiche technique</div>
+        <div data-content="avis" class="min-h-[40px] onglet rounded-xl bg-indigo-300/30  transition-all duration-200 border-indigo-300 w-full py-3 hover:cursor-pointer hover:shadow-md shadow-sky-400/20">Avis des utilisateurs</div>
     </div>
 
     <div id="produit-content" class="min-h-100 p-2">
@@ -117,7 +117,7 @@
 
         <div id="avis" class="p-2 text-gray-700 hidden relative">
 
-            <div data-action="click->modal#open" data-modal-url="{{ path('app_produit_donner_avis', {id: produit.id}) }}" class="bg-gradient-to-bl from-sky-400 to-emerald-400 text-white/95 rounded-2xl hover:shadow-lg hover:shadow-emerald-500/30 hover:cursor-pointer transition-all text-lg font-semibold px-8 py-3 active:-translate-y-1 text-center mb-4 lg:w-fit mx-auto">Vous avez acheté le produit et souhaitez conseiller d'autres utilisateurs ? Donnez votre avis!</div>
+            <div data-action="click->modal#open" data-modal-url="{{ path('app_produit_donner_avis', {id: produit.id}) }}" class="button font-semibold md:px-8 md:py-4 bg-gradient-to-br from-sky-400 to-emerald-400 hover:shadow-emerald-500/30 mb-4 lg:w-fit mx-auto">Vous avez acheté le produit et souhaitez conseiller d'autres utilisateurs ? Donnez votre avis!</div>
 
             <ul class="">
                 {% for avis in produit.avis %}

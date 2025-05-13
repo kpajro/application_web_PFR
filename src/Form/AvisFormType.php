@@ -17,11 +17,17 @@ class AvisFormType extends AbstractType
             ->add('note', NumberType::class, [
                 'scale' => 1,
                 'label' => 'Note',
+                'label_attr' => ['class' => 'font-semibold text-xl'],
+                'attr' => ['class' => 'max-w-[100px] text-xl text-center min-h-15']
             ])
             ->add('commentaire', TextareaType::class, [
                 'label' => 'Commentaire',
                 'required' => false,
-
+                'label_attr' => ['class' => 'text-lg font-semibold'],
+                'attr' => [
+                    'class' => 'focus:shadow-lg shadow-indigo-300/30 text-gray-800',
+                    'placeholder' => 'Faites part aux utilisateurs de ce que vous pensez de ce produit !'
+                ],
             ])
         ;
     }

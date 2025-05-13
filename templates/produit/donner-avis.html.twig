@@ -1,17 +1,28 @@
 <div> 
-    <div class="flex mb-2 justify-between bg-gradient-to-br from-indigo-900 to-indigo-500 text-white p-3 rounded-lg items-center">
-        <h1 class="font-medium text-lg">Laisser un avis</h1>
-        <p class="close-modal text-white/70 py-1 px-4 bg-black/20 hover:bg-black/45 hover:text-white text-lg rounded-lg transition-all hover:cursor-pointer hover:shadow-sm">&times;</p>
+    <div class="flex mb-4 justify-between items-center p-2 bg-gradient-to-br from-sky-300/30 from-40% to-emerald-300/30 rounded-xl">
+        <h1 class="font-semibold text-lg">Laisser un avis</h1>
+        <p class="close-modal text-white/70 py-1 px-4 bg-sky-500/30 hover:bg-sky-500/35 hover:text-white text-lg rounded-lg transition-all hover:cursor-pointer hover:shadow-sm">&times;</p>
     </div>
 
     {{form_start(form)}}
-        <div>
-            {{ form_row(form) }}
+        <div class="w-full">
+            <div class="flex w-full items-center gap-8 mb-4">
+                {{ form_label(form.note) }}
+                <div class="flex gap-2 items-center">
+                    {{ form_widget(form.note)}}
+                    <p>/5</p>
+                </div>
+            </div>
+            <div>
+                {{ form_label(form.commentaire) }}
+                <hr class="w-11/12 mx-auto text-indigo-300/30 mt-1 mb-4">
+                {{ form_widget(form.commentaire) }}
+            </div>
         </div>
         
-        <div class="flex justify-end h-[60px]">
-            <button class="close-modal admin-button">Annuler</button>
-            <button type="submit" class="admin-button confirm">Envoyer</button>
+        <div class="flex gap-4 justify-end mb-2 mt-4">
+        <button class="close-modal button cancel">Annuler</button>
+            <button type="submit" class="button from-sky-400 to-emerald-400 hover:shadow-emerald-500/30">Envoyer</button>
         </div>
     {{ form_end(form) }}
 </div>
