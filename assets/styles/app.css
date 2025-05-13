@@ -147,17 +147,17 @@ input[type=file]::file-selector-button:hover {
 
 
 .onglet-selected {
-    @apply border-b-8 border-b-indigo-300 bg-gradient-to-b from-indigo-300/30 to-sky-200/40 from-70%;
+    @apply shadow-lg shadow-sky-500/30 bg-gradient-to-b from-indigo-300/30 to-sky-300/40 from-70%;
 }
 
 .produit-table {
-    @apply w-full rounded-xl;
+    @apply min-w-full rounded-xl ;
 
     tr {
-        @apply h-14 rounded-xl p-2;
+        @apply h-14 rounded-xl p-4;
     }
     tr.alt-row {
-        @apply bg-indigo-200/30;
+        @apply bg-indigo-400/10 rounded-xl;
     }
     th {
         @apply min-w-1/2;

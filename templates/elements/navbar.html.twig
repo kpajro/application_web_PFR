@@ -5,7 +5,7 @@
             <img class="box-border" src="{{ asset('images/logo-cyna.svg') }}" alt="logo cyna">
         </a>
 
-        <div class="space-x-4 justify-center items-center w-full hidden md:flex" id="links">
+        <div class="space-x-4 justify-center items-center w-full hidden lg:flex" id="links">
             <a href="{{ url('app_index') }}" class="button-navbar"><i class="fa-solid fa-house"></i> Accueil</a>
             <a href="{{ path('app_categories_list') }}" class=" button-navbar"><i class="fa-solid fa-table-list"></i> Catégories</a>
             <a href="" class="button-navbar"><i class="fa-solid fa-magnifying-glass"></i> Rechercher</a>
@@ -23,8 +23,8 @@
             {% endif %}
         </div>
 
-        <div class="md:w-[100px]">
-            <div class="md:hidden hover:cursor-pointer" data-action="click->navbar#openMobileMenu" id="mobile-menu-btn">
+        <div class="lg:w-[100px]">
+            <div class="lg:hidden hover:cursor-pointer" data-action="click->navbar#openMobileMenu" id="mobile-menu-btn">
                 <i class="fa-solid fa-bars"></i>
             </div>
         </div>
