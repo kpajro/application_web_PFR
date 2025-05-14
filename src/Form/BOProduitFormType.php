@@ -37,7 +37,7 @@ class BOProduitFormType extends AbstractType
                 'row_attr' => ['class' => 'admin-form-section']
             ])
             ->add('description', TextareaType::class, [
-                'label' => 'Description du produit',
+                'label' => 'Description rapide du produit',
                 'constraints' => [],
                 'required' => false,
                 'row_attr' => ['class' => 'admin-form-section']
@@ -52,13 +52,6 @@ class BOProduitFormType extends AbstractType
                 'choice_label' => 'nom',
                 'label' => 'Catégorie du produit',
                 'row_attr' => ['class' => 'admin-form-section']
-            ])
-            ->add('images', FileType::class, [
-                'label' => 'Image du produit',
-                'required' => false,
-                'mapped' => false,
-                'row_attr' => ['class' => 'admin-form-section' ],
-                'multiple' => true
             ])
             ->add('os', ChoiceType::class, [
                 'choices' => [
@@ -107,7 +100,13 @@ class BOProduitFormType extends AbstractType
             ->add('longDescription', TextareaType::class, [
                 'label' => 'Déscription détaillée du produit',
                 'required' => false,
-                'row_attr' => ['class' => 'admin-form-section']
+                'row_attr' => ['class' => 'admin-form-section'],
+                'attr' => ['class' => 'h-[60vh]'] 
+            ])
+            ->add('active', CheckboxType::class, [
+                'label' => 'Produit en vente',
+                'required' => false,
+                'row_attr' => ['class' => 'admin-form-boolean']
             ])
         ;
     }

@@ -16,7 +16,7 @@ input[type=file]::file-selector-button:hover {
    @apply bg-indigo-500 text-white shadow-lg shadow-indigo-500/50 cursor-pointer; 
 }
 textarea {
-    @apply min-h-40 max-h-40 overflow-y-scroll outline-none  bg-gray-50 text-gray-800 text-sm border border-gray-400/70 hover:bg-white p-2 w-full  focus:border-blue-400 focus:bg-white outline-0 rounded-md transition-all z-50;
+    @apply min-h-20 overflow-y-scroll overflow-x-clip outline-none  bg-gray-50 text-gray-800 text-sm border border-gray-400/70 hover:bg-white p-2 w-full  focus:border-blue-400 focus:bg-white outline-0 rounded-md transition-all z-50;
     resize: none;
 }
 
@@ -105,7 +105,7 @@ textarea {
     label {
         @apply mb-2 font-medium text-gray-800;
     }
-    input,select {
+    input,select, textarea {
         @apply shadow-md;
     }
 

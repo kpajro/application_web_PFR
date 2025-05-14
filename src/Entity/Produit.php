@@ -62,14 +62,17 @@ class Produit
     #[ORM\OneToMany(targetEntity: PanierProduits::class, mappedBy: 'produit', orphanRemoval: true, cascade:['persist'])]
     private Collection $panierProduits;
 
-    #[ORM\Column(nullable: true)]
-    private ?array $images = null;
-
     /**
      * @var Collection<int, Avis>
      */
     #[ORM\OneToMany(targetEntity: Avis::class, mappedBy: 'produit', orphanRemoval: true)]
     private Collection $avis;
+
+    #[ORM\Column]
+    private ?bool $active = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?array $images = null;
 
     public function __construct()
     {
@@ -318,6 +321,18 @@ class Produit
             $total += $avis->getNote();
         }
         $this->note = $total/ count($avisArray);
+
+        return $this;
+    }
+
+    public function isActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(bool $active): static
+    {
+        $this->active = $active;
 
         return $this;
     }

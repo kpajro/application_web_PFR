@@ -12,8 +12,8 @@
 
 
 {{ form_start(form) }}
-<div id="content" data-content-amount="3" data-current-content="1" class="h-[60vh]" data-controller="boproduits">
-    <div id="1" class="transition-all duration-300 h-full admin-form items-start">
+<div id="content" data-content-amount="2" data-current-content="1" class="max-h-[70vh]" data-controller="boproduits">
+    <div id="1" class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 w-full gap-4 min-h-[60vh] overflow-y-scroll items-start">
         {{ form_row(form.nom) }}
         {{ form_row(form.editeur) }}
         {{ form_row(form.prix) }}
@@ -50,18 +50,24 @@
                 {{ form_row(form.bulkSize) }}
             </div>
         </div>
+        <div class="md:col-span-2 2xl:col-span-3">
+            {{ form_row(form.description) }}
+        </div>
         {{ form_row(form.os) }}
         {{ form_row(form.langages) }}
+        <div class="admin-form-boolean">
+            {{ form_widget(form.active) }}
+            {{ form_label(form.active) }}
+        </div>
     </div>
 
     <div id="2" class="hidden-imp transition-all translate-x-[100rem] duration-300 h-full">
-        {{ form_row(form.description) }}
         {{ form_row(form.longDescription) }}
     </div>
 
-    <div id="3" class="hidden-imp transition-all translate-x-[100rem] duration-300 h-full">
+    {# <div id="3" class="hidden-imp transition-all translate-x-[100rem] duration-300 h-full">
         {{ form_row(form.images) }}
-    </div>
+    </div> #}
 </div>
 
 <div class="flex justify-around mt-4">
