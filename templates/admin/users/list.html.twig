@@ -13,21 +13,21 @@
     <div class="admin-table-parent" data-controller="tablesorter">
         <table class="admin-table table tablesorter-init" id="tablesorter-init">
             <thead>
-                <th scope="col" class="md:w-10 lg:w-15">ID</th>
+                <th scope="col" class="md:max-w-10 lg:max-w-15">ID</th>
                 <th scope="col">Nom</th>
                 <th scope="col">Prénom</th>
                 <th scope="col">E-mail</th>
-                <th scope="col" class="md:w-20 lg:w-33">Pays</th>
-                <th scope="col" class="md:w-20 lg:w-33">Téléphone</th>
-                <th scope="col" class="md:w-20 lg:w-33">Date de naissance</th>
-                <th scope="col" class="md:w-20 lg:w-33">Type de compte</th>
-                <th scope="col" class="md:w-20 lg:w-33">Membre depuis</th>
-                <th scope="col" class="md:w-20 lg:w-33">Dernière connexion</th>
-                <th scope="col" class="md:w-10 lg:w-17">Admin</th>
+                <th scope="col" class="md:max-w-20 lg:max-w-33">Pays</th>
+                <th scope="col" class="md:max-w-20 lg:max-w-33">Téléphone</th>
+                <th scope="col" class="md:max-w-20 lg:max-w-33">Date de naissance</th>
+                <th scope="col" class="md:max-w-20 lg:max-w-33">Type de compte</th>
+                <th scope="col" class="md:max-w-20 lg:max-w-33">Membre depuis</th>
+                <th scope="col" class="md:max-w-20 lg:max-w-33">Dernière connexion</th>
+                <th scope="col" class="md:max-w-10 lg:max-w-17">Admin</th>
             </thead>
             <tbody>
                 {% for user in users %}
-                    <tr class="modal-launcher"data-modal-url="{{ path('app_admin_users_edit', {id: user.id}) }}" data-action="click->modal#open">
+                    <tr class="modal-launcher"data-modal-url="{{ path('app_admin_users_edit', {id: user.id}) }}" data-modal-size="lg" data-action="click->modal#open">
                         <td class="id">{{ user.id }}</td>
                         <td>{{ user.name }}</td>
                         <td>{{ user.firstname }}</td>

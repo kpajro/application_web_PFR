@@ -117,7 +117,7 @@
 
         <div id="avis" class="p-2 text-gray-700 hidden relative">
 
-            <div data-action="click->modal#open" data-modal-url="{{ path('app_produit_donner_avis', {id: produit.id}) }}" class="button font-semibold md:px-8 md:py-4 bg-gradient-to-br from-sky-400 to-emerald-400 hover:shadow-emerald-500/30 mb-4 lg:w-fit mx-auto">Vous avez acheté le produit et souhaitez conseiller d'autres utilisateurs ? Donnez votre avis!</div>
+            <div data-action="click->modal#open" data-modal-size="sm" data-modal-url="{{ path('app_produit_donner_avis', {id: produit.id}) }}" class="button font-semibold md:px-8 md:py-4 bg-gradient-to-br from-sky-400 to-emerald-400 hover:shadow-emerald-500/30 mb-4 lg:w-fit mx-auto">Vous avez acheté le produit et souhaitez conseiller d'autres utilisateurs ? Donnez votre avis!</div>
 
             <ul class="">
                 {% for avis in produit.avis %}

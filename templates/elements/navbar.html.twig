@@ -1,5 +1,5 @@
 
-<nav class="bg-gradient-to-b from-indigo-200/50 to-transparent from-20% p-4 text-gray-800 transition-all" data-controller="navbar" id="navbar">
+<nav class="bg-gradient-to-b from-indigo-300/30 to-transparent from-20% p-4 text-gray-800 transition-all" data-controller="navbar" id="navbar">
     <div class="flex justify-between items-center">
         <a id="logo" class="w-[100px]" href="{{ path('app_index') }}">
             <img class="box-border" src="{{ asset('images/logo-cyna.svg') }}" alt="logo cyna">
@@ -14,10 +14,10 @@
                     <a href="{{ path('app_admin_home') }}" id="menu-button" class="button-navbar" aria-expanded="true" aria-haspopup="true"><i class="fa-solid fa-wrench"></i> Administration</a>
                 {% endif %}
                 <a href="{{ path('app_user_profile', { id: app.user.id }) }}" class="button-navbar"><i class="fa-solid fa-user"></i> Mon profil</a>
-                <div class="button-navbar hover:cursor-pointer" data-action="click->modal#open" data-modal-url="{{ path('app_panier_view') }}"><i class="fa-solid fa-cart-shopping"></i> Mon panier <span class="text-xs">&lpar;{{ app.user.panierActif.panierProduits|length }}&rpar;</span></div>
+                <div class="button-navbar hover:cursor-pointer" data-action="click->modal#open" data-modal-size="md" data-modal-url="{{ path('app_panier_view') }}"><i class="fa-solid fa-cart-shopping"></i> Mon panier <span class="text-xs">&lpar;{{ app.user.panierActif.panierProduits|length }}&rpar;</span></div>
                 <a href="{{ path('app_logout') }}" class="button-navbar"><i class="fa-solid fa-arrow-right-from-bracket"></i> Se déconnecter</a>
             {% else %}
-                <div class="button-navbar hover:cursor-pointer" data-action="click->modal#open" data-modal-url="{{ path('app_panier_view') }}"><i class="fa-solid fa-cart-shopping"></i> Mon panier</div>
+                <div class="button-navbar hover:cursor-pointer" data-action="click->modal#open" data-modal-size="md" data-modal-url="{{ path('app_panier_view') }}"><i class="fa-solid fa-cart-shopping"></i> Mon panier</div>
                 <a href="{{ url('app_login') }}" class="button-navbar"><i class="fa-solid fa-right-to-bracket"></i> Se connecter</a>    
                 <a href="{{ url('app_register') }}" class="button-navbar"><i class="fa-regular fa-id-card"></i> S'enregister</a>
             {% endif %}
