@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Categorie;
 use App\Entity\Produit;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -97,11 +98,12 @@ class BOProduitFormType extends AbstractType
                 'required' => false,
                 'row_attr' => ['class' => 'admin-form-section secondary']
             ])
-            ->add('longDescription', TextareaType::class, [
+            ->add('longDescription', CKEditorType::class, [
+                'config_name' => 'my_config',
                 'label' => 'Déscription détaillée du produit',
                 'required' => false,
                 'row_attr' => ['class' => 'admin-form-section'],
-                'attr' => ['class' => 'h-[60vh]'] 
+                'attr' => ['class' => 'h-[60vh] ckeditor'] 
             ])
             ->add('active', CheckboxType::class, [
                 'label' => 'Produit en vente',

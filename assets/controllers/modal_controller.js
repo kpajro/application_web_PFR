@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus";
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 export default class extends Controller {
     connect() {
@@ -40,6 +41,9 @@ export default class extends Controller {
                     
                     modal.classList.remove("opacity-0");
                     box.classList.remove("translate-y-[100vh]");
+                    if (box.querySelector('.ckeditor')) {
+                       this.loadCkeditor(); 
+                    }
                 })
             .catch(error => {
                 console.error(error);
@@ -75,7 +79,7 @@ export default class extends Controller {
             });
         });
         document.addEventListener('click', e => {
-            if (typeof e.composedPath === 'function' &&  !e.composedPath().includes(box) && !box.classList.contains('translate-y-[100vh]')) {
+            if (typeof e.composedPath === 'function' &&  !e.composedPath().includes(box) && !box.classList.contains('translate-y-[100vh]') && !e.composedPath().includes(document.querySelector('.ck'))) {
                 this.close(e, modal, box);
             }
         })
@@ -153,5 +157,15 @@ export default class extends Controller {
 
 
         this.updateNavButtons();
+    }
+
+    loadCkeditor (){
+        document.querySelectorAll('.ckeditor').forEach((element) => {
+            ClassicEditor
+            .create(element)
+            .catch(error => {
+                console.error(error);
+            });
+        });
     }
 }

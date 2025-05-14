@@ -69,11 +69,6 @@ class BOProduitsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $image = $form->get('image')->getData();
-
-            if ($image) {
-                $this->handleImages($image, $slugger, $produit);
-            }
 
             $em->persist($produit);
             $em->flush();
@@ -108,20 +103,5 @@ class BOProduitsController extends AbstractController
 
     public function handleImages(array $images, SluggerInterface $slugger, Produit $produit)
     {
-        $filesystem = new Filesystem();
-        $timestamp = date('YmdHis');
-        $imageNames = [];
-        foreach ($images as $image) {
-            $cleanFileName = $slugger->slug($produit->getNom()) . '_' . $timestamp . '.' . $image->guessExtension();
-
-            try {
-                $image->move('uploadedFiles/productImages/' . $slugger->slug($produit->getCategorie()->getNom()) . '/', $cleanFileName);
-            } catch (FileException $e) {
-
-            }
-            $imageNames[] = $cleanFileName;
-        }
-
-        $produit->setImages($imageNames);
     }
 }
