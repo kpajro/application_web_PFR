@@ -24,6 +24,10 @@ textarea {
     display: none !important;
 }
 
+.ck-editor__main {
+    max-height: 53vh;
+    overflow-y: scroll;
+}
 
 
 

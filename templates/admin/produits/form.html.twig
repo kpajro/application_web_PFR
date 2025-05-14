@@ -12,8 +12,8 @@
 
 
 {{ form_start(form) }}
-<div id="content" data-content-amount="2" data-current-content="1" class="max-h-[70vh]" data-controller="boproduits">
-    <div id="1" class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 w-full gap-4 min-h-[60vh] overflow-y-scroll items-start">
+<div id="content" data-content-amount="2" data-current-content="1" class="h-[60vh]" data-controller="boproduits">
+    <div id="1" class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 w-full gap-4 h-full overflow-y-scroll items-start transition-all duration-300">
         {{ form_row(form.nom) }}
         {{ form_row(form.editeur) }}
         {{ form_row(form.prix) }}

@@ -103,7 +103,7 @@ class BOProduitFormType extends AbstractType
                 'label' => 'Déscription détaillée du produit',
                 'required' => false,
                 'row_attr' => ['class' => 'admin-form-section'],
-                'attr' => ['class' => 'h-[60vh] ckeditor'] 
+                'attr' => ['class' => 'min-h-[40vh] ckeditor overflow-y-scroll'] 
             ])
             ->add('active', CheckboxType::class, [
                 'label' => 'Produit en vente',
