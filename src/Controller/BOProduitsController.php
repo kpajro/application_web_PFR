@@ -41,7 +41,12 @@ class BOProduitsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+            $imageData = [
+                'icon' => $form->get('icon')->getData(),
+                'imageMain' => $form->get('imageMain')->getData(),
+                'imageOther' => $form->get('imageOther')->getData()
+            ];
+            $this->handleImages($imageData, $slugger, $produit);
             $prCategorie = $produit->getCategorie();
             $prCategorie->setNbProduits($prCategorie->getNbProduits() + 1);
 
@@ -69,7 +74,12 @@ class BOProduitsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+            $imageData = [
+                'icon' => $form->get('icon')->getData(),
+                'imageMain' => $form->get('imageMain')->getData(),
+                'imageOther' => $form->get('imageOther')->getData()
+            ];
+            $this->handleImages($imageData, $slugger, $produit);
             $em->persist($produit);
             $em->flush();
 
@@ -103,5 +113,23 @@ class BOProduitsController extends AbstractController
 
     public function handleImages(array $images, SluggerInterface $slugger, Produit $produit)
     {
+        $directory = 'uploadedFiles/produitImages/' . $slugger->slug($produit->getCategorie()->getNom()) . '/';
+        $produitImages = [];
+        if ($images['icon']) {
+            /** @var UploadedFile $icon **/
+            $icon = $images['icon'];
+            $newIconName = $slugger->slug($produit->getNom()) . '-ICON.' . $icon->guessExtension();
+            $icon->move($directory, $newIconName);
+            $produitImages['icon'] = $newIconName;
+        }
+        if ($images['imageMain']) {
+            /** @var UploadedFile $main */
+            $main = $images['imageMain'];
+            $newMainName = $slugger->slug($produit->getNom()) . '-MAIN.' . $main->guessExtension();
+            $main->move($directory, $newMainName);
+            $produitImages['main'] = $newMainName;
+        }
+
+        $produit->setImages($produitImages);
     }
 }

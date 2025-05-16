@@ -110,6 +110,24 @@ class BOProduitFormType extends AbstractType
                 'required' => false,
                 'row_attr' => ['class' => 'admin-form-boolean']
             ])
+            ->add('icon', FileType::class, [
+                'required' => false,
+                'label' => 'Icone de présentation du produit',
+                'help' => "L'icône sera utilisée pour présenter le produit dans la liste des produits et dans les paniers clients. Il est recommandé de soumettre un image au format carré.",
+                'mapped' => false
+            ])
+            ->add('imageMain', FileType::class, [
+                'label' => 'Image de présentation principale du produit',
+                'required' => false,
+                'help' => "Image qui sera présentée en premier au client lorsqu'il arrive sur la page produit.",
+                'mapped' => false
+            ])
+            ->add('imageOther', FileType::class, [
+                'label' => 'Autres images de présentations',
+                'help' => 'Ces images seront aussi présentes sur la page produit.',
+                'required' => false,
+                'mapped' => false,
+            ])
         ;
     }
 

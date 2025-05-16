@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
 
 class AvisFormType extends AbstractType 
 {
@@ -25,9 +26,15 @@ class AvisFormType extends AbstractType
                 'required' => false,
                 'label_attr' => ['class' => 'text-lg font-semibold'],
                 'attr' => [
-                    'class' => 'focus:shadow-lg shadow-indigo-300/30 text-gray-800',
-                    'placeholder' => 'Faites part aux utilisateurs de ce que vous pensez de ce produit !'
+                    'class' => 'focus:shadow-lg shadow-indigo-300/30 text-gray-800 h-40',
+                    'placeholder' => 'Faites part aux utilisateurs de ce que vous pensez de ce produit ! (1024 caractères max.)'
                 ],
+                'constraints' => [
+                    new Length([
+                        'max' => 1024,
+                        'maxMessage' => '1024 caractères max.'
+                    ])
+                ]
             ])
         ;
     }
