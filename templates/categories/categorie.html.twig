@@ -7,10 +7,10 @@
     copie la structure du fichier sur un controlleur qui existe déjà
     sépare ton code, une fonction par évènement, et invoque les évènements dans le twig avec l'attribut 'data-action="click->categorie#tonévènement"' #}
 
-<div>
-    <h1>Produits de la catégorie</h1>
-    <div class="fixed left-0">
-    {{ form_start(filterForm, {'attr': {'data-controller': 'categorie','data-action': 'submit->categorie#submitted'}}) }}
+
+    <h1 class="text-xl font-bold text-gray-900 ">{{ categorie.nom }}</h1>
+    <div class="sticky top-0 w-full backdrop-blur-sm bg-white/70 py-2">
+    {{ form_start(filterForm, {'attr': {'data-controller': 'categorie','data-action': 'submit->categorie#submitted', 'class': 'flex justify-center gap-4'}}) }}
         {{ form_row(filterForm.prixMin) }}
         {{ form_row(filterForm.prixMax) }}
         {{ form_row(filterForm.ordreAlpha) }}
@@ -20,5 +20,4 @@
     {{ form_end(filterForm) }}
     </div>
     <div id="produits" class="produits"></div>
-</div>
 {% endblock %}

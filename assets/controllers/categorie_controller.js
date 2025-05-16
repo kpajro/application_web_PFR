@@ -50,12 +50,15 @@ export default class extends Controller {
         produits.forEach(p => {
             const div = document.createElement("div")
             const icon = p.images.icon ? '../' + directory + '/' + p.images.icon : 'uploadedFiles/produitImages/default-icon.jpg';
-            div.className = "article"
+            div.className = "flex p-3 items-center w-full hover:shadow-lg mb-6 shadow-indigo-300/30 rounded-xl bg-gradient-to-b from-transparent to-indigo-300/30 from-20%"
             div.innerHTML = `
-                <img src="${icon}" alt="${p.nom}">
-                <h3><a href="/produit/${p.id}/page-produit" class="text-lg text-semibold hover:underline text-indigo-700">${p.nom}</a></h3>
-                <p>${p.description}</p>
-                <p>Prix : ${p.prix} €</p>
+                <img src="${icon}" alt="${p.nom}" class="h-8 w-8 md:w-10 md:h-10 lg:w-12 lg:h-12 mr-4">
+                <div class="mr-6 w-full">
+                    <h3 class="font-semibold"><a href="/produit/${p.id}/page-produit" class="text-lg text-semibold hover:underline text-indigo-700">${p.nom}</a></h3>
+                    <p class="fon-semibold">${p.note ? p.note + '/5' : 'Pas encore d\'avis'}</p>
+                    <p class="italic text-sm text-gray-700">${p.description}</p>
+                </div>
+                <p class="font-bold">Prix : ${p.prix} €</p>
             `
             box.appendChild(div)
         })

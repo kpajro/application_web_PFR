@@ -31,14 +31,12 @@ class CategoriesController extends AbstractController
     }
     
     #[Route('/{id}/categorie', name: 'app_categorie')]
-    public function listProducts(int $id, ProduitRepository $produitRepository, CategorieRepository $categorieRepository, Request $request): Response
+    public function listProducts(Categorie $categorie, ProduitRepository $produitRepository, Request $request): Response
     {
-        $products = $produitRepository->findByCategory($id);
-
-        $categories = $categorieRepository->findAll();
+        $products = $produitRepository->findByCategory($categorie->getId());
         $formBuilder = $this->createFormBuilder(
             null,
-            ['action' => $this->generateUrl('app_categorie', ['id' => $id])]
+            ['action' => $this->generateUrl('app_categorie', ['id' => $categorie->getId()])]
         );
         $formBuilder->add('prixMin', NumberType::class, [
                         'label' => 'Prix Min',
@@ -82,7 +80,7 @@ class CategoriesController extends AbstractController
 
         return $this->render('categories/categorie.html.twig', [
             'produits' => $products,
-            'categories' => $categories,
+            'categorie' => $categorie,
             'filterForm' => $form->createView()
         ]);
     }
