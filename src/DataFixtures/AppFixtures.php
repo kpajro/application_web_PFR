@@ -141,6 +141,7 @@ class AppFixtures extends Fixture
             $produit->setNom('Produit Exemple ' . $i);
             $produit->setEditeur($editeurs[rand(0, 29)]);
             $produit->setPrix(rand(100, 3000) + $priceDecimals[array_rand($priceDecimals)]);
+            $produit->setImages([]);
 
             $categorie = $categories[array_rand($categories)];
             $produit->setCategorie($categorie);

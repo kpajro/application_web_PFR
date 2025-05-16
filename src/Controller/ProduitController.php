@@ -12,14 +12,27 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class ProduitController extends AbstractController
 {
     #[Route('/produit/{id}/page-produit', name: 'app_produit_view')]
-    public function viewProduit(Produit $produit, ) : Response
+    public function viewProduit(Produit $produit, SluggerInterface $slugger) : Response
     {
+        $directory = '/uploadedFiles/produitImages/' . $slugger->slug($produit->getCategorie()->getNom()) . '/';
+        $icon = null;
+        if ($produit->getImages()['icon']) {
+            $icon = $directory . $produit->getImages()['icon'];
+        }
+        $main = null;
+        if (key_exists('main', $produit->getImages())) {
+            $main = $directory . $produit->getImages()['main'];
+        }
+
         return $this->render('produit/view.html.twig', [
-            'produit' => $produit
+            'produit' => $produit,
+            'icon' => $icon,
+            'main' => $main
         ]);
     }
 

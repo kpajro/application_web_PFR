@@ -32,13 +32,13 @@ export default class extends Controller {
         })
         .then(res => res.json())
         .then(data => {
-            //console.log(data.produits)
-            this.afficher(data.produits)
+            console.log(data);
+            this.afficher(data.produits, data.directory)
         })
         .catch(err => console.error("Erreur", err))
     }
 
-    afficher(produits) {
+    afficher(produits, directory) {
         const box = document.getElementById("produits")
         box.innerHTML = ""
 
@@ -49,9 +49,10 @@ export default class extends Controller {
 
         produits.forEach(p => {
             const div = document.createElement("div")
+            const icon = p.images.icon ? '../' + directory + '/' + p.images.icon : 'uploadedFiles/produitImages/default-icon.jpg';
             div.className = "article"
             div.innerHTML = `
-                <img src="${p.img}" alt="${p.nom}">
+                <img src="${icon}" alt="${p.nom}">
                 <h3><a href="/produit/${p.id}/page-produit" class="text-lg text-semibold hover:underline text-indigo-700">${p.nom}</a></h3>
                 <p>${p.description}</p>
                 <p>Prix : ${p.prix} €</p>

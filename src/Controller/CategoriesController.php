@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 use function PHPUnit\Framework\isInfinite;
 
@@ -122,7 +123,7 @@ class CategoriesController extends AbstractController
     }*/
 
     #[Route('/categorie/{id}/produits/list', name: 'app_categorie_produits_json', methods: ['POST'])]
-    public function productListInJson(Categorie $categorie, ProduitRepository $produitRepo, Request $request): JsonResponse
+    public function productListInJson(Categorie $categorie, ProduitRepository $produitRepo, Request $request, SluggerInterface $slugger): JsonResponse
     {
         $filtres = json_decode($request->getContent(), true);
 
@@ -135,6 +136,10 @@ class CategoriesController extends AbstractController
         ];
 
         $produits = $produitRepo->findByCategoryAndFilter($categorie, $filtres);
-        return $this->json(['produits' => $produits]);
+        return $this->json([
+            'produits' => $produits,
+            'categorie' => $categorie->getNom(),
+            'directory' => 'uploadedFiles/produitImages/' . $slugger->slug($categorie->getNom())
+        ]);
     }
 }
