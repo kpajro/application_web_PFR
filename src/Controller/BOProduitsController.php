@@ -80,7 +80,7 @@ class BOProduitsController extends AbstractController
                 'imageMain' => $form->get('imageMain')->getData(),
                 'imageOther' => $form->get('imageOther')->getData()
             ];
-            // dd($imageData);
+            
             $this->handleImages($imageData, $slugger, $produit);
             $em->persist($produit);
             $em->flush();
@@ -117,6 +117,7 @@ class BOProduitsController extends AbstractController
     public function handleImages(array $images, SluggerInterface $slugger, Produit $produit)
     {
         $directory = 'uploadedFiles/produitImages/' . $slugger->slug($produit->getCategorie()->getNom()) . '/';
+        $previousImages = $produit->getImages();
         $produitImages = [];
         if ($images['icon']) {
             /** @var UploadedFile $icon **/
@@ -124,6 +125,8 @@ class BOProduitsController extends AbstractController
             $newIconName = $slugger->slug($produit->getNom()) . '-ICON.' . $icon->guessExtension();
             $icon->move($directory, $newIconName);
             $produitImages['icon'] = $newIconName;
+        } else if ($previousImages['icon'] && !$images['icon']) {
+            $produitImages['icon'] = $previousImages['icon'];
         }
         if ($images['imageMain']) {
             /** @var UploadedFile $main */
@@ -131,8 +134,24 @@ class BOProduitsController extends AbstractController
             $newMainName = $slugger->slug($produit->getNom()) . '-MAIN.' . $main->guessExtension();
             $main->move($directory, $newMainName);
             $produitImages['main'] = $newMainName;
+        } else if ($previousImages['main'] && !$images['imageMain']) {
+            $produitImages['main'] = $previousImages['main'];
         }
-
+        if ($images['imageOther']) {
+            $others = [];
+            $i = 1;
+            foreach ($images['imageOther'] as $other) {
+                /** @var UploadedFile $main */
+                $newOtherName = $slugger->slug($produit->getNom()) . '-OTHER' . $i . '.' . $other->guessExtension();
+                $other->move($directory, $newOtherName);
+                $others[] = $newOtherName;
+                $i++;
+            }
+            $produitImages['other'] = $others;
+        } else if ($previousImages['other'] && !$images['imageOther']) {
+            $produitImages['other'] = $previousImages['other'];
+        }
+        
         $produit->setImages($produitImages);
     }
 }

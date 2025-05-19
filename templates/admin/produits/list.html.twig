@@ -26,20 +26,17 @@
                 <th>Editeur</th>
                 <th>Catégorie</th>
                 <th class="max-w-25">Prix</th>
-                <th class="max-w-25">OS Compatibles</th>
                 <th class="max-w-25">Stock limité</th>
                 <th class="max-w-25">Vente par lot</th>
-                <th class="max-w-25">Langages</th>
             </thead>
             <tbody>
                 {% for produit in produits %}
-                    <tr data-action="click->modal#open" data-modal-size="xl" data-modal-url="{{ path('app_admin_produits_edit', {id: produit.id}) }}" class="modal-launcher">
+                    <tr data-action="click->modal#open" data-modal-size="xl" data-modal-url="{{ path('app_admin_produits_edit', {id: produit.id}) }}" class="modal-launcher {{ produit.active ? '' : 'bg-rose-300/30 hover:bg-rose-500/30'}}">
                         <td class="id">{{ produit.id }}</td>
                         <td>{{ produit.nom }}</td>
                         <td>{{ produit.editeur }}</td>
                         <td>{{ produit.categorie.nom }}</td>
                         <td>{{ produit.prix }} €</td>
-                        <td>{% for os in produit.os %} {{ os }}<br> {% endfor %}</td>
                         <td>
                             {% if produit.isLimitedStock %}
                                 <p class="py-1 px-2 bg-emerald-400/50 rounded-md">{{ produit.stock }}</p>
@@ -54,7 +51,6 @@
                                 <p class="py-1 px-2 bg-rose-500/50 rounded-md">Non</p>    
                             {% endif %}
                         </td>
-                        <td>{% for langage in produit.langages %} {{ langage }}<br> {% endfor %}</td>
                     </tr>
                 {% endfor %}
             </tbody>

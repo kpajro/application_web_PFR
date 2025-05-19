@@ -30,6 +30,9 @@ textarea {
 }
 
 
+.help-text {
+    @apply text-gray-700 italic text-sm;
+}
 
 
 .bo-page-ttl {
@@ -37,7 +40,7 @@ textarea {
 }
 
 .admin-table-parent {
-    @apply flex justify-center items-center lg:-mx-55;
+    @apply flex justify-center items-center;
 }
 .admin-table {
     @apply  w-full table-fixed shadow-xl mb-15;

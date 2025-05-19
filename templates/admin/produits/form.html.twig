@@ -74,7 +74,7 @@
                     {% for img in image %}
                         <div class="max-w-[150px] max-h-[150px]">
                             <div class="w-[100px] h-[100px]">
-                                <img class="box-border w-[100px] h-[100px]" src="{{ asset(directory ~ image) }}" alt="{{ key }} {{ produit.nom }}">
+                                <img class="box-border w-[100px] h-[100px]" src="{{ asset(directory ~ img) }}" alt="{{ key }} {{ produit.nom }}">
                             </div>
                             <p class="text-sm italic text-gray-700">{{ key }}</p>
                         </div>
