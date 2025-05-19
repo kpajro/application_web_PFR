@@ -21,7 +21,7 @@ class ProduitController extends AbstractController
     {
         $directory = '/uploadedFiles/produitImages/' . $slugger->slug($produit->getCategorie()->getNom()) . '/';
         $icon = null;
-        if ($produit->getImages()['icon']) {
+        if (key_exists('icon', $produit->getImages())) {
             $icon = $directory . $produit->getImages()['icon'];
         }
         $main = null;
