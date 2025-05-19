@@ -13,9 +13,9 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-5 gap-4 text-gray-700 px-3 md:px-0 md:min-h-70">
-            <div class="md:col-span-3 p-2 h-50">
+            <div class="md:col-span-3 p-2">
                 {% if main %}
-                    <img src="{{ asset(main) }}" alt="image principale de {{ produit.nom }}">
+                    <img src="{{ asset(main) }}" class="rounded-md box-border max-w-[450px] w-full h-full max-h-[450px] overflow-y-hidden mx-auto" alt="image principale de {{ produit.nom }}">
                 {% endif %}
             </div>
             <div id="main-info" class="w-full md:col-span-2 pb-4">
