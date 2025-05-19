@@ -56,4 +56,21 @@ export default class extends Controller {
             }, 3000);
         })
     }
+
+    changeImage(event) {
+        event.preventDefault();
+
+        if (event.target.classList.contains('img-displayed')) {
+            return;
+        }
+        
+        const src = event.currentTarget.querySelector('img').src;
+        const display = document.getElementById('displayImg');
+        const currentDisplay = document.querySelector('.img-displayed');
+        const div = event.currentTarget;
+        
+        currentDisplay.classList.remove('img-displayed');
+        div.classList.add('img-displayed');
+        display.src = src;
+    }
 }

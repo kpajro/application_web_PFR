@@ -188,3 +188,6 @@ textarea {
 .button.delete {
     @apply from-indigo-400 to-rose-500 from-30% hover:shadow-rose-500/30
 }
+.img-displayed {
+    @apply border-2 border-indigo-700/30;
+}

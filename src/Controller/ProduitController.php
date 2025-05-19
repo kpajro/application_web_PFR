@@ -20,10 +20,6 @@ class ProduitController extends AbstractController
     public function viewProduit(Produit $produit, SluggerInterface $slugger) : Response
     {
         $directory = '/uploadedFiles/produitImages/' . $slugger->slug($produit->getCategorie()->getNom()) . '/';
-        $icon = null;
-        if (key_exists('icon', $produit->getImages())) {
-            $icon = $directory . $produit->getImages()['icon'];
-        }
         $main = null;
         if (key_exists('main', $produit->getImages())) {
             $main = $directory . $produit->getImages()['main'];
@@ -31,8 +27,8 @@ class ProduitController extends AbstractController
 
         return $this->render('produit/view.html.twig', [
             'produit' => $produit,
-            'icon' => $icon,
-            'main' => $main
+            'main' => $main,
+            'directory' => $directory
         ]);
     }
 
@@ -65,6 +61,22 @@ class ProduitController extends AbstractController
         return $this->render('/produit/donner-avis.html.twig', [
             'produit' => $produit,
             'form' => $form
+        ]);
+    }
+
+    #[Route('/produit/{id}/images', name:'app_produit_images')]
+    public function produitImages(Produit $produit, SluggerInterface $slugger): Response 
+    {
+        $directory = '/uploadedFiles/produitImages/' . $slugger->slug($produit->getCategorie()->getNom()) . '/';
+        $main = null;
+        if (key_exists('main', $produit->getImages())) {
+            $main = $directory . $produit->getImages()['main'];
+        }
+
+        return $this->render('produit/images.html.twig', [
+            'images' => $produit->getImages(),
+            'directory' => $directory,
+            'main' => $main
         ]);
     }
 }

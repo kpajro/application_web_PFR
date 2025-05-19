@@ -3,8 +3,8 @@
 {% block title %}{{ produit.nom }}{% endblock %}
 
 {% block body %}
-<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4" data-controller="produits">
-    <div class="bg-gradient-to-b from-transparent from-10% to-indigo-300/20 rounded-xl md:col-span-2">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4" data-controller="produits">
+    <div class="bg-gradient-to-b from-transparent from-10% to-indigo-300/20 rounded-xl lg:col-span-2">
         <div class="p-3 mb-5 mx-auto bg-gradient-to-br from-indigo-400/30 from-50% to-sky-400/30 rounded-xl text-gray-800">
             <h1 class="text-2xl font-bold">{{ produit.nom }}</h1>
             <p class="text-xs text-gray-600 italic">
@@ -14,14 +14,33 @@
 
         <div class="grid grid-cols-1 md:grid-cols-5 gap-4 text-gray-700 px-3 md:px-0 md:min-h-70">
             <div class="md:col-span-3 p-2">
-                {% if main %}
-                    <img src="{{ asset(main) }}" class="rounded-md box-border max-w-[450px] w-full h-full max-h-[450px] overflow-y-hidden mx-auto" alt="image principale de {{ produit.nom }}">
-                {% endif %}
+                <div id="imgToDisplay" class="w-full lg:max-w-[700px] h-auto rounded-md mb-4 hover:cursor-pointer" data-action="click->modal#open" data-modal-url="{{ path('app_produit_images', {id: produit.id}) }}" data-modal-size="md">
+                    {% if main %}
+                        <img src="{{ asset(main) }}" id="displayImg" alt="" class="rounded-sm">
+                    {% else %}
+                        {# image par défaut à ajouter #}
+                    {% endif %}
+                </div>
+                <div class="flex items-center justify-center gap-3 lg:max-w-[700px] overflow-x-scroll">
+                    {% for key, image in produit.images %}
+                        {% if key == 'main' %}
+                            <div data-action="click->produits#changeImage" class="p-1 transition-all hover:cursor-pointer img-displayed rounded-sm border-2 border-transparent">
+                                <img src="{{ asset(directory ~ image) }}" alt="" class="rounded-sm w-[70px]  transition-all">
+                            </div>
+                        {% elseif key == 'other' %}
+                            {% for img in image %}
+                                <div data-action="click->produits#changeImage" class="p-1 transition-all hover:cursor-pointer rounded-sm border-transparent border-2" >
+                                    <img src="{{ asset(directory ~ img) }}" alt="" class="rounded-sm w-[70px] " >
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
             </div>
             <div id="main-info" class="w-full md:col-span-2 pb-4">
                 <ul>
                     <li><span class="font-semibold">Édité par : </span>{{ produit.editeur }}</li> 
-                    <li><span class="font-semibold">Note : </span>{{ produit.note|round(1) }} / 5</li>
+                    <li><span class="font-semibold">Note : </span>{{ produit.note ? produit.note|round(1) ~ '/5' : 'Produit non évalué' }}</li>
                     <li class="mt-2">{{ produit.description }}</li>
                 </ul>
             </div>
