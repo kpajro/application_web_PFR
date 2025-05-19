@@ -65,10 +65,44 @@
         {{ form_row(form.longDescription) }}
     </div>
 
-    <div id="3" class="hidden-imp transition-all translate-x-[100rem] duration-300 h-full">
-        {{ form_row(form.icon) }}
-        {{ form_row(form.imageMain) }}
-        {{ form_row(form.imageOther) }}
+    <div id="3" class="hidden-imp transition-all translate-x-[100rem] duration-300 h-full overflow-y-auto">
+        {% if produit is defined %}
+        <p>Images du produit : </p>
+        <div class="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4 md:gap-6">
+            {% for key, image in produit.images %}
+                {% if key == 'other' %}
+                    {% for img in image %}
+                        <div class="max-w-[150px] max-h-[150px]">
+                            <div class="w-[100px] h-[100px]">
+                                <img class="box-border w-[100px] h-[100px]" src="{{ asset(directory ~ image) }}" alt="{{ key }} {{ produit.nom }}">
+                            </div>
+                            <p class="text-sm italic text-gray-700">{{ key }}</p>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="">
+                        <div class="w-[150px] h-[150px]">
+                            <img class="box-border w-[150px] h-[150px]" src="{{ asset(directory ~ image) }}" alt="{{ key }} {{ produit.nom }}">
+                        </div>
+                        <p class="text-sm italic text-gray-700">{{ key }}</p>
+                    </div>
+                {% endif %}
+            {% else %}
+                <p>Aucune image pour ce produit.</p>
+            {% endfor %}
+        </div>
+        <div class="admin-button mx-auto mt-2 w-fit shadow-indigo-500/50" data-action="click->boproduits#displayImgForm">Modifier les images</div>
+        <div class="hidden scale-0 transition-all duration-200" id="img-edit-form">
+            {{ form_row(form.icon) }}
+            {{ form_row(form.imageMain) }}
+            {{ form_row(form.imageOther) }}
+        </div>
+        {% else %}
+            {{ form_row(form.icon) }}
+            {{ form_row(form.imageMain) }}
+            {{ form_row(form.imageOther) }}
+        {% endif %}
+        
     </div>
 </div>
 

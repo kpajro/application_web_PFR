@@ -72,6 +72,7 @@ class BOProduitsController extends AbstractController
             'action' => $this->generateUrl('app_admin_produits_edit', ['id' => $produit->getId()])
         ]);
         $form->handleRequest($request);
+        $directory = 'uploadedFiles/produitImages/' . $slugger->slug($produit->getCategorie()->getNom()) . '/';
 
         if ($form->isSubmitted() && $form->isValid()) {
             $imageData = [
@@ -79,6 +80,7 @@ class BOProduitsController extends AbstractController
                 'imageMain' => $form->get('imageMain')->getData(),
                 'imageOther' => $form->get('imageOther')->getData()
             ];
+            // dd($imageData);
             $this->handleImages($imageData, $slugger, $produit);
             $em->persist($produit);
             $em->flush();
@@ -91,6 +93,7 @@ class BOProduitsController extends AbstractController
             'action' => 'modif',
             'btnAction' => 'Enregistrer',
             'produit' => $produit,
+            'directory' => $directory,
             'deletable' => true,
             'deleteAction' => 'Supprimer le produit',
             'deleteWarning' => 'Êtes-vous sûr(e) de vouloir supprimer "' . $produit->getNom() . '" ? Cette action est irréversible.',

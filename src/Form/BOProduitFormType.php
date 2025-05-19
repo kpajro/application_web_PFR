@@ -127,6 +127,8 @@ class BOProduitFormType extends AbstractType
                 'help' => 'Ces images seront aussi présentes sur la page produit.',
                 'required' => false,
                 'mapped' => false,
+                'attr' => ['multiple' => 'true'],
+                'multiple' => true
             ])
         ;
     }
