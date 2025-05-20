@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Psr\Log\LoggerInterface;
 
 use function PHPUnit\Framework\isInfinite;
 
@@ -54,6 +55,7 @@ class CategoriesController extends AbstractController
                         'label' => 'Ordre',
                         'choices' => [
                             'Prix' => 'prix',
+                            'Alphabétique' => 'alpha'
                         ],
                         'multiple' => false,
                         'expanded' => false,
@@ -71,6 +73,42 @@ class CategoriesController extends AbstractController
                         'placeholder' => '- - -',
                         'required' => false
                         ])
+                    ->add('os', ChoiceType::class, [
+                        'label' => "OS",
+                        'choices' => [
+                            'WIN' => "WIN",
+                            'LIN' => "LIN",
+                            'MACOS' => "MacOS"
+                        ],
+                        'multiple' => false,
+                        'expanded' => false,
+                        'placeholder' => "Choisissez l'OS",
+                        'required' => false
+                    ])
+                    ->add('langages', ChoiceType::class, [
+                        'label' => "Languages",
+                        'choices' => [
+                            'French' => 'FR',
+                            'English' => 'EN',
+                            'Italian' => 'ITA',
+                            'German' => 'GER',
+                            'Spanish' => 'SPA'
+                        ],
+                        'multiple' => false,
+                        'expanded' => false,
+                        'placeholder' => "Choisissez la langue",
+                        'required' => false
+                    ])
+                    ->add('editor', ChoiceType::class, [
+                        'label' => "Editeurs",
+                        'choices' => [
+                            
+                        ],
+                        'multiple' => false,
+                        'expanded' => false,
+                        'placeholder' => "Choisissez l'éditeur",
+                        'required' => false
+                    ])
                     ->add('recherche', TextType::class, [
                         'required' => false
                     ])
@@ -122,17 +160,20 @@ class CategoriesController extends AbstractController
     }*/
 
     #[Route('/categorie/{id}/produits/list', name: 'app_categorie_produits_json', methods: ['POST'])]
-    public function productListInJson(Categorie $categorie, ProduitRepository $produitRepo, Request $request): JsonResponse
+    public function productListInJson(Categorie $categorie, ProduitRepository $produitRepo, Request $request, LoggerInterface $logger): JsonResponse
     {
         $filtres = json_decode($request->getContent(), true);
-
         $filtres = [
             'prix_minimum' => $filtres['prixMin'] ?? null,
             'prix_maximum' => $filtres['prixMax'] ?? null,
             'order' => $filtres['ordreAlpha'] ?? null,
             'asc' => $filtres['asc'] ?? null,
-            'recherche' => $filtres['recherche'] ?? null
+            'recherche' => $filtres['recherche'] ?? null,
+            'os' => $filtres['os'] ?? null,
+            //'langages' => $filtres['langages'] ?? null,
+            'editor' => $filtres['editor'] ?? null
         ];
+        $logger->info('Debug info:', ['data' => $filtres]);
 
         $produits = $produitRepo->findByCategoryAndFilter($categorie, $filtres);
         return $this->json(['produits' => $produits]);
