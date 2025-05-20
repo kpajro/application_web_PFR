@@ -11,11 +11,14 @@
     <h1>Produits de la catégorie</h1>
     <div class="fixed left-0">
     {{ form_start(filterForm, {'attr': {'data-controller': 'categorie','data-action': 'submit->categorie#submitted'}}) }}
+        {{ form_row(filterForm.recherche) }}
         {{ form_row(filterForm.prixMin) }}
         {{ form_row(filterForm.prixMax) }}
         {{ form_row(filterForm.ordreAlpha) }}
         {{ form_row(filterForm.asc) }}
-        {{ form_row(filterForm.recherche) }}
+        {{ form_row(filterForm.os) }}
+        {{ form_row(filterForm.langages) }}
+        {{ form_row(filterForm.editor) }}
         <button type="submit">Filtrer</button>
     {{ form_end(filterForm) }}
     </div>
