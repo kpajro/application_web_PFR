@@ -9,6 +9,7 @@ use DateTime;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -19,6 +20,10 @@ class ProduitController extends AbstractController
     #[Route('/produit/{id}/page-produit', name: 'app_produit_view')]
     public function viewProduit(Produit $produit, SluggerInterface $slugger) : Response
     {
+        if (!$produit->isActive() && !array_search("ROLE_ADMIN", $this->getUser()->getRoles())) {
+            throw new AccessDeniedException('Produit non accessible');
+        }
+
         $directory = '/uploadedFiles/produitImages/' . $slugger->slug($produit->getCategorie()->getNom()) . '/';
         $main = null;
         if (key_exists('main', $produit->getImages())) {

@@ -48,6 +48,9 @@ export default class extends Controller {
         }
 
         produits.forEach(p => {
+            if (!p.active) {
+                return;
+            }
             const div = document.createElement("div")
             const icon = p.images.icon ? '../' + directory + '/' + p.images.icon : 'uploadedFiles/produitImages/default-icon.jpg';
             div.className = "flex p-3 items-center w-full hover:shadow-lg mb-6 shadow-indigo-300/30 rounded-xl bg-gradient-to-b from-transparent to-indigo-300/30 from-20%"
