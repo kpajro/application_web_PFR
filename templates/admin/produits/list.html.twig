@@ -10,7 +10,9 @@
         <a class="text-end italic text-gray-600 hover:text-gray-400" href="{{ path('app_admin_home') }}">&lt; Retour au menu</a>
     </div>
 </div>
-
+<div class="help-text mb-2">
+    Les produits désactivés sont marqués en rouge.
+</div>
 <div>
     <div class="w-full border-t border-sky-200 shadow-[0px_-4px_6px] shadow-sky-300/50 fixed bottom-0 z-50 left-0 right-0 py-2 flex justify-center bg-indigo-50/50 backdrop-blur-sm">
         <button data-action="click->modal#open" data-modal-url="{{ path('app_admin_produits_create') }}" data-modal-size="xl" class="rounded-md text-center bg-gradient-to-br from-sky-400 to-indigo-400 text-white border hover:border-indigo-100 hover:shadow-md hover:shadow-indigo-500/50 p-2 hover:cursor-pointer transition-all active:-translate-y-1">

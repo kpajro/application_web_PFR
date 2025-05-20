@@ -73,4 +73,22 @@ export default class extends Controller {
         div.classList.add('img-displayed');
         display.src = src;
     }
+
+    changeImageModal(event) {
+        console.log('hi')
+        event.preventDefault();
+
+        if (event.target.classList.contains('img-displayed')) {
+            return;
+        }
+        
+        const src = event.currentTarget.querySelector('img').src;
+        const display = document.getElementById('displayImgModal');
+        const currentDisplay = document.querySelector('.img-displayed');
+        const div = event.currentTarget;
+        
+        currentDisplay.classList.remove('img-displayed');
+        div.classList.add('img-displayed');
+        display.src = src;
+    }
 }

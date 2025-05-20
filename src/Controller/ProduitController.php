@@ -81,7 +81,7 @@ class ProduitController extends AbstractController
         return $this->render('produit/images.html.twig', [
             'images' => $produit->getImages(),
             'directory' => $directory,
-            'main' => $main
+            'main' => $main,
         ]);
     }
 }

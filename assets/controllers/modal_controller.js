@@ -61,7 +61,6 @@ export default class extends Controller {
         // Masquer la modale
         box.classList.add("translate-y-[100vh]");
         modal.classList.add('opacity-0');
-        console.log(event)
 
         setTimeout(() => {
             modal.classList.add("hidden");
