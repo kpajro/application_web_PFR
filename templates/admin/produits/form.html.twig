@@ -3,7 +3,7 @@
         {% if action == 'ajout' %}
             Création de produit
         {% elseif action == 'modif' %}
-            Modification de produit &lpar;{{ produit.nom }}&rpar;
+            Modification de produit &lpar;<a class="hover:underline" href="{{ path('app_produit_view', {id: produit.id}) }}">{{ produit.nom }}</a>&rpar;
         {% endif %}
         
     </h1>
@@ -115,7 +115,9 @@
     {% if deletable is defined and deletable == true %}
         <div class="h-[60px]" data-controller="confdelete" id="footer">
             <div id="footer-content" class="flex justify-between h-full items-center transition-all">
-                <button id="delete-btn" class="admin-button delete">{{ deleteAction is defined ? deleteAction : "Supprimer l'élément"}}</button>
+                <button id="delete-btn" class="admin-button delete">
+                    {{ deleteAction is defined ? deleteAction : "Supprimer l'élément"}}
+                </button>
                 <div>
                     <button class="close-modal mr-3 admin-button">Annuler</button>
                     <button type="submit" class="admin-button confirm">{{ btnAction }}</button>

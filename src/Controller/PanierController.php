@@ -29,7 +29,8 @@ class PanierController extends AbstractController
         $prixTotal = $this->panierHandler->getPanierTotalPrice($panier);
 
         $amountChangeForm = $this->createFormBuilder(null, [
-            'action' => $this->generateUrl('app_panier_view')
+            'action' => $this->generateUrl('app_panier_view'),
+            'attr' => ['id' => 'panier-form']
         ]);
 
         foreach ($panier->getPanierProduits() as $pp) {
@@ -40,6 +41,11 @@ class PanierController extends AbstractController
                 'label' => 'Quantité',
                 'mapped' => false,
                 'data' => $amount,
+                'attr' => [
+                    'disabled' => true,
+                    'class' => 'panier-input',
+                    'data-id' => $pp->getId()
+                ]
             ]);
         }
 
@@ -47,6 +53,7 @@ class PanierController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+            // dd($request->get('test'));
             foreach ($panier->getPanierProduits() as $pp) {
                 $amountData = $form->get(strval($pp->getId()))->getData();
                 $pp->setAmount($amountData);
@@ -54,7 +61,7 @@ class PanierController extends AbstractController
                 $em->persist($pp);
             }
             $em->flush();
-            return $this->redirectToRoute('app_panier_view');
+            return new Response('Panier mis à jour', 200);
         }
 
         return $this->render('/panier/view.html.twig', [

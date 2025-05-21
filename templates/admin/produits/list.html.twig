@@ -38,7 +38,7 @@
                         <td>{{ produit.nom }}</td>
                         <td>{{ produit.editeur }}</td>
                         <td>{{ produit.categorie.nom }}</td>
-                        <td>{{ produit.prix }} €</td>
+                        <td>{{ produit.prix|format_currency('EUR', {}, 'fr') }}</td>
                         <td>
                             {% if produit.isLimitedStock %}
                                 <p class="py-1 px-2 bg-emerald-400/50 rounded-md">{{ produit.stock }}</p>

@@ -50,9 +50,9 @@
     <div class="w-full rounded-xl p-2 bg-gradient-to-br flex md:flex-row justify-center from-indigo-400/30 to-sky-400/30 items-center from-60%">
         <div class="mx-auto my-auto h-fit w-fit">
             <div class="">
-                <p class="font-black text-4xl text-center text-gray-900 my-2 mb-4"><span class="font-normal text-2xl">Prix : </span><br>{{ produit.prix }} €</p>
+                <p class="font-black text-4xl text-center text-gray-900 my-2 mb-4"><span class="font-normal text-2xl">Prix : </span><br>{{ produit.prix|format_currency('EUR', {}, 'fr') }}</p>
                 {% if produit.isBulkSale %}
-                    <p class="italic text-md text-gray-700 text-center mb-4 -mt-3">Se vend par lot de {{ produit.bulkSize }} &lpar;<span class=""></span>{{ produit.prix * produit.bulkSize }} €/lot&rpar;</p>
+                    <p class="italic text-md text-gray-700 text-center mb-4 -mt-3">Se vend par lot de {{ produit.bulkSize }} &lpar;<span class=""></span>{{ (produit.prix * produit.bulkSize)|format_currency('EUR', {}, 'fr') }}/lot&rpar;</p>
                 {% endif %}
             </div>
             <div class="mt-8 mb-4 md:mb-0">
