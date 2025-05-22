@@ -23,6 +23,12 @@ textarea {
 .panier-input {
     @apply text-center bg-transparent w-fit max-w-[50px] hover:bg-transparent border-none h-fit;
 }
+.filtre-input {
+    @apply h-8 max-w-25 text-center text-sm;
+}
+.filtre-search {
+    @apply max-w-full w-full text-start;
+}
 .hidden-imp {
     display: none !important;
 }

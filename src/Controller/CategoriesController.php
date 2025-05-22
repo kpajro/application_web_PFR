@@ -39,39 +39,56 @@ class CategoriesController extends AbstractController
             ['action' => $this->generateUrl('app_categorie', ['id' => $categorie->getId()])]
         );
         $formBuilder->add('prixMin', NumberType::class, [
-                        'label' => 'Prix Min',
+                        'label' => 'Prix Minimum',
                         'required' => false,
-                        'empty_data' => 0
+                        'empty_data' => 0,
+                        'label_attr' => ['class' => 'text-xs italic text-gray-700 text-end'],
+                        'attr' => ['class' => 'filtre-input'],
+                        'row_attr' => ['class' => 'flex flex-col justify-center']
                     ])
                     ->add('prixMax', NumberType::class, [
-                        'label' => 'Prix Max',
+                        'label' => 'Prix Maximum',
                         'required' => true,
                         'data' => 10000,
-                        'empty_data' => 10000
+                        'empty_data' => 10000,
+                        'label_attr' => ['class' => 'text-xs italic text-gray-700 text-end'],
+                        'attr' => ['class' => 'filtre-input'],
+                        'row_attr' => ['class' => 'flex flex-col justify-center']
                     ])
                     ->add('ordreAlpha', ChoiceType::class, [
-                        'label' => 'Ordre',
+                        'label' => 'Filtrer par',
                         'choices' => [
                             'Prix' => 'prix',
+                            'Alphabétique' => 'alphabétique',
+                            'Note' => 'note'
                         ],
                         'multiple' => false,
                         'expanded' => false,
-                        'placeholder' => 'Filtrez par',
-                        'required' => false
+                        'placeholder' => '',
+                        'required' => false,
+                        'label_attr' => ['class' => 'text-xs italic text-gray-700 text-end'],
+                        'attr' => ['class' => 'filtre-input'],
+                        'row_attr' => ['class' => 'flex flex-col justify-center']
                     ])
                     ->add('asc', ChoiceType::class, [
-                        'label' => "asc/desc",
+                        'label' => "Ordre",
                         'choices' => [
-                            'asc' => true,
-                            'desc' => false,
+                            'Croissant' => true,
+                            'Décroissant' => false,
                         ],
                         'multiple' => false,
                         'expanded' => false,
-                        'placeholder' => '- - -',
-                        'required' => false
-                        ])
+                        'label_attr' => ['class' => 'text-xs italic text-gray-700 text-end'],
+                        'attr' => ['class' => 'filtre-input'],
+                        'row_attr' => ['class' => 'flex flex-col justify-center']
+                    ])
                     ->add('recherche', TextType::class, [
-                        'required' => false
+                        'required' => false,
+                        'label' => 'Rechercher',
+                        'label_attr' => ['class' => 'text-xs italic text-gray-700 text-end'],
+                        'attr' => ['class' => 'filtre-input filtre-search', 'placeholder' => "Entrez le nom d'un produit"],
+                        'row_attr' => ['class' => 'flex flex-col justify-center'],
+                        
                     ])
         ;
 
