@@ -36,7 +36,7 @@ export default class extends Controller {
         const id = parentElement.dataset.id;
         const input = parentElement.querySelector('.panier-input');
         const currentAmount = parseInt(input.value);
-        const form = document.getElementById('panier-form');
+        const form = document.forms['panier-form'];
 
         let newValue = 0;
         if (operation === 'plus') {
@@ -49,6 +49,7 @@ export default class extends Controller {
         input.value = newValue;
         this.updatePrice(id, newValue);
         // form.submit();
+        this.sendForm(form);
     }
 
     updatePrice(id, amount) {
@@ -78,17 +79,16 @@ export default class extends Controller {
 
     sendForm(form) {
         const inputs = [...form.querySelectorAll('input')];
-        
-        let data = {};
+        const data = {};
+        const formData = new FormData(form);
         inputs.forEach(input => {
             if (input.dataset.id) {
+                formData[input.dataset.id] = input.value;
                 data[input.dataset.id] = input.value;
             }
         })
 
-        const formData = new FormData(form)
-
-        fetch('/panier/view', {
+        fetch(form.action, {
             method: 'POST',
             body: data
         })

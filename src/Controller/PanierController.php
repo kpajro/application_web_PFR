@@ -53,7 +53,7 @@ class PanierController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            // dd($request->get('test'));
+            dd($request->getContent(), $form->getData());
             foreach ($panier->getPanierProduits() as $pp) {
                 $amountData = $form->get(strval($pp->getId()))->getData();
                 $pp->setAmount($amountData);
@@ -93,7 +93,7 @@ class PanierController extends AbstractController
         $em->persist($panier);
         $em->flush();
 
-        return new Response('Produit retiré du panier', 200);
+        return new Response('Produit retiré du panier : ' . $produit->getNom(), 200);
     }
 
     #[Route('/panier/create/', name: 'app_panier_create')]

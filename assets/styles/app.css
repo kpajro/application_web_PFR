@@ -31,7 +31,24 @@ textarea {
     max-height: 53vh;
     overflow-y: scroll;
 }
-
+::-webkit-scrollbar{
+    @apply border-none bg-transparent shadow-none drop-shadow-none w-1;
+}
+::-webkit-scrollbar-thumb{
+    @apply rounded-lg w-full bg-gray-800;
+}
+::-webkit-scrollbar-button{
+    @apply hidden;
+}
+::-webkit-scrollbar-corner{
+    @apply bg-transparent;
+}
+::-webkit-scrollbar-track {
+    @apply bg-transparent;
+}
+::-webkit-scrollbar-track-piece {
+    @apply bg-transparent;
+}
 
 .help-text {
     @apply text-gray-700 italic text-sm;
