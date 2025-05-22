@@ -13,6 +13,7 @@ use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class ProduitController extends AbstractController
@@ -83,5 +84,19 @@ class ProduitController extends AbstractController
             'directory' => $directory,
             'main' => $main,
         ]);
+    }
+
+    #[Route('/produit/supprimer-avis/{avis}', name:'app_produit_supprimer_avis')]
+    #[IsGranted('ROLE_ADMIN')]
+    public function removeAvis(Avis $avis, EntityManagerInterface $em) 
+    {
+        $produit = $avis->getProduit();
+        $em->remove($avis);
+        $produit->updateNote();
+        $em->persist($produit);
+
+        $em->flush();
+
+        return $this->redirectToRoute('app_produit_view', ['id' => $produit->getId()]);
     }
 }

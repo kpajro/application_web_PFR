@@ -152,7 +152,15 @@
                         </div>
                         <div class="text-gray-700 px-6 overflow-clip">
                             {{ avis.commentaire }}
-                        </div>     
+                        </div>  
+                        {% if "ROLE_ADMIN" in app.user.roles %}
+                        <div class="flex justify-end mt-4">
+                            <a href="{{ path('app_produit_supprimer_avis', {avis: avis.id} ) }}" class="admin-button delete">
+                                Supprimer l'avis
+                            </a>
+                        </div>
+                        {% endif %}
+                           
                         <hr class="mt-2 mx-auto w-11/12 text-sky-300">
                    </li> 
                 {% endfor %}

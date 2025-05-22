@@ -316,11 +316,15 @@ class Produit
     public function updateNote(): static 
     {
         $avisArray = $this->getAvis();
-        $total = 0;
-        foreach ($avisArray as $avis) {
-            $total += $avis->getNote();
+        if (!empty($avisArray)) {
+            $total = 0;
+            foreach ($avisArray as $avis) {
+                $total += $avis->getNote();
+            }
+            $this->note = $total/ count($avisArray);
+        } else {
+            $this->note = null;
         }
-        $this->note = $total/ count($avisArray);
 
         return $this;
     }
