@@ -61,7 +61,7 @@ export default class extends Controller {
                 <div class="w-full my-3">
                     <div class="flex items-center justify-between mb-2"
                         <h3 class="font-semibold"><a href="/produit/${p.id}/page-produit" class="transition-all text-lg text-semibold hover:underline text-indigo-800 hover:text-indigo-700">${p.nom}</a></h3>
-                        <p class="fon-semibold">${p.note ? p.note + '/5' : 'Pas encore d\'avis'}</p>
+                        <p class="font-semibold">${p.note ? p.note + '/5' : 'Pas encore d\'avis'}</p>
                     </div>
                     <p class="italic text-sm text-gray-700">${p.description}</p>
                 </div>
