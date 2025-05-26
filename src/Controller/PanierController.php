@@ -27,7 +27,6 @@ class PanierController extends AbstractController
     {
         $panier = $this->panierHandler->getActivePanier($this->getUser(), $request);
         $prixTotal = $this->panierHandler->getPanierTotalPrice($panier);
-
         $amountChangeForm = $this->createFormBuilder(null, [
             'action' => $this->generateUrl('app_panier_view')
         ]);
@@ -35,7 +34,6 @@ class PanierController extends AbstractController
         foreach ($panier->getPanierProduits() as $pp) {
             $produit = $pp->getProduit();
             $amount = $pp->getAmount();
-
             $amountChangeForm->add(strval($pp->getId()), NumberType::class, [
                 'label' => 'Quantité',
                 'mapped' => false,
