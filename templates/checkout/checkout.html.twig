@@ -10,7 +10,7 @@
     const stripe = Stripe("{{ stripe_public_key }}");
 
     document.getElementById("checkout-button").addEventListener("click", function () {
-        fetch("{{ path('app_checkout') }}", {
+        fetch("{{ path('app_checkout_create') }}", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

@@ -18,7 +18,7 @@ class CheckoutController extends AbstractController
     {
     }
 
-    #[Route('/create-checkout', name: 'app_checkout', methods: ['POST'])]
+    #[Route('/create-checkout', name: 'app_checkout_create', methods: ['POST'])]
     public function createCheckoutSession(Request $request): JsonResponse
     {
         // temporaire pour les tests (ou sinon osef)
@@ -56,7 +56,7 @@ class CheckoutController extends AbstractController
         return new JsonResponse(['id' => $session->id]);
     }
 
-    #[Route('/checkout', name: 'app_checkout_page')]
+    #[Route('/checkout', name: 'app_checkout')]
     public function checkoutPage(Request $request): Response
     {
         // temporaire pour les tests (ou sinon osef)
