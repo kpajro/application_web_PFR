@@ -3,29 +3,13 @@
 {% block body %}
 <h1>Paiement</h1>
 
-<button id="checkout-button">Payer 10€</button>
 
 <script src="https://js.stripe.com/v3/"></script>
-<script>
-    const stripe = Stripe("{{ stripe_public_key }}");
 
-    document.getElementById("checkout-button").addEventListener("click", function () {
-        fetch("{{ path('app_checkout_create') }}", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-        })
-        .then(response => response.json())
-        .then(session => {
-            return stripe.redirectToCheckout({ sessionId: session.id });
-        })
-        .then(result => {
-            if (result.error) {
-                alert(result.error.message);
-            }
-        })
-        .catch(error => console.error("Erreur Stripe :", error));
-    });
-</script>
+<button id="checkout-button" data-controller="paiement" 
+    data-paiement-stripe-public-key-value="{{ stripe_public_key }}" 
+    data-paiement-stripe-url-value="{{ path('app_checkout_create') }}">
+    Checkout
+</button>
+
 {% endblock %}
