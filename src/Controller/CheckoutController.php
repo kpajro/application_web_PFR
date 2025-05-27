@@ -18,7 +18,16 @@ class CheckoutController extends AbstractController
     {
     }
 
-    #[Route('/create-checkout', name: 'app_checkout_create', methods: ['POST'])]
+    #[Route('/retrieve-payment', name: 'app_stripe_payment_retrieve', methods: ['POST'])]
+    public function retrievePayment(Request $request): JsonResponse
+    {
+        \Stripe\Stripe::setApiKey('rk_test_51RSvQkRVumHN60oofb9knkAD9MuBQ3D4n4BT6IbUeQa8gB2qeOR1figukukv9QfbrAUMutzFrTLPCjx6A5HvSxqU00h6rMO9H4');
+        // A finir pour recupération du paiement et l'insérer dans la base de données
+        $paymentIntent = \Stripe\PaymentIntent::retrieve('');
+        Return new JsonResponse($paymentIntent);
+    }
+
+    #[Route('/create-checkout', name: 'app_stripe_checkout_create', methods: ['POST'])]
     public function createCheckoutSession(Request $request): JsonResponse
     {
         // temporaire pour les tests (ou sinon osef)
@@ -49,14 +58,14 @@ class CheckoutController extends AbstractController
             'payment_method_types' => ['card'],
             'line_items' => $lineItems,
             'mode' => 'payment',
-            'success_url' => $this->generateUrl('app_payment_success', [], UrlGeneratorInterface::ABSOLUTE_URL),
-            'cancel_url' => $this->generateUrl('app_payment_cancel', [], UrlGeneratorInterface::ABSOLUTE_URL),
+            'success_url' => $this->generateUrl('app_stripe_payment_success', [], UrlGeneratorInterface::ABSOLUTE_URL),
+            'cancel_url' => $this->generateUrl('app_stripe_payment_cancel', [], UrlGeneratorInterface::ABSOLUTE_URL),
         ]);
 
         return new JsonResponse(['id' => $session->id]);
     }
 
-    #[Route('/checkout', name: 'app_checkout')]
+    #[Route('/checkout', name: 'app_stripe_checkout')]
     public function checkoutPage(Request $request): Response
     {
         // temporaire pour les tests (ou sinon osef)
@@ -64,13 +73,13 @@ class CheckoutController extends AbstractController
             'stripe_public_key' => 'pk_test_51RSvQkRVumHN60ooKlCL6qUPaVblzy3dtuAP3XwdF8LChY4G56VLJKpi526WBpi3VUEy0XcJifynKetmnul5Us7100AS1ThEJH',     
         ]);
     }
-    #[Route('/payment-success', name: 'app_payment_success')]
+    #[Route('/payment-success', name: 'app_stripe_payment_success')]
     public function paymentSuccess(): Response
     {
         return $this->render('checkout/success.html.twig');
     }
 
-    #[Route('/payment-cancel', name: 'app_payment_cancel')]
+    #[Route('/payment-cancel', name: 'app_stripe_payment_cancel')]
     public function paymentCancel(): Response
     {
         return $this->render('checkout/cancel.html.twig');
