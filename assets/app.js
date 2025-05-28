@@ -10,5 +10,15 @@ import './styles/app.css';
 import 'tablesorter';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import '@fortawesome/fontawesome-free/js/all.js';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+document.addEventListener('DOMContentLoaded', (event) => {
+  document.querySelectorAll('.ckeditor').forEach((element) => {
+    ClassicEditor
+      .create(element)
+      .catch(error => {
+        console.error(error);
+      });
+  });
+});
 
 console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');

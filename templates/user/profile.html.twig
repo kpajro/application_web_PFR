@@ -16,14 +16,14 @@
         </div>
 
         <div class="grid grid-cols-2 gap-4 mb-6">
-            <div id="editProfileButton" data-action="click->modal#open" data-modal-url="{{ path('app_profile_settings', {id: user.id}) }}" class="p-6 bg-blue-500 text-white text-center rounded-lg hover:bg-blue-700 hover:cursor-pointer">Modifier mon profil</div>
+            <div id="editProfileButton" data-action="click->modal#open" data-modal-size="lg" data-modal-url="{{ path('app_profile_settings', {id: user.id}) }}" class="p-6 bg-blue-500 text-white text-center rounded-lg hover:bg-blue-700 hover:cursor-pointer">Modifier mon profil</div>
             <a href="{{ path('app_logout')}}" class="p-6 bg-blue-500 text-white text-center rounded-lg hover:bg-blue-700 hover:cursor-pointer">Se déconnecter</a>
             
         </div>
 
         <div class="flex justify-between">
             <a href="{{ path('app_forgot_password_request') }}" class="text-blue-500 hover:underline">Réinitialiser mon mot de passe</a>
-            <div class="text-rose-500 hover:underline hover:text-red-700 hover:cursor-pointer" data-action="click->modal#open" data-modal-url="{{ path('app_profile_delete_account', {id: user.id}) }}">Supprimer mon profil</div>
+            <div class="text-rose-500 hover:underline hover:text-red-700 hover:cursor-pointer" data-action="click->modal#open" data-modal-size="md" data-modal-url="{{ path('app_profile_delete_account', {id: user.id}) }}">Supprimer mon profil</div>
         </div>
 
 

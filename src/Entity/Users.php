@@ -69,9 +69,16 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?Panier $panierActif = null;
 
+    /**
+     * @var Collection<int, Avis>
+     */
+    #[ORM\OneToMany(targetEntity: Avis::class, mappedBy: 'user', orphanRemoval: true)]
+    private Collection $avis;
+
     public function __construct()
     {
         $this->paniers = new ArrayCollection();
+        $this->avis = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -283,6 +290,36 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPanierActif(?Panier $panierActif): static
     {
         $this->panierActif = $panierActif;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Avis>
+     */
+    public function getAvis(): Collection
+    {
+        return $this->avis;
+    }
+
+    public function addAvis(Avis $avis): static
+    {
+        if (!$this->avis->contains($avis)) {
+            $this->avis->add($avis);
+            $avis->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAvis(Avis $avis): static
+    {
+        if ($this->avis->removeElement($avis)) {
+            // set the owning side to null (unless already changed)
+            if ($avis->getUser() === $this) {
+                $avis->setUser(null);
+            }
+        }
 
         return $this;
     }

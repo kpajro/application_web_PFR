@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Avis;
 use App\Entity\Categorie;
 use App\Entity\Panier;
 use App\Entity\PanierProduits;
@@ -11,6 +12,7 @@ use App\Repository\CategorieRepository;
 use App\Repository\ProduitRepository;
 use App\Repository\UsersRepository;
 use App\Service\LoremIpsumGenerator;
+use DateTime;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -50,9 +52,10 @@ class AppFixtures extends Fixture
         dump(' ');
 
         $this->createUsers(300, $manager);              // création de 300 utilisateurs exemples
-        $this->createCategories(10, $manager);          // création de 10 catégories exemples
-        $this->createProducts(1500, $manager);          // création de 1500 produits exemples
-        $this->createPaniers(600, $manager);            // création de 600 paniers exemples
+        $this->createCategories(5, $manager);          // création de 10 catégories exemples
+        $this->createProducts(600, $manager);          // création de 1500 produits exemples
+        $this->createPaniers(500, $manager);            // création de 600 paniers exemples
+        $this->createAvis(600, $manager);              // création de 1000 avis exemples
 
         dump(' ');
         dump('Toutes les données ont été générées.');
@@ -60,6 +63,7 @@ class AppFixtures extends Fixture
 
     public function createUsers(int $amount, ObjectManager $m) : void
     {
+        dump('Génération des utilisateurs...');
         for ($i = 0; $i < $amount; $i++) {
             $user = new Users();
 
@@ -91,28 +95,35 @@ class AppFixtures extends Fixture
             $user->setPhoneNumber($phone);
 
             $m->persist($user);
+            
+            dump('Utilisateur ' . $i . '/' . $amount);
         }
 
         $m->flush();
         dump('Utilisateurs générés.');
+        dump('');
     }
 
     public function createCategories(int $amount, ObjectManager $m) : void
     {
+        dump('Génération des catégories...');
         for($i = 0; $i < $amount; $i++) {
             $categorie = new Categorie();
             $categorie->setNom('Catégorie de test ' . $i);
             $categorie->setNbProduits(0);
 
             $m->persist($categorie);
+            dump('Catégorie ' . $i . '/' . $amount);
         }
 
         $m->flush();
         dump('Catégories générées.');
+        dump(' ');
     }
 
     public function createProducts(int $amount, ObjectManager $m) : void
     {
+        dump('Génétation des produits...');
         $editeurs = [];
         for ($j = 0; $j < 30; $j++) {
             $editeurs[$j] = 'Editeur ' . $j;
@@ -126,9 +137,11 @@ class AppFixtures extends Fixture
 
         for ($i = 0; $i < $amount; $i++) {
             $produit = new Produit();
+            $produit->setActive(true);
             $produit->setNom('Produit Exemple ' . $i);
             $produit->setEditeur($editeurs[rand(0, 29)]);
             $produit->setPrix(rand(100, 3000) + $priceDecimals[array_rand($priceDecimals)]);
+            $produit->setImages([]);
 
             $categorie = $categories[array_rand($categories)];
             $produit->setCategorie($categorie);
@@ -147,14 +160,17 @@ class AppFixtures extends Fixture
 
             $m->persist($produit);
             $m->persist($categorie);
+            dump('Produit ' . $i . '/' . $amount);
         }
 
         $m->flush();
         dump('Produits générés.');
+        dump(' ');
     }
 
     public function createPaniers(int $amount, ObjectManager $m) : void
     {
+        dump('Génération des paniers...');
         $produits = $this->produitRepo->findAll();
         $users = $this->usersRepo->findAll();
 
@@ -174,9 +190,44 @@ class AppFixtures extends Fixture
             }
 
             $m->persist($panier);
+            dump('Panier ' . $i . '/' . $amount);
         }
 
         $m->flush();
         dump('Paniers générés.');
+        dump(' ');
+    }
+
+    public function createAvis(int $amount, ObjectManager $m) : void
+    {
+        dump('Génération des avis...');
+        $produits = $this->produitRepo->findAll();
+        $users = $this->usersRepo->findAll();
+        $commentaire = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sed dui tincidunt, aliquet dolor non, tempus ipsum.';
+
+        for ($i = 0; $i < $amount; $i++) {
+            $avis = new Avis();
+            $produit = $produits[array_rand($produits)];
+            $user = $users[array_rand($users)];
+            $minDate = strtotime($user->getCreatedAt()->format('Y-m-d H:i:s'));
+            $maxDate = strtotime('2025-05-01');
+            $date = date('Y-m-d H:i:s', rand($minDate, $maxDate));
+
+            $avis->setUser($users[array_rand($users)]);
+            $avis->setProduit($produit);
+            $avis->setNote(rand(0, 50) / 10);
+            $avis->setCommentaire($commentaire);
+            $avis->setDate(new DateTime($date));
+            $m->persist($avis);
+            $produit->addAvis($avis);
+            $produit->updateNote();
+
+            $m->persist($produit);
+            dump('Avis ' . $i . '/' . $amount);
+        }
+
+        $m->flush();
+        dump('Avis générés.');
+        dump(' ');
     }
 }
