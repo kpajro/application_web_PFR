@@ -20,11 +20,7 @@
     </div>
 </div>
 
-<div class="grid grid-cols-2 gap-4 mb-6">
-    <div id="editProfileButton" data-action="click->modal#open" data-modal-size="lg" data-modal-url="{{ path('app_profile_settings', {id: user.id}) }}" class="p-6 bg-blue-500 text-white text-center rounded-lg hover:bg-blue-700 hover:cursor-pointer">Modifier mon profil</div>
-    <a href="{{ path('app_logout')}}" class="p-6 bg-blue-500 text-white text-center rounded-lg hover:bg-blue-700 hover:cursor-pointer">Se déconnecter</a>
-    
-</div>
+<div id="editProfileButton" data-action="click->modal#open" data-modal-size="lg" data-modal-url="{{ path('app_profile_settings', {id: user.id}) }}" class="button from-sky-400 to-indigo-400 shadow-indigo-500/50 w-full m-4">Modifier mon profil</div>
 
 <div class="flex justify-between">
     <a href="{{ path('app_forgot_password_request') }}" class="text-blue-500 hover:underline">Réinitialiser mon mot de passe</a>
@@ -34,5 +30,8 @@
 
 <a href="{{ path('app_profile_generate_data', {id: user.id})}}" class="text-blue-500 hover:underline text-end italic w-full">Je souhaite enregistrer les informations que le site possède sur moi</a>
 
+<div class="w-full flex justify-end my-4">
+    <a href="{{ path('app_logout')}}" class="rounded-r-xs from-indigo-400 to-rose-600 shadow-rose-700/50 button">Se déconnecter</a>
+</div>
 {% endblock %}
 
