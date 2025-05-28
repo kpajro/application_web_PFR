@@ -75,10 +75,17 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Avis::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $avis;
 
+    /**
+     * @var Collection<int, Paiement>
+     */
+    #[ORM\OneToMany(targetEntity: Paiement::class, mappedBy: 'userId')]
+    private Collection $paiements;
+
     public function __construct()
     {
         $this->paniers = new ArrayCollection();
         $this->avis = new ArrayCollection();
+        $this->paiements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -318,6 +325,36 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($avis->getUser() === $this) {
                 $avis->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Paiement>
+     */
+    public function getPaiements(): Collection
+    {
+        return $this->paiements;
+    }
+
+    public function addPaiement(Paiement $paiement): static
+    {
+        if (!$this->paiements->contains($paiement)) {
+            $this->paiements->add($paiement);
+            $paiement->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removePaiement(Paiement $paiement): static
+    {
+        if ($this->paiements->removeElement($paiement)) {
+            // set the owning side to null (unless already changed)
+            if ($paiement->getUserId() === $this) {
+                $paiement->setUserId(null);
             }
         }
 
