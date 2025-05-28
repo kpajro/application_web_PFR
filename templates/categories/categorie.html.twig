@@ -7,21 +7,22 @@
     copie la structure du fichier sur un controlleur qui existe déjà
     sépare ton code, une fonction par évènement, et invoque les évènements dans le twig avec l'attribut 'data-action="click->categorie#tonévènement"' #}
 
-<div>
-    <h1>Produits de la catégorie</h1>
-    <div class="fixed left-0">
-    {{ form_start(filterForm, {'attr': {'data-controller': 'categorie','data-action': 'submit->categorie#submitted'}}) }}
-        {{ form_row(filterForm.recherche) }}
-        {{ form_row(filterForm.prixMin) }}
-        {{ form_row(filterForm.prixMax) }}
-        {{ form_row(filterForm.ordreAlpha) }}
-        {{ form_row(filterForm.asc) }}
-        {{ form_row(filterForm.os) }}
-        {{ form_row(filterForm.langages) }}
-        {{ form_row(filterForm.editor) }}
-        <button type="submit">Filtrer</button>
+    <h1 class="text-2xl font-bold text-gray-900 mb-4">{{ categorie.nom }}</h1>
+    <div class="sticky top-2  backdrop-blur-sm rounded-xl bg-gradient-to-bl from-indigo-300/50 to-sky-300/50 w-full">
+    {{ form_start(filterForm, {'attr': {'data-controller': 'categorie','data-action': 'submit->categorie#submitted', 'class': 'flex flex-col md:flex-row justify-between gap-6 items-center  p-3'}}) }}
+        <div class="text-lg font-semibold">Filtres</div>
+        <div class="flex  justify-center gap-6 items-center">
+            {{ form_row(filterForm.prixMin) }}
+            {{ form_row(filterForm.prixMax) }}
+            {{ form_row(filterForm.ordreAlpha) }}
+            {{ form_row(filterForm.asc) }}
+            {{ form_row(filterForm.recherche) }}
+            {{ form_row(filterForm.os) }}
+            {{ form_row(filterForm.langages) }}
+            {{ form_row(filterForm.editor) }}
+        </div>
+        <button type="submit" class="button from-sky-400 to-emerald-400 shadow-emerald-500/50">Appliquer les filtres</button>
     {{ form_end(filterForm) }}
     </div>
-    <div id="produits" class="produits"></div>
-</div>
+    <div id="produits" class="produits p-3 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"></div>
 {% endblock %}

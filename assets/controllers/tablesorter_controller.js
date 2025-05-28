@@ -5,14 +5,12 @@ export default class extends Controller {
         const $ = require('jquery');
 
         $(".tablesorter-init").tablesorter({
-  		    widthFixed: true,
+  		    widthFixed: false,
   		    headerTemplate : '{content} {icon}',
   		    widgets : ["zebra", "filter", "stickyHeaders"],
   		    widgetOptions : {
   		        filter_cssFilter: "input",
                 filter_saveFilters : true,
-                filter_reset : "#reset",
-                filter_placeholder: 'recherchez',
                 stickyHeaders_offset : 0,
                 stickyHeaders_filteredToTop: true,
                 stickyHeaders_cloneId : '-sticky',

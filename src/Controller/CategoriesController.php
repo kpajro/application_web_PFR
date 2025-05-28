@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Psr\Log\LoggerInterface;
-
+use Symfony\Component\String\Slugger\SluggerInterface;
 use function PHPUnit\Framework\isInfinite;
 
 class CategoriesController extends AbstractController
@@ -31,47 +31,57 @@ class CategoriesController extends AbstractController
     }
     
     #[Route('/{id}/categorie', name: 'app_categorie')]
-    public function listProducts(int $id, ProduitRepository $produitRepository, CategorieRepository $categorieRepository, Request $request): Response
+    public function listProducts(Categorie $categorie, ProduitRepository $produitRepository, Request $request): Response
     {
-        $products = $produitRepository->findByCategory($id);
-
-        $categories = $categorieRepository->findAll();
+        $products = $produitRepository->findByCategory($categorie->getId());
         $formBuilder = $this->createFormBuilder(
             null,
-            ['action' => $this->generateUrl('app_categorie', ['id' => $id])]
+            ['action' => $this->generateUrl('app_categorie', ['id' => $categorie->getId()])]
         );
         $formBuilder->add('prixMin', NumberType::class, [
-                        'label' => 'Prix Min',
+                        'label' => 'Prix Minimum',
                         'required' => false,
-                        'empty_data' => 0
+                        'empty_data' => 0,
+                        'label_attr' => ['class' => 'text-xs italic text-gray-700 text-end'],
+                        'attr' => ['class' => 'filtre-input'],
+                        'row_attr' => ['class' => 'flex flex-col justify-center']
                     ])
                     ->add('prixMax', NumberType::class, [
-                        'label' => 'Prix Max',
+                        'label' => 'Prix Maximum',
                         'required' => true,
                         'data' => 10000,
-                        'empty_data' => 10000
+                        'empty_data' => 10000,
+                        'label_attr' => ['class' => 'text-xs italic text-gray-700 text-end'],
+                        'attr' => ['class' => 'filtre-input'],
+                        'row_attr' => ['class' => 'flex flex-col justify-center']
                     ])
                     ->add('ordreAlpha', ChoiceType::class, [
-                        'label' => 'Ordre',
+                        'label' => 'Filtrer par',
                         'choices' => [
                             'Prix' => 'prix',
                             'Alphabétique' => 'alpha'
+                            'Note' => 'note'
                         ],
                         'multiple' => false,
                         'expanded' => false,
-                        'placeholder' => 'Filtrez par',
-                        'required' => false
+                        'placeholder' => 'Défaut',
+                        'required' => false,
+                        'label_attr' => ['class' => 'text-xs italic text-gray-700 text-end'],
+                        'attr' => ['class' => 'filtre-input'],
+                        'row_attr' => ['class' => 'flex flex-col justify-center']
                     ])
                     ->add('asc', ChoiceType::class, [
-                        'label' => "asc/desc",
+                        'label' => "Ordre",
                         'choices' => [
-                            'asc' => true,
-                            'desc' => false,
+                            'Croissant' => true,
+                            'Décroissant' => false,
                         ],
                         'multiple' => false,
                         'expanded' => false,
-                        'placeholder' => '- - -',
-                        'required' => false
+                        'required' => false,
+                        'label_attr' => ['class' => 'text-xs italic text-gray-700 text-end'],
+                        'attr' => ['class' => 'filtre-input'],
+                        'row_attr' => ['class' => 'flex flex-col justify-center']
                         ])
                     ->add('os', ChoiceType::class, [
                         'label' => "OS",
@@ -110,7 +120,12 @@ class CategoriesController extends AbstractController
                         'required' => false
                     ])
                     ->add('recherche', TextType::class, [
-                        'required' => false
+                        'required' => false,
+                        'label' => 'Rechercher',
+                        'label_attr' => ['class' => 'text-xs italic text-gray-700 text-end'],
+                        'attr' => ['class' => 'filtre-input filtre-search', 'placeholder' => "Entrez le nom d'un produit"],
+                        'row_attr' => ['class' => 'flex flex-col justify-center'],
+                        
                     ])
         ;
 
@@ -119,7 +134,7 @@ class CategoriesController extends AbstractController
 
         return $this->render('categories/categorie.html.twig', [
             'produits' => $products,
-            'categories' => $categories,
+            'categorie' => $categorie,
             'filterForm' => $form->createView()
         ]);
     }
@@ -160,7 +175,8 @@ class CategoriesController extends AbstractController
     }*/
 
     #[Route('/categorie/{id}/produits/list', name: 'app_categorie_produits_json', methods: ['POST'])]
-    public function productListInJson(Categorie $categorie, ProduitRepository $produitRepo, Request $request, LoggerInterface $logger): JsonResponse
+    public function productListInJson(Categorie $categorie, ProduitRepository $produitRepo, Request $request, SluggerInterface $slugger, LoggerInterface $logger): JsonResponse
+
     {
         $filtres = json_decode($request->getContent(), true);
         $filtres = [
@@ -176,6 +192,10 @@ class CategoriesController extends AbstractController
         $logger->info('Debug info:', ['data' => $filtres]);
 
         $produits = $produitRepo->findByCategoryAndFilter($categorie, $filtres);
-        return $this->json(['produits' => $produits]);
+        return $this->json([
+            'produits' => $produits,
+            'categorie' => $categorie->getNom(),
+            'directory' => 'uploadedFiles/produitImages/' . $slugger->slug($categorie->getNom())
+        ]);
     }
 }

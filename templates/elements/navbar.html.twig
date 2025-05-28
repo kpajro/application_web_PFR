@@ -1,36 +1,33 @@
-<nav class="bg-gray-800 p-4">
-    <div class="container mx-auto flex justify-between items-center">
-        <div class="flex space-x-4 justify-between items-center w-full">
-            <div class="flex-justify-between">
-                <a href="{{ url('app_index') }}" class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white">Page Accueil</a>
-                <a href="{{ path('app_categories_list') }}" class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white">Catégories</a>
-            </div>
-            <div class="flex justify-between items-center">
-                {% if app.user %}
-                    <a href="{{ path('app_user_profile', { id: app.user.id }) }}" class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white">Profil</a>
-                    {% if is_granted('ROLE_ADMIN') %}
-                        <div class="relative">
-                            <a href="{{ path('app_admin_home') }}" id="menu-button" class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white" aria-expanded="true" aria-haspopup="true">Administration</a>
-                            <div id="dropdown-menu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-                                <a href="{{ path('app_admin_users_list') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="menu-item-1">Gérer les utilisateurs</a>
-                                <a href="{{ path('app_admin_categories_list') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="menu-item-2">Gérer les catégories</a>
-                                <a href="{{ path('app_admin_produits_list') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="menu-item-2">Gérer les produits</a>
-                                <a href="{{ path('app_admin_paniers_list') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="menu-item-2">Gérer les paniers</a>
-                            </div>
-                        </div>
-                    {% endif %}
-                        <a href="{{ path('app_logout') }}" class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white">Se déconnecter</a>
-                    {% else %}
-                        <a href="{{ url('app_register') }}" class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white">S'enregister</a>
-                        <a href="{{ url('app_login') }}" class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white">Se connecter</a>    
+
+<nav class="bg-gradient-to-b from-indigo-300/30 to-transparent from-20% p-4 text-gray-800 transition-all" data-controller="navbar" id="navbar">
+    <div class="flex justify-between items-center">
+        <a id="logo" class="w-[100px]" href="{{ path('app_index') }}">
+            <img class="box-border" src="{{ asset('images/logo-cyna.svg') }}" alt="logo cyna">
+        </a>
+
+        <div class="space-x-4 justify-center items-center w-full hidden lg:flex" id="links">
+            <a href="{{ url('app_index') }}" class="button-navbar"><i class="fa-solid fa-house"></i> Accueil</a>
+            <a href="{{ path('app_categories_list') }}" class=" button-navbar"><i class="fa-solid fa-table-list"></i> Catégories</a>
+            <a href="" class="button-navbar"><i class="fa-solid fa-magnifying-glass"></i> Rechercher</a>
+            {% if app.user %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('app_admin_home') }}" id="menu-button" class="button-navbar" aria-expanded="true" aria-haspopup="true"><i class="fa-solid fa-wrench"></i> Administration</a>
                 {% endif %}
+                <a href="{{ path('app_user_profile', { id: app.user.id }) }}" class="button-navbar"><i class="fa-solid fa-user"></i> Mon profil</a>
+                <div class="button-navbar hover:cursor-pointer" data-action="click->modal#open" data-modal-size="md" data-modal-url="{{ path('app_panier_view') }}"><i class="fa-solid fa-cart-shopping"></i> Mon panier <span class="text-xs">&lpar;{{ app.user.panierActif.panierProduits|length }}&rpar;</span></div>
+                <a href="{{ path('app_logout') }}" class="button-navbar"><i class="fa-solid fa-arrow-right-from-bracket"></i> Se déconnecter</a>
+            {% else %}
+                <div class="button-navbar hover:cursor-pointer" data-action="click->modal#open" data-modal-size="md" data-modal-url="{{ path('app_panier_view') }}"><i class="fa-solid fa-cart-shopping"></i> Mon panier</div>
+                <a href="{{ url('app_login') }}" class="button-navbar"><i class="fa-solid fa-right-to-bracket"></i> Se connecter</a>    
+                <a href="{{ url('app_register') }}" class="button-navbar"><i class="fa-regular fa-id-card"></i> S'enregister</a>
+            {% endif %}
+        </div>
+
+        <div class="lg:w-[100px]">
+            <div class="lg:hidden hover:cursor-pointer" data-action="click->navbar#openMobileMenu" id="mobile-menu-btn">
+                <i class="fa-solid fa-bars"></i>
             </div>
         </div>
     </div>
 </nav>
 
-<script>
-    document.getElementById("menu-button").addEventListener("mouseover", function () {
-        document.getElementById("dropdown-menu").classList.toggle("hidden")
-    })
-</script>

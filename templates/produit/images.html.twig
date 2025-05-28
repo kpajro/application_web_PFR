@@ -1,0 +1,30 @@
+<div class="absolute top-5 right-5 text-white/90 hover:text-white text-7xl close-modal hover:cursor-pointer transition-all">&times;</div>
+
+<div data-controller="produits">
+    <div class="md:col-span-3 p-2">
+        <div id="imgToDisplay" class="max-w-full h-auto rounded-md mb-4">
+            {% if main %}
+                <img src="{{ asset(main) }}" id="displayImgModal" alt="" class="rounded-sm">
+            {% else %}
+                {# image par défaut à ajouter #}
+            {% endif %}
+        </div>
+        <div class="flex items-center justify-center gap-3 max-w-full overflow-x-scroll">
+            {% for key, image in images %}
+                {% if key == 'main' %}
+                    <div data-action="click->produits#changeImageModal" class="p-1 transition-all hover:cursor-pointer img-displayed rounded-sm border-2 border-transparent">
+                        <img src="{{ asset(directory ~ image) }}" alt="" class="rounded-sm w-[100px]  transition-all">
+                    </div>
+                {% elseif key == 'other' %}
+                    {% for img in image %}
+                        <div data-action="click->produits#changeImageModal" class="p-1 transition-all hover:cursor-pointer rounded-sm border-transparent border-2" >
+                            <img src="{{ asset(directory ~ img) }}" alt="" class="rounded-sm w-[100px] " >
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                {% else %}
+                    Pas d'image.
+            {% endfor %}
+        </div>
+    </div>
+</div>

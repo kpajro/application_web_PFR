@@ -15,13 +15,50 @@ input[type=file]::file-selector-button {
 input[type=file]::file-selector-button:hover {
    @apply bg-indigo-500 text-white shadow-lg shadow-indigo-500/50 cursor-pointer; 
 }
+textarea {
+    @apply min-h-20 overflow-y-scroll overflow-x-clip outline-none  bg-gray-50 text-gray-800 text-sm border border-gray-400/70 hover:bg-white p-2 w-full  focus:border-blue-400 focus:bg-white outline-0 rounded-md transition-all z-50;
+    resize: none;
+}
 
+.panier-input {
+    @apply text-center bg-transparent w-fit max-w-[50px] hover:bg-transparent border-none h-fit;
+}
+.filtre-input {
+    @apply h-8 max-w-25 text-center text-sm;
+}
+.filtre-search {
+    @apply max-w-full w-full text-start;
+}
 .hidden-imp {
     display: none !important;
 }
 
+.ck-editor__main {
+    max-height: 53vh;
+    overflow-y: scroll;
+}
+::-webkit-scrollbar{
+    @apply border-none bg-transparent shadow-none drop-shadow-none w-1;
+}
+::-webkit-scrollbar-thumb{
+    @apply rounded-lg w-full bg-gray-800;
+}
+::-webkit-scrollbar-button{
+    @apply hidden;
+}
+::-webkit-scrollbar-corner{
+    @apply bg-transparent;
+}
+::-webkit-scrollbar-track {
+    @apply bg-transparent;
+}
+::-webkit-scrollbar-track-piece {
+    @apply bg-transparent;
+}
 
-
+.help-text {
+    @apply text-gray-700 italic text-sm;
+}
 
 
 .bo-page-ttl {
@@ -29,10 +66,10 @@ input[type=file]::file-selector-button:hover {
 }
 
 .admin-table-parent {
-    @apply flex justify-center items-center lg:-mx-55;
+    @apply flex justify-start lg:justify-center items-center overflow-x-scroll;
 }
 .admin-table {
-    @apply  w-full table-fixed shadow-xl mb-15;
+    @apply  w-full  shadow-xl mb-15 min-w-[750px];
 
     thead {
         @apply bg-gradient-to-r from-sky-400/70 to-indigo-300/70 to-65% p-2 h-12 text-sm font-medium backdrop-blur-sm;
@@ -101,7 +138,7 @@ input[type=file]::file-selector-button:hover {
     label {
         @apply mb-2 font-medium text-gray-800;
     }
-    input,select {
+    input,select, textarea {
         @apply shadow-md;
     }
 
@@ -143,4 +180,40 @@ input[type=file]::file-selector-button:hover {
 }
 .modal-navigation-btn.activated {
     @apply bg-indigo-300 text-white/90 hover:bg-indigo-400 hover:shadow-md hover:shadow-indigo-500/50 hover:text-white hover:cursor-pointer;
+}
+
+
+.onglet-selected {
+    @apply shadow-lg shadow-sky-500/30 bg-gradient-to-b from-indigo-300/30 to-sky-300/40 from-70%;
+}
+
+.produit-table {
+    @apply min-w-full rounded-xl ;
+
+    tr {
+        @apply h-14 rounded-xl p-4;
+    }
+    tr.alt-row {
+        @apply bg-indigo-400/10 rounded-xl;
+    }
+    th {
+        @apply min-w-1/2;
+    }
+}
+
+.button-navbar {
+    @apply px-3 py-2 rounded-t-lg md:rounded-lg text-sm font-medium hover:bg-indigo-500/30 hover:shadow-lg hover:shadow-indigo-500/30 transition-all duration-200 border-b md:border-b-0 border-b-indigo-300 text-start md:text-center focus:bg-indigo-500/30 focus:shadow-lg focus:shadow-indigo-500/30;
+}
+
+.button {
+    @apply rounded-2xl text-center bg-gradient-to-br text-white lg:text-white/90 hover:text-white hover:shadow-lg py-3 px-4 hover:cursor-pointer transition-all active:-translate-y-1 w-fit h-fit
+}
+.button.cancel {
+    @apply bg-gray-400 hover:shadow-indigo-300/30;
+}
+.button.delete {
+    @apply from-indigo-400 to-rose-500 from-30% hover:shadow-rose-500/30
+}
+.img-displayed {
+    @apply border-2 border-indigo-700/30;
 }
