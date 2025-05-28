@@ -321,7 +321,7 @@ class Produit
             foreach ($avisArray as $avis) {
                 $total += $avis->getNote();
             }
-            $this->note = $total/ count($avisArray);
+            $this->note = $total / count($avisArray);
         } else {
             $this->note = null;
         }

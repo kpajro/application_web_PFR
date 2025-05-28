@@ -55,6 +55,7 @@ class ProduitController extends AbstractController
             $avis->setDate(new DateTime());
             $avis->setProduit($produit);
             $avis->setUser($this->getUser());
+            $produit->addAvis($avis);
             $produit->updateNote();
         
             $em->persist($avis);
@@ -91,6 +92,7 @@ class ProduitController extends AbstractController
     public function removeAvis(Avis $avis, EntityManagerInterface $em) 
     {
         $produit = $avis->getProduit();
+        $produit->removeAvis($avis);
         $em->remove($avis);
         $produit->updateNote();
         $em->persist($produit);
