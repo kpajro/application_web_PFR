@@ -3,33 +3,36 @@
 {% block title %}User Profile{% endblock %}
 
 {% block body %}
-<div class="flex justify-center items-center h-screen">
-    <div class="w-1/2 p-6 border border-gray-400 rounded-lg bg-gray-200">
-        <h1 class="text-2xl font-bold mb-6 text-center">User Profile</h1>
 
-        <div class="mb-6 bg-white p-4 rounded-lg shadow">
-            <p><strong>Nom :</strong> {{ app.user.name }}</p>
-            <p><strong>Prénom :</strong> {{ app.user.firstname }}</p>
-            <p><strong>Téléphone :</strong> {{ app.user.phoneNumber }}</p>
-            <p><strong>Email :</strong> {{ app.user.email }}</p>
-            <p><strong>Pays :</strong> {{ app.user.country }}</p>
-        </div>
+<h1 class="text-2xl font-bold mb-6 text-gray-900" data-controller="profile">Mon compte utilisateur</h1>
 
-        <div class="grid grid-cols-2 gap-4 mb-6">
-            <div id="editProfileButton" data-action="click->modal#open" data-modal-size="lg" data-modal-url="{{ path('app_profile_settings', {id: user.id}) }}" class="p-6 bg-blue-500 text-white text-center rounded-lg hover:bg-blue-700 hover:cursor-pointer">Modifier mon profil</div>
-            <a href="{{ path('app_logout')}}" class="p-6 bg-blue-500 text-white text-center rounded-lg hover:bg-blue-700 hover:cursor-pointer">Se déconnecter</a>
-            
-        </div>
-
-        <div class="flex justify-between">
-            <a href="{{ path('app_forgot_password_request') }}" class="text-blue-500 hover:underline">Réinitialiser mon mot de passe</a>
-            <div class="text-rose-500 hover:underline hover:text-red-700 hover:cursor-pointer" data-action="click->modal#open" data-modal-size="md" data-modal-url="{{ path('app_profile_delete_account', {id: user.id}) }}">Supprimer mon profil</div>
-        </div>
-
-
-        <a href="{{ path('app_profile_generate_data', {id: user.id})}}" class="text-blue-500 hover:underline text-end italic w-full">Je souhaite enregistrer les informations que le site possède sur moi</a>
+<div class="mb-6 bg-white rounded-xl text-xl font-medium text-gray-900" id="info">
+    <div class="flex justify-between items-center">
+        <p>{{ user.name|upper }} {{ user.firstname }} &lpar;{{ user.email }}&rpar;</p>
+        <p class="italic font-normal text-lg text-gray-700">Membre depuis le {{ user.createdAt|format_datetime('medium', 'none', locale: 'fr') }}</p>
+    </div>
+        <p id="show-more" class="text-sm hover:underline hover:cursor-pointer font-normal"><i id="show-more-arrow" class="fa-solid fa-arrow-up transition-all hover:scale-110"></i> Voir plus</p>
+    <div id="additional-info" class="rounded-b-xl text-sm text-gray-800 bg-indigo-300/30 mt-0.5 p-3 hidden">
+        <p>Né&lpar;e&rpar; le {{ user.birthday|date('d/m/y') }}</p>
+        <p>Pays : {{ user.country }}</p>
+        <p>Téléphone : {{ user.phoneNumber }}</p>
+        <p>{{ user.accountType == 1 ? 'Compte entreprise' : 'Compte particulier' }}</p>
     </div>
 </div>
+
+<div class="grid grid-cols-2 gap-4 mb-6">
+    <div id="editProfileButton" data-action="click->modal#open" data-modal-size="lg" data-modal-url="{{ path('app_profile_settings', {id: user.id}) }}" class="p-6 bg-blue-500 text-white text-center rounded-lg hover:bg-blue-700 hover:cursor-pointer">Modifier mon profil</div>
+    <a href="{{ path('app_logout')}}" class="p-6 bg-blue-500 text-white text-center rounded-lg hover:bg-blue-700 hover:cursor-pointer">Se déconnecter</a>
+    
+</div>
+
+<div class="flex justify-between">
+    <a href="{{ path('app_forgot_password_request') }}" class="text-blue-500 hover:underline">Réinitialiser mon mot de passe</a>
+    <div class="text-rose-500 hover:underline hover:text-red-700 hover:cursor-pointer" data-action="click->modal#open" data-modal-size="md" data-modal-url="{{ path('app_profile_delete_account', {id: user.id}) }}">Supprimer mon profil</div>
+</div>
+
+
+<a href="{{ path('app_profile_generate_data', {id: user.id})}}" class="text-blue-500 hover:underline text-end italic w-full">Je souhaite enregistrer les informations que le site possède sur moi</a>
 
 {% endblock %}
 

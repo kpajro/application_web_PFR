@@ -36,7 +36,6 @@ class UserController extends AbstractController
     
         return $this->render('user/profile.html.twig', [
             'user' => $user,
-            'form' => $this->createForm(UserProfileFormType::class, $user)->createView()
         ]);
     }
     
