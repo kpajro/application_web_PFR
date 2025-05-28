@@ -70,4 +70,22 @@ export default class extends Controller {
             box.appendChild(div)
         })
     }
+
+    showFilters(event) {
+        event.preventDefault();
+        const form = document.getElementById('filtres-form');
+        const arrow = document.getElementById('filtres-arrow');
+        if (form.classList.contains('hidden')) {
+            form.classList.remove('hidden');
+            setTimeout(() => {
+                form.classList.remove('scale-0');
+            }, 50);
+        } else {
+            form.classList.add('scale-0');
+            setTimeout(() => {
+                form.classList.add('hidden');
+            }, 200);
+        }
+        arrow.classList.toggle('rotate-180');
+    }
 }

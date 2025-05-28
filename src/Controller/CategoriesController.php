@@ -59,7 +59,7 @@ class CategoriesController extends AbstractController
                         'label' => 'Filtrer par',
                         'choices' => [
                             'Prix' => 'prix',
-                            'Alphabétique' => 'alpha'
+                            'Alphabétique' => 'alpha',
                             'Note' => 'note'
                         ],
                         'multiple' => false,
@@ -82,50 +82,58 @@ class CategoriesController extends AbstractController
                         'label_attr' => ['class' => 'text-xs italic text-gray-700 text-end'],
                         'attr' => ['class' => 'filtre-input'],
                         'row_attr' => ['class' => 'flex flex-col justify-center']
-                        ])
+                    ])
                     ->add('os', ChoiceType::class, [
-                        'label' => "OS",
+                        'label' => "Systèmes d'exploitation disponibles",
                         'choices' => [
-                            'WIN' => "WIN",
-                            'LIN' => "LIN",
-                            'MACOS' => "MacOS"
+                            'Windows' => "WIN",
+                            'Linux' => "LIN",
+                            'MacOS' => "MacOS"
                         ],
-                        'multiple' => false,
-                        'expanded' => false,
-                        'placeholder' => "Choisissez l'OS",
-                        'required' => false
+                        'multiple' => true,
+                        'expanded' => true,
+                        'placeholder' => "Tous",
+                        'required' => false,
+                        'label_attr' => ['class' => 'text-xs italic text-gray-700 text-end'],
+                        'attr' => ['class' => 'filtre-boxes'],
+                        'row_attr' => ['class' => 'flex flex-col justify-center']
                     ])
                     ->add('langages', ChoiceType::class, [
-                        'label' => "Languages",
+                        'label' => "Langages disponibles",
                         'choices' => [
-                            'French' => 'FR',
-                            'English' => 'EN',
-                            'Italian' => 'ITA',
-                            'German' => 'GER',
-                            'Spanish' => 'SPA'
+                            'Français' => 'FR',
+                            'Anglais' => 'EN',
+                            'Italien' => 'ITA',
+                            'Allemand' => 'GER',
+                            'Espagnol' => 'SPA'
                         ],
-                        'multiple' => false,
-                        'expanded' => false,
-                        'placeholder' => "Choisissez la langue",
-                        'required' => false
+                        'multiple' => true,
+                        'expanded' => true,
+                        'placeholder' => "Toutes les langues",
+                        'required' => false,
+                        'label_attr' => ['class' => 'text-xs italic text-gray-700 text-end'],
+                        'attr' => ['class' => 'filtre-boxes'],
+                        'row_attr' => ['class' => 'flex flex-col justify-center']
                     ])
                     ->add('editor', ChoiceType::class, [
                         'label' => "Editeurs",
                         'choices' => [
                             
                         ],
-                        'multiple' => false,
-                        'expanded' => false,
-                        'placeholder' => "Choisissez l'éditeur",
-                        'required' => false
+                        'multiple' => true,
+                        'expanded' => true,
+                        'placeholder' => "Tous",
+                        'required' => false,
+                        'label_attr' => ['class' => 'text-xs italic text-gray-700 text-end'],
+                        'attr' => ['class' => 'filtre-boxes'],
+                        'row_attr' => ['class' => 'flex flex-col justify-center']
                     ])
                     ->add('recherche', TextType::class, [
                         'required' => false,
-                        'label' => 'Rechercher',
+                        'label' => false,
                         'label_attr' => ['class' => 'text-xs italic text-gray-700 text-end'],
-                        'attr' => ['class' => 'filtre-input filtre-search', 'placeholder' => "Entrez le nom d'un produit"],
-                        'row_attr' => ['class' => 'flex flex-col justify-center'],
-                        
+                        'attr' => ['class' => 'filtre-input filtre-search', 'placeholder' => "Recherchez un produit..."],
+                        'row_attr' => ['class' => 'flex flex-col justify-center w-full'],
                     ])
         ;
 

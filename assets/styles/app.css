@@ -24,10 +24,19 @@ textarea {
     @apply text-center bg-transparent w-fit max-w-[50px] hover:bg-transparent border-none h-fit;
 }
 .filtre-input {
-    @apply h-8 max-w-25 text-center text-sm;
+    @apply h-8  text-center text-sm;
+}
+.filtre-boxes {
+    @apply grid grid-cols-4 md:grid-cols-6 items-center;
+    input {
+        @apply shadow-none w-fit self-center justify-self-end;
+    }
+    label {
+        @apply text-sm font-medium text-gray-700 w-full text-start self-center mb-0 pl-2;
+    }
 }
 .filtre-search {
-    @apply max-w-full w-full text-start;
+    @apply max-w-full w-full text-start h-10;
 }
 .hidden-imp {
     display: none !important;
