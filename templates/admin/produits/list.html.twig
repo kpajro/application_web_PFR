@@ -21,15 +21,15 @@
     </div>
 
     <div class="admin-table-parent" data-controller="tablesorter">
-        <table class="admin-table table tablesorter-init" id="tablesorter-init">
+        <table class="admin-table table tablesorter tablesorter-init" id="tablesorter-init">
             <thead>
-                <th class="max-w-15">ID</th>
-                <th>Nom du produit</th>
-                <th>Editeur</th>
-                <th>Catégorie</th>
-                <th class="max-w-25">Prix</th>
-                <th class="max-w-25">Stock limité</th>
-                <th class="max-w-25">Vente par lot</th>
+                <th class="max-w-15" scope="col">ID</th>
+                <th scope="col">Nom du produit</th>
+                <th scope="col">Editeur</th>
+                <th scope="col">Catégorie</th>
+                <th class="max-w-25" scope="col">Prix</th>
+                <th class="max-w-25" scope="col">Stock limité</th>
+                <th class="max-w-25" scope="col">Vente par lot</th>
             </thead>
             <tbody>
                 {% for produit in produits %}

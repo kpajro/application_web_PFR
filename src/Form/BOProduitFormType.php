@@ -115,14 +115,14 @@ class BOProduitFormType extends AbstractType
                 'label' => 'Icone de présentation du produit',
                 'help' => "L'icône sera utilisée pour présenter le produit dans la liste des produits et dans les paniers clients. Il est recommandé de soumettre un image au format carré.",
                 'mapped' => false,
-                'row_attr' => ['class' => 'admin-form-section']
+                'row_attr' => ['class' => 'admin-form-section mb-4']
             ])
             ->add('imageMain', FileType::class, [
                 'label' => 'Image de présentation principale du produit',
                 'required' => false,
                 'help' => "Image qui sera présentée en premier au client lorsqu'il arrive sur la page produit. Privilégier les images au format carré.",
                 'mapped' => false,
-                'row_attr' => ['admin-form-section']
+                'row_attr' => ['admin-form-section mb-4']
             ])
             ->add('imageOther', FileType::class, [
                 'label' => 'Autres images de présentations',

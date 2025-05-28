@@ -67,7 +67,7 @@
 
     <div id="3" class="hidden-imp transition-all translate-x-[100rem] duration-300 h-full overflow-y-auto">
         {% if produit is defined %}
-        <p>Images du produit : </p>
+        <p class="text-xl font-semibold mb-4">Images du produit : </p>
         <div class="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4 md:gap-6">
             {% for key, image in produit.images %}
                 {% if key == 'other' %}
@@ -88,11 +88,11 @@
                     </div>
                 {% endif %}
             {% else %}
-                <p>Aucune image pour ce produit.</p>
+                <p class="help-text">Aucune image pour ce produit.</p>
             {% endfor %}
         </div>
         <div class="admin-button mx-auto mt-2 w-fit shadow-indigo-500/50" data-action="click->boproduits#displayImgForm">Modifier les images</div>
-        <div class="hidden scale-0 transition-all duration-200" id="img-edit-form">
+        <div class="hidden scale-0 transition-all duration-200 py-2" id="img-edit-form">
             {{ form_row(form.icon) }}
             {{ form_row(form.imageMain) }}
             {{ form_row(form.imageOther) }}

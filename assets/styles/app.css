@@ -66,10 +66,10 @@ textarea {
 }
 
 .admin-table-parent {
-    @apply flex justify-center items-center;
+    @apply flex justify-start lg:justify-center items-center overflow-x-scroll;
 }
 .admin-table {
-    @apply  w-full table-fixed shadow-xl mb-15;
+    @apply  w-full  shadow-xl mb-15 min-w-[750px];
 
     thead {
         @apply bg-gradient-to-r from-sky-400/70 to-indigo-300/70 to-65% p-2 h-12 text-sm font-medium backdrop-blur-sm;
