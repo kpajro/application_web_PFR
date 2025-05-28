@@ -119,13 +119,16 @@ class BOProduitsController extends AbstractController
         $directory = 'uploadedFiles/produitImages/' . $slugger->slug($produit->getCategorie()->getNom()) . '/';
         $previousImages = $produit->getImages();
         $produitImages = [];
+        if ($produit->getImages() === null) {
+            $previousImages = $produitImages;
+        }
         if ($images['icon']) {
             /** @var UploadedFile $icon **/
             $icon = $images['icon'];
             $newIconName = $slugger->slug($produit->getNom()) . '-ICON.' . $icon->guessExtension();
             $icon->move($directory, $newIconName);
             $produitImages['icon'] = $newIconName;
-        } else if ($previousImages['icon'] && !$images['icon']) {
+        } else if (key_exists('icon', $previousImages) && $previousImages['icon'] && !$images['icon']) {
             $produitImages['icon'] = $previousImages['icon'];
         }
         if ($images['imageMain']) {
@@ -134,7 +137,7 @@ class BOProduitsController extends AbstractController
             $newMainName = $slugger->slug($produit->getNom()) . '-MAIN.' . $main->guessExtension();
             $main->move($directory, $newMainName);
             $produitImages['main'] = $newMainName;
-        } else if ($previousImages['main'] && !$images['imageMain']) {
+        } else if (key_exists('main', $previousImages) &&$previousImages['main'] && !$images['imageMain']) {
             $produitImages['main'] = $previousImages['main'];
         }
         if ($images['imageOther']) {
@@ -148,7 +151,7 @@ class BOProduitsController extends AbstractController
                 $i++;
             }
             $produitImages['other'] = $others;
-        } else if ($previousImages['other'] && !$images['imageOther']) {
+        } else if (key_exists('other', $previousImages) && $previousImages['other'] && !$images['imageOther']) {
             $produitImages['other'] = $previousImages['other'];
         }
         
