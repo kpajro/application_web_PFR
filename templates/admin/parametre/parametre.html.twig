@@ -12,4 +12,11 @@
             <button type="submit" class="bg-blue-500 text-white py-1 px-4 rounded-md"> Enregistrer </button>
         </form>
     </div>
+    <div>
+        {% for faq in faqs %}
+            <button class="bg-blue-500 text-white py-1 px-4 rounded-md" data-modal-url="{{ path('app_admin_faq_edit', {id: faq.id}) }}" data-action="click->modal#open" class="modal-launcher">
+                Gestion de la FAQ
+            </button>
+        {% endfor %}
+    </div>
 {% endblock %}

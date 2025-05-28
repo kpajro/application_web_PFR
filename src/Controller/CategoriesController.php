@@ -14,8 +14,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
-
 use function PHPUnit\Framework\isInfinite;
 
 class CategoriesController extends AbstractController
@@ -59,12 +59,12 @@ class CategoriesController extends AbstractController
                         'label' => 'Filtrer par',
                         'choices' => [
                             'Prix' => 'prix',
-                            'Alphabétique' => 'alphabétique',
+                            'Alphabétique' => 'alpha'
                             'Note' => 'note'
                         ],
                         'multiple' => false,
                         'expanded' => false,
-                        'placeholder' => '',
+                        'placeholder' => 'Défaut',
                         'required' => false,
                         'label_attr' => ['class' => 'text-xs italic text-gray-700 text-end'],
                         'attr' => ['class' => 'filtre-input'],
@@ -78,9 +78,46 @@ class CategoriesController extends AbstractController
                         ],
                         'multiple' => false,
                         'expanded' => false,
+                        'required' => false,
                         'label_attr' => ['class' => 'text-xs italic text-gray-700 text-end'],
                         'attr' => ['class' => 'filtre-input'],
                         'row_attr' => ['class' => 'flex flex-col justify-center']
+                        ])
+                    ->add('os', ChoiceType::class, [
+                        'label' => "OS",
+                        'choices' => [
+                            'WIN' => "WIN",
+                            'LIN' => "LIN",
+                            'MACOS' => "MacOS"
+                        ],
+                        'multiple' => false,
+                        'expanded' => false,
+                        'placeholder' => "Choisissez l'OS",
+                        'required' => false
+                    ])
+                    ->add('langages', ChoiceType::class, [
+                        'label' => "Languages",
+                        'choices' => [
+                            'French' => 'FR',
+                            'English' => 'EN',
+                            'Italian' => 'ITA',
+                            'German' => 'GER',
+                            'Spanish' => 'SPA'
+                        ],
+                        'multiple' => false,
+                        'expanded' => false,
+                        'placeholder' => "Choisissez la langue",
+                        'required' => false
+                    ])
+                    ->add('editor', ChoiceType::class, [
+                        'label' => "Editeurs",
+                        'choices' => [
+                            
+                        ],
+                        'multiple' => false,
+                        'expanded' => false,
+                        'placeholder' => "Choisissez l'éditeur",
+                        'required' => false
                     ])
                     ->add('recherche', TextType::class, [
                         'required' => false,
@@ -138,17 +175,21 @@ class CategoriesController extends AbstractController
     }*/
 
     #[Route('/categorie/{id}/produits/list', name: 'app_categorie_produits_json', methods: ['POST'])]
-    public function productListInJson(Categorie $categorie, ProduitRepository $produitRepo, Request $request, SluggerInterface $slugger): JsonResponse
+    public function productListInJson(Categorie $categorie, ProduitRepository $produitRepo, Request $request, SluggerInterface $slugger, LoggerInterface $logger): JsonResponse
+
     {
         $filtres = json_decode($request->getContent(), true);
-
         $filtres = [
             'prix_minimum' => $filtres['prixMin'] ?? null,
             'prix_maximum' => $filtres['prixMax'] ?? null,
             'order' => $filtres['ordreAlpha'] ?? null,
             'asc' => $filtres['asc'] ?? null,
-            'recherche' => $filtres['recherche'] ?? null
+            'recherche' => $filtres['recherche'] ?? null,
+            'os' => $filtres['os'] ?? null,
+            //'langages' => $filtres['langages'] ?? null,
+            'editor' => $filtres['editor'] ?? null
         ];
+        $logger->info('Debug info:', ['data' => $filtres]);
 
         $produits = $produitRepo->findByCategoryAndFilter($categorie, $filtres);
         return $this->json([
