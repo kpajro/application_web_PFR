@@ -3,8 +3,8 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
-    ]
-    "content-hash": "71edc86ae1706c7abf7b56230b2bf30c"
+    ],
+    "content-hash": "71edc86ae1706c7abf7b56230b2bf30c",
     "packages": [
         {
             "name": "doctrine/cache",
