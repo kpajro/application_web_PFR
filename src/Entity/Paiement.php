@@ -82,7 +82,7 @@ class Paiement
 
     public function setUserId(?Users $user): static
     {
-        $this->userId = $user;
+        $this->user = $user;
 
         return $this;
     }

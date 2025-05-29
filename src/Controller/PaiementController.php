@@ -3,9 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Panier;
-use App\Entity\Paiement;
 use App\Entity\Users;
+use App\Entity\Paiement;
 use App\Service\PanierHandler;
+use App\Repository\PaiementRepository;
 use App\Repository\PanierRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 
-class CheckoutController extends AbstractController
+class PaiementController extends AbstractController
 {
     public function __construct(private PanierHandler $panierHandler)
     {
@@ -60,47 +61,72 @@ class CheckoutController extends AbstractController
         return new JsonResponse(['id' => $session->id]);
     }
 
+    #[Route('/paiements', name: 'app_paiements')]
+    public function paiementsPage(PaiementRepository $paiementRepository): Response
+    {
+        $user = $this->getUser();
+
+        $paiements = $paiementRepository->findBy(['user' => $user]);
+        return $this->render('/paiement/list.html.twig', [
+            'paiements' => $paiements,
+        ]);
+    }
+
     #[Route('/checkout', name: 'app_stripe_checkout')]
-    public function checkoutPage(Request $request): Response
+    public function checkoutPage(): Response
     {
         // temporaire pour les tests (ou sinon osef)
-        return $this->render('/checkout/checkout.html.twig', [
+        return $this->render('/paiement/checkout.html.twig', [
             'stripe_public_key' => 'pk_test_51RSvQkRVumHN60ooKlCL6qUPaVblzy3dtuAP3XwdF8LChY4G56VLJKpi526WBpi3VUEy0XcJifynKetmnul5Us7100AS1ThEJH',
         ]);
     }
     #[Route('/payment-success', name: 'app_stripe_payment_success')]
     public function paymentSuccess(Request $request, EntityManagerInterface $em): Response
     {
-        // faire verif si l'utilisateur connecté et vient de faire un paiement
         $loggedUser = $this->getUser();
-        if ($loggedUser){
-            \Stripe\Stripe::setApiKey("rk_test_51RSvQkRVumHN60oo3B0poNqglD7FJgwbKRuRrVSsbf1TAuXMQHY7QJTXxjnmblJf7Do95CZSBlUt92qMiIusTwPX00uMhWtTe7");
-            $sessionId = $request->query->get("session_id");
-            $session = \Stripe\Checkout\Session::retrieve($sessionId);
-            $paymentIntent = \Stripe\PaymentIntent::retrieve($session->payment_intent);
-            
-            $paiement = new Paiement($loggedUser);
-            $uuid = $paymentIntent->id;
-            $montant = $paymentIntent->amount / 100;
-            $date = (new \DateTime())->setTimestamp($paymentIntent->created);
-            $status = $paymentIntent->status;
-
-            $paiement->setUuid($uuid);
-            $paiement->setMontant($montant);
-            $paiement->setDate($date);
-            $paiement->setStatus($status);
-            $paiement->setUserId($loggedUser);
-    
-            $em->persist($paiement);
-            $em->flush();
+        $panier = $this->panierHandler->getActivePanier($this->getUser(), $request);
+        
+        if(!$loggedUser){
+            return $this->redirectToRoute('app_index');
         }
+        $sessionId = $request->query->get("session_id");
 
-        return $this->render('checkout/success.html.twig');
+        if (!$sessionId) {
+            $this->addFlash('error', 'session de paiement introuvable');
+            return $this->redirectToRoute('app_index');
+        }
+        \Stripe\Stripe::setApiKey("rk_test_51RSvQkRVumHN60oo3B0poNqglD7FJgwbKRuRrVSsbf1TAuXMQHY7QJTXxjnmblJf7Do95CZSBlUt92qMiIusTwPX00uMhWtTe7");
+        $session = \Stripe\Checkout\Session::retrieve($sessionId);
+        $paymentIntent = \Stripe\PaymentIntent::retrieve($session->payment_intent);
+
+        $existingpaiement = $em->getRepository(Paiement::class)->findOneBy(['uuid' => $paymentIntent->id]);
+        if ($existingpaiement) {
+            $this->addFlash('info', 'le paiement existe déjà');
+            return $this->redirectToRoute('app_index');
+        }
+        
+        $paiement = new Paiement($loggedUser);
+        $uuid = $paymentIntent->id;
+        $montant = $paymentIntent->amount / 100;
+        $date = (new \DateTime())->setTimestamp($paymentIntent->created);
+        $status = $paymentIntent->status;
+
+        $paiement->setUuid($uuid);
+        $paiement->setMontant($montant);
+        $paiement->setDate($date);
+        $paiement->setStatus($status);
+        $paiement->setUserId($loggedUser);
+        $panier->setEtat(2);
+
+        $em->persist($paiement);
+        $em->flush();
+        
+        return $this->render('paiement/success.html.twig');
     }
 
     #[Route('/payment-cancel', name: 'app_stripe_payment_cancel')]
     public function paymentCancel(): Response
     {
-        return $this->render('checkout/cancel.html.twig');
+        return $this->render('paiement/cancel.html.twig');
     }
 }

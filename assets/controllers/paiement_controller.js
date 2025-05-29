@@ -2,12 +2,12 @@ import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
     static values = {
-        stripePublicKey: String,
         stripeUrl: String
     }
 
     connect() {
-        this.stripe = Stripe(this.stripePublicKeyValue)
+        const stripePKey = "pk_test_51RSvQkRVumHN60ooKlCL6qUPaVblzy3dtuAP3XwdF8LChY4G56VLJKpi526WBpi3VUEy0XcJifynKetmnul5Us7100AS1ThEJH"
+        this.stripe = Stripe(stripePKey)
 
         this.element.addEventListener("click", () => {
             fetch(this.stripeUrlValue, {
