@@ -8,6 +8,7 @@ use App\Entity\Paiement;
 use App\Service\PanierHandler;
 use App\Repository\PaiementRepository;
 use App\Repository\PanierRepository;
+use App\Form\PaiementFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,7 +25,7 @@ class PaiementController extends AbstractController
     }
 
     #[Route('/create-checkout', name: 'app_stripe_checkout_create', methods: ['POST'])]
-    public function createCheckoutSession(Request $request, EntityManagerInterface $em): JsonResponse
+    public function createCheckoutSession(Request $request): JsonResponse
     {
         // temporaire pour les tests (ou sinon osef)
         \Stripe\Stripe::setApiKey('rk_test_51RSvQkRVumHN60oo3B0poNqglD7FJgwbKRuRrVSsbf1TAuXMQHY7QJTXxjnmblJf7Do95CZSBlUt92qMiIusTwPX00uMhWtTe7');
@@ -61,6 +62,23 @@ class PaiementController extends AbstractController
         return new JsonResponse(['id' => $session->id]);
     }
 
+    #[Route('/pre-checkout', name: 'app_checkout_address')]
+    public function checkoutAddress(Request $request): Response
+    {
+        $form = $this->createForm(PaiementFormType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $request->getSession()->set('billing_data', $data);
+            return $this->redirectToRoute('app_stripe_checkout_create');
+        }
+
+        return $this->render('paiement/address_form.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
     #[Route('/paiements', name: 'app_paiements')]
     public function paiementsPage(PaiementRepository $paiementRepository): Response
     {
@@ -72,25 +90,17 @@ class PaiementController extends AbstractController
         ]);
     }
 
-    #[Route('/checkout', name: 'app_stripe_checkout')]
-    public function checkoutPage(): Response
-    {
-        // temporaire pour les tests (ou sinon osef)
-        return $this->render('/paiement/checkout.html.twig', [
-            'stripe_public_key' => 'pk_test_51RSvQkRVumHN60ooKlCL6qUPaVblzy3dtuAP3XwdF8LChY4G56VLJKpi526WBpi3VUEy0XcJifynKetmnul5Us7100AS1ThEJH',
-        ]);
-    }
     #[Route('/payment-success', name: 'app_stripe_payment_success')]
     public function paymentSuccess(Request $request, EntityManagerInterface $em): Response
     {
         $loggedUser = $this->getUser();
         $panier = $this->panierHandler->getActivePanier($this->getUser(), $request);
-        
+
         if(!$loggedUser){
             return $this->redirectToRoute('app_index');
         }
         $sessionId = $request->query->get("session_id");
-
+        
         if (!$sessionId) {
             $this->addFlash('error', 'session de paiement introuvable');
             return $this->redirectToRoute('app_index');
@@ -98,7 +108,7 @@ class PaiementController extends AbstractController
         \Stripe\Stripe::setApiKey("rk_test_51RSvQkRVumHN60oo3B0poNqglD7FJgwbKRuRrVSsbf1TAuXMQHY7QJTXxjnmblJf7Do95CZSBlUt92qMiIusTwPX00uMhWtTe7");
         $session = \Stripe\Checkout\Session::retrieve($sessionId);
         $paymentIntent = \Stripe\PaymentIntent::retrieve($session->payment_intent);
-
+        
         $existingpaiement = $em->getRepository(Paiement::class)->findOneBy(['uuid' => $paymentIntent->id]);
         if ($existingpaiement) {
             $this->addFlash('info', 'le paiement existe déjà');
@@ -110,6 +120,8 @@ class PaiementController extends AbstractController
         $montant = $paymentIntent->amount / 100;
         $date = (new \DateTime())->setTimestamp($paymentIntent->created);
         $status = $paymentIntent->status;
+        
+        $billingData = $request->getSession()->get('billing_data');
 
         $paiement->setUuid($uuid);
         $paiement->setMontant($montant);
