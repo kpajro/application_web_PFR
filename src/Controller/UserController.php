@@ -141,6 +141,30 @@ class UserController extends AbstractController
     }
 
 
+    #[Route('/profile/{id}/change-password', name: 'change_password', methods: ['GET'])]
+    public function changePassword(Request $request, int $id): Response
+    {
+        $user = $this->getUser();
+        if (!$user || $user->getId() !== $id) {
+            throw $this->createAccessDeniedException();
+        }
+
+        $form = $this->createForm(ChangePasswordType::class);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $this->addFlash('success', 'Mot de passe changé avec succès.');
+
+            return $this->redirectToRoute('app_profile'); 
+        }
+
+        return $this->render('profile/change_password_modal.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+
     // #[Route('/settings', name: 'settings')]
     // public function settings(): Response
     // {
