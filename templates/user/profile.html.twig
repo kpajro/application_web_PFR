@@ -22,7 +22,7 @@
         </div>
 
         <div class="flex justify-between">
-            <a href="{{ path('app_forgot_password_request') }}" class="text-blue-500 hover:underline">Réinitialiser mon mot de passe</a>
+            <div id="changePasswordButton" data-action="click->modal#open" data-modal-url="{{ path('change_password', {id: user.id}) }}" class="text-blue-500 hover:underline">Modifier mon mot de passe</div>
             <div class="text-rose-500 hover:underline hover:text-red-700 hover:cursor-pointer" data-action="click->modal#open" data-modal-url="{{ path('app_profile_delete_account', {id: user.id}) }}">Supprimer mon profil</div>
         </div>
 
