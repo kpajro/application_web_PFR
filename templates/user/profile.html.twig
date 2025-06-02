@@ -5,33 +5,99 @@
 {% block body %}
 
 <h1 class="text-2xl font-bold mb-6 text-gray-900" data-controller="profile">Mon compte utilisateur</h1>
-
-<div class="mb-6 bg-white rounded-xl text-xl font-medium text-gray-900" id="info">
-    <div class="flex justify-between items-center">
-        <p>{{ user.name|upper }} {{ user.firstname }} &lpar;{{ user.email }}&rpar;</p>
-        <p class="italic font-normal text-lg text-gray-700">Membre depuis le {{ user.createdAt|format_datetime('medium', 'none', locale: 'fr') }}</p>
+<div class="mb-6 rounded-xl text-xl font-medium text-gray-900 relative" id="info">
+    <div class="flex flex-col md:flex-row justify-between items-center">
+        <h2>{{ user.name|upper }} {{ user.firstname }} &lpar;{{ user.email }}&rpar;</h2>
+        <p class="italic font-normal text-sm text-gray-700">Membre depuis le {{ user.createdAt|format_datetime('medium', 'none', locale: 'fr') }}</p>
     </div>
-        <p id="show-more" class="text-sm hover:underline hover:cursor-pointer font-normal"><i id="show-more-arrow" class="fa-solid fa-arrow-up transition-all hover:scale-110"></i> Voir plus</p>
-    <div id="additional-info" class="rounded-b-xl text-sm text-gray-800 bg-indigo-300/30 mt-0.5 p-3 hidden">
+        <p id="show-more" class="text-sm hover:underline hover:cursor-pointer font-normal"><i class="fa-solid fa-caret-up transition-all" id="show-more-arrow"></i> Voir plus</p>
+    <div id="additional-info" class="rounded-b-xl text-sm text-gray-800 bg-indigo-300/30 backdrop-blur-sm mt-0.5 p-3 opacity-0 absolute top-full w-full z-40 transition-all">
         <p>Né&lpar;e&rpar; le {{ user.birthday|date('d/m/y') }}</p>
         <p>Pays : {{ user.country }}</p>
         <p>Téléphone : {{ user.phoneNumber }}</p>
         <p>{{ user.accountType == 1 ? 'Compte entreprise' : 'Compte particulier' }}</p>
     </div>
 </div>
-
-<div id="editProfileButton" data-action="click->modal#open" data-modal-size="lg" data-modal-url="{{ path('app_profile_settings', {id: user.id}) }}" class="button from-sky-400 to-indigo-400 shadow-indigo-500/50 w-full m-4">Modifier mon profil</div>
-
-<div class="flex justify-between">
-    <a href="{{ path('app_forgot_password_request') }}" class="text-blue-500 hover:underline">Réinitialiser mon mot de passe</a>
-    <div class="text-rose-500 hover:underline hover:text-red-700 hover:cursor-pointer" data-action="click->modal#open" data-modal-size="md" data-modal-url="{{ path('app_profile_delete_account', {id: user.id}) }}">Supprimer mon profil</div>
-</div>
-
-
-<a href="{{ path('app_profile_generate_data', {id: user.id})}}" class="text-blue-500 hover:underline text-end italic w-full">Je souhaite enregistrer les informations que le site possède sur moi</a>
-
-<div class="w-full flex justify-end my-4">
-    <a href="{{ path('app_logout')}}" class="rounded-r-xs from-indigo-400 to-rose-600 shadow-rose-700/50 button">Se déconnecter</a>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div>
+        <h3 class="text-lg font-medium mb-3">Paramètres</h3>
+        <ul class="mx-auto rounded-xl bg-gradient-to-br from-indigo-300/60 to-sky-300/60 w-full p-4 text-center">
+            <li class="mb-3">
+                <div id="editProfileButton" data-action="click->modal#open" data-modal-size="lg" data-modal-url="{{ path('app_profile_settings', {id: user.id}) }}" class="w-full bg-sky-500 hover:bg-sky-600 p-3 rounded-xl text-white lg:text-white/90 hover:text-white hover:shadow-lg hover:cursor-pointer shadow-sky-600/50 transition-all"><i class="fa-solid fa-gear mr-3"></i>Modifier mon profil</div>
+            </li>
+            <li class="mb-3">
+                <a href="{{ path('app_forgot_password_request') }}" class="w-full bg-sky-500 hover:bg-sky-600 p-3 rounded-xl inline-block text-white lg:text-white/90 hover:text-white transition-all hover:shadow-lg shadow-sky-600/50"><i class="fa-solid fa-rotate-right mr-3"></i>Réinitialiser mon mot de passe</a>
+            </li>
+            <li class="mb-3">
+                <a href="{{ path('app_profile_generate_data', {id: user.id})}}" class="w-full bg-emerald-500 hover:bg-emerald-600 p-3 rounded-xl inline-block text-white lg:text-white/90 hover:text-white transition-all hover:shadow-lg shadow-emerald-600/50"><i class="fa-solid fa-file-arrow-down mr-3"></i>Télécharger mes données utilisateur</a>
+            </li>
+            <li class="mb-3">
+                <a href="{{ path('app_logout')}}" class="w-full bg-indigo-500 hover:bg-indigo-600 p-3 rounded-xl inline-block text-white lg:text-white/90 hover:text-white transition-all hover:shadow-lg shadow-indigo-600/50"><i class="fa-solid fa-arrow-right-from-bracket mr-3"></i>Se déconnecter</a>
+            </li>
+            <li class="">
+                <div class="w-full bg-rose-500 hover:bg-rose-600 p-3 rounded-xl text-white lg:text-white/90 hover:text-white hover:shadow-lg hover:cursor-pointer shadow-rose-600/50 transition-all" data-action="click->modal#open" data-modal-size="md" data-modal-url="{{ path('app_profile_delete_account', {id: user.id}) }}"><i class="fa-solid fa-trash-can mr-3"></i>Supprimer mon compte</div>
+            </li>
+        </ul>
+    </div>
+    <div id="paniers" class="md:col-span-2">
+        <div>
+            <h3 class="text-lg font-medium mb-3">Mes paniers</h3>
+            <div class="p-2 rounded-xl bg-indigo-300/30 mb-4">
+                <h4 class="font-medium hover:cursor-pointer hover:underline" id="panier-actif-btn"><i class="fa-solid fa-caret-down transition-all mr-3" id="panier-active-arrow"></i>Panier en cours</h4>
+                <div class="mt-2" id="panier-active-info">
+                    <p class="italic pl-1 text-sm">{{ user.panierActif.panierProduits|length }} articles dans le panier.</p>
+                    <ul class="px-2 mt-2 text-sm">
+                        {% for item in user.panierActif.panierProduits %}
+                            <li class="flex justify-between items-center hover:bg-indigo-300/30 p-1 rounded-lg transition-all duration-100">
+                                <a class="text-indigo-600 hover:text-indigo-700 hover:underline transition-all duration-100" href="{{ path('app_produit_view', {id: item.produit.id}) }}">{{ item.produit.nom }} </a>
+                                <div class="">
+                                    <span>&times; {{ item.amount }}</span>
+                                    <span class="italic">&lpar;{{ (item.produit.prix * item.amount)|format_currency('EUR', {}, 'fr') }}&rpar;</span>
+                                </div>
+                            </li> 
+                        {% else %}  
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="p-2 rounded-xl bg-indigo-300/30">
+                <h4 class="font-medium hover:cursor-pointer hover:underline" id="panier-old-btn"><i class="fa-solid fa-caret-down mr-3" id="panier-old-arrow"></i>Mes anciens paniers &lpar;sauvegardés 1 mois&rpar;</h4>
+                <div class="text-sm mt-2" id="paniers-old">
+                    {% for panier in user.paniers %}
+                        {% if panier == user.panierActif or panier.etat == 3 %}
+                        {% else %}
+                            <div class="p-2 rounded-lg hover:bg-indigo-300/30 transition-all" data-panier-id="{{ panier.id }}">
+                                <h5 class="hover:underline hover:cursor-pointer panier-old" data-action="click->profile#showPanier"><i class="fa-solid fa-caret-up mr-2" id="panier-{{ panier.id }}-arrow"></i>Panier du {{ panier.createdAt|date('d/m/Y') }}</h5>
+                                <div class="p-2 hidden" id="panier-{{ panier.id }}-info">
+                                    <p class="italic pl-1">{{ panier.panierProduits|length }} articles dans le panier.</p>
+                                    <ul class="px-2 mt-2">
+                                        {% for pp in panier.panierProduits %}
+                                            <li class="flex justify-between items-center hover:bg-indigo-300/30 p-1 rounded-lg transition-all duration-100">
+                                                <a class="text-indigo-600 hover:text-indigo-700 hover:underline transition-all duration-100" href="{{ path('app_produit_view', {id: pp.produit.id}) }}">{{ pp.produit.nom }}</a>
+                                                <div>
+                                                    <span>&times; {{ pp.amount }}</span>
+                                                    <span class="italic">&lpar;{{ (pp.produit.prix * pp.amount)|format_currency('EUR', {}, 'fr') }}</span>
+                                                </div>
+                                            </li>
+                                        {% else %}
+                                        {% endfor %}
+                                    </ul>
+                                    <div class="flex justify-end">
+                                        <a href="" class="w-fit inline-block px-2 py-1 rounded-lg bg-indigo-500 text-white md:text-white/90 hover:text-white shadow-indigo-500/50 hover:shadow-lg hover:cursor-pointer">Restaurer</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% else %}
+                        <p>Pas d'anciens paniers.</p>     
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="paiements" class="md:col-span-3">
+        <h3 class="text-lg font-medium mb-3">Mes achats</h3>
+    </div>
 </div>
 {% endblock %}
 
