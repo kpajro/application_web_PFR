@@ -146,7 +146,10 @@ class Panier
             }
         }
 
-        if($panierProduit->getProduit()->isBulkSale()) {
+        if(
+            $panierProduit->getProduit()->isBulkSale() && 
+            $panierProduit->getAmount() % $panierProduit->getProduit()->getBulkSize() !== 0
+        ) {
             $panierProduit->setAmount($panierProduit->getProduit()->getBulkSize());
         }
         

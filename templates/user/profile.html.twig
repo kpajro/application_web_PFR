@@ -67,7 +67,7 @@
                         {% if panier == user.panierActif or panier.etat == 3 %}
                         {% else %}
                             <div class="p-2 rounded-lg hover:bg-indigo-300/30 transition-all" data-panier-id="{{ panier.id }}">
-                                <h5 class="hover:underline hover:cursor-pointer panier-old" data-action="click->profile#showPanier"><i class="fa-solid fa-caret-up mr-2" id="panier-{{ panier.id }}-arrow"></i>Panier du {{ panier.createdAt|date('d/m/Y') }}</h5>
+                                <h5 class="hover:underline hover:cursor-pointer panier-old" data-action="click->profile#showPanier"><i class="fa-solid fa-caret-up mr-2" id="panier-{{ panier.id }}-arrow"></i>Panier du {{ panier.createdAt|date('d/m/Y \à H:i') }}</h5>
                                 <div class="p-2 hidden" id="panier-{{ panier.id }}-info">
                                     <p class="italic pl-1">{{ panier.panierProduits|length }} articles dans le panier.</p>
                                     <ul class="px-2 mt-2">
@@ -76,14 +76,14 @@
                                                 <a class="text-indigo-600 hover:text-indigo-700 hover:underline transition-all duration-100" href="{{ path('app_produit_view', {id: pp.produit.id}) }}">{{ pp.produit.nom }}</a>
                                                 <div>
                                                     <span>&times; {{ pp.amount }}</span>
-                                                    <span class="italic">&lpar;{{ (pp.produit.prix * pp.amount)|format_currency('EUR', {}, 'fr') }}</span>
+                                                    <span class="italic">&lpar;{{ (pp.produit.prix * pp.amount)|format_currency('EUR', {}, 'fr') }}&rpar;</span>
                                                 </div>
                                             </li>
                                         {% else %}
                                         {% endfor %}
                                     </ul>
                                     <div class="flex justify-end">
-                                        <a href="" class="w-fit inline-block px-2 py-1 rounded-lg bg-indigo-500 text-white md:text-white/90 hover:text-white shadow-indigo-500/50 hover:shadow-lg hover:cursor-pointer">Restaurer</a>
+                                        <a href="{{ path('app_profile_restore_panier', {id: panier.id}) }}" class="w-fit inline-block px-2 py-1 rounded-lg bg-indigo-500 text-white md:text-white/90 hover:text-white shadow-indigo-500/50 hover:shadow-lg hover:cursor-pointer">Restaurer</a>
                                     </div>
                                 </div>
                             </div>
