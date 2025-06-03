@@ -22,12 +22,12 @@
         </div>
 
         <div class="flex justify-between">
-            <div id="changePasswordButton" data-action="click->modal#open" data-modal-url="{{ path('change_password', {id: user.id}) }}" class="text-blue-500 hover:underline">Modifier mon mot de passe</div>
+            <a href="{{ path('app_forgot_password_request') }}" class="text-blue-500 hover:underline">Vous avez oublié votre mot de passe ?<br> Cliquez ici pour recevoir uin mail afin de le réinitialiser</a>
             <div class="text-rose-500 hover:underline hover:text-red-700 hover:cursor-pointer" data-action="click->modal#open" data-modal-url="{{ path('app_profile_delete_account', {id: user.id}) }}">Supprimer mon profil</div>
         </div>
 
 
-        <a href="{{ path('app_profile_generate_data', {id: user.id})}}" class="text-blue-500 hover:underline text-end italic w-full">Je souhaite enregistrer les informations que le site possède sur moi</a>
+        <a href="{{ path('app_profile_generate_data', {id: user.id})}}" class="text-blue-500 hover:underline text-end italic w-full"><br>Je souhaite enregistrer les informations que le site possède sur moi</a>
     </div>
 </div>
 
