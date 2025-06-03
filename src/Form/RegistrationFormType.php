@@ -113,6 +113,7 @@ class RegistrationFormType extends AbstractType
                 'expanded' => true,
                 'label_attr' => ['font-semibold']
             ])
+            
             ->add('plainPassword', RepeatedType::class, [
                 'first_options' => [
                     'label' => 'Mot de passe'
