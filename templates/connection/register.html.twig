@@ -4,10 +4,9 @@
 
 {% block body %}
 
-    <div class="w-full  p-8 border border-gray-400 rounded-lg bg-gray-200">
-        <h1 class="text-2xl font-bold mb-8 text-center">Créer un compte</h1>
-
-        <div class="bg-white p-6 rounded-lg shadow mb-6">
+    <div class="w-full">
+        <h1 class="text-2xl font-bold mb-4 text-start">Créer un compte</h1>
+        <div class="bg-indigo-300/30 p-4 rounded-xl shadow mb-6">
             {{ form_start(registrationForm) }}
                 <div class="space-y-4 grid grid-cols-1 md:grid-cols-2 gap-3">
                     {{ form_row(registrationForm.email, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
@@ -16,31 +15,31 @@
                     {{ form_row(registrationForm.birthday, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
                     {{ form_row(registrationForm.phoneNumber, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
                     {{ form_row(registrationForm.country, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
-                    {{ form_row(registrationForm.accountType, {'attr': {'class': 'md:col-span-2 flex justify-center items-center'}}) }}
+                    {{ form_row(registrationForm.accountType, {'attr': {'class': 'registration-radio'}}) }}
                     <div class="md:col-span-2">
                         {{ form_row(registrationForm.plainPassword.first, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
                         {{ form_row(registrationForm.plainPassword.second, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
-                    </div>
-                    <div id="consent" class="md:col-span-2 flex justify-start items-center">
-                        {{ form_widget(registrationForm.consent) }} 
-                        {{ form_label(registrationForm.consent) }}
+                        <p class="help-text">Le mot de passe doit contenir 6 caractères au minimum, une majuscule, une minuscule et un caractère spécial.</p>
                     </div>
                     <div id="agree-terms" class="md:col-span-2 flex justify-start items-center">
                         {{ form_widget(registrationForm.agreeTerms) }} 
                         {{ form_label(registrationForm.agreeTerms) }}
                     </div>
                 </div>
-
-                <button type="submit" class="w-full mt-6 p-3 bg-blue-500 text-white rounded hover:bg-blue-700">
+                <p class="help-text text-center mt-8">En vous inscrivant, vous consentez à ce que les données que vous avez renseignées soient utilisées à des fins commerciales et marketing.</p>
+                <p class="help-text">
+                    * : Champs obligatoires.
+                </p>
+                <button type="submit" class="w-full mt-4 p-3 rounded-xl bg-gradient-to-br from-indigo-400 to-sky-400 transition-all text-white md:text-white/90 hover:text-white shadow-indigo-500/50 hover:shadow-lg hover:cursor-pointer">
                     S'inscrire
                 </button>
             {{ form_end(registrationForm) }}
+            <div class="text-end mt-4">
+                <a href="{{ path('app_login') }}" class="text-indigo-700 hover:underline">
+                    Déjà membre ? Se connecter
+                </a>
+            </div>
         </div>
 
-        <div class="text-center">
-            <a href="{{ path('app_login') }}" class="text-blue-500 hover:underline">
-                Déjà membre ? Se connecter
-            </a>
-        </div>
     </div>
 {% endblock %}

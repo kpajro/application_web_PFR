@@ -24,7 +24,7 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, [
-                'label' => 'Adresse e-mail',
+                'label' => 'Adresse e-mail *',
                 'constraints' => [
                     new Length([
                         'max' => 100,
@@ -38,10 +38,10 @@ class RegistrationFormType extends AbstractType
                         'message' => 'L\'adresse e-mail doit finir par un nom de domaine valide (".fr", ".com", ".net", etc.).'
                     ])
                 ],
-                'label_attr' => ['font-semibold']
+                'label_attr' => ['font-medium']
             ])
             ->add('firstname', TextType::class, [
-                'label' => 'Prénom',
+                'label' => 'Prénom *',
                 'constraints' => [
                     new Length([
                         'max' => 50,
@@ -50,10 +50,10 @@ class RegistrationFormType extends AbstractType
                         'minMessage' => 'Le prénom ne peut pas contenir plus de 50 caractères.'
                     ])
                 ],
-                'label_attr' => ['font-semibold']
+                'label_attr' => ['font-medium']
             ])
             ->add('name', TextType::class, [
-                'label' => 'Nom',
+                'label' => 'Nom *',
                 'constraints' => [
                     new Length([
                         'max' => 50,
@@ -62,13 +62,13 @@ class RegistrationFormType extends AbstractType
                         'minMessage' => 'Le nom de famille ne peut pas contenir plus de 50 caractères.'
                     ])
                 ],
-                'label_attr' => ['font-semibold']
+                'label_attr' => ['font-medium']
             ])
             ->add('birthday', DateType::class, [
                 'label' => 'Date de naissance',
                 'constraints' => [
                 ],
-                'label_attr' => ['font-semibold'],
+                'label_attr' => ['font-medium'],
                 'required' => false
             ])
             ->add('phoneNumber', TextType::class, [
@@ -86,7 +86,7 @@ class RegistrationFormType extends AbstractType
                         'message' => 'Le numéro de téléphone ne peut contenir que des chiffres, des espaces et le caractère "+".'
                     ])
                     ],
-                'label_attr' => ['font-semibold'],
+                'label_attr' => ['font-medium'],
                 'required' => false
             ])
             ->add('country', ChoiceType::class, [
@@ -100,25 +100,25 @@ class RegistrationFormType extends AbstractType
                 'multiple' => false,
                 'expanded' => false,
                 'placeholder' => 'Séléctionnez votre pays de résidence.',
-                'label_attr' => ['font-semibold'],
+                'label_attr' => ['font-medium'],
                 'required' => false
             ])
             ->add('accountType', ChoiceType::class, [
-                'label' => 'Type de compte',
+                'label' => 'Type de compte *',
                 'choices' => [
                     'Compte pour entreprise' => 1,
                     'Compte pour particulier' => 2
                 ],
                 'multiple' => false,
                 'expanded' => true,
-                'label_attr' => ['font-semibold']
             ])
+            
             ->add('plainPassword', RepeatedType::class, [
                 'first_options' => [
-                    'label' => 'Mot de passe'
+                    'label' => 'Mot de passe *'
                 ],
                 'second_options' => [
-                    'label' => 'Je confirme le mot de passe'
+                    'label' => 'Je confirme le mot de passe *'
                 ],
                 'type' => PasswordType::class,
                 'mapped' => false,
@@ -130,31 +130,21 @@ class RegistrationFormType extends AbstractType
                     new Regex([
                         'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d;:*\\\\\/{}]).{8,}$/',
                         'match' => true,
-                        'message' => 'Le mot de passe doit contenir au minimum 6 caractères, une minuscules, une majuscule, un chiffre et un caractère spécial.'
+                        'message' => 'Le mot de passe doit contenir au minimum 6 caractères, une minuscule, une majuscule, un chiffre et un caractère spécial.'
                     ])
                 ],
-                'label_attr' => ['font-semibold']
+                'label_attr' => ['font-medium']
             ])
             ->add('agreeTerms', CheckboxType::class, [
-                'label' => "J'accepte les conditions d'utilisation du site",
+                'label' => "J'accepte les conditions d'utilisation du site *",
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
                         'message' => 'Merci d\'accepter les conditions d\'utilisation pour continuer.',
                     ]),
                 ],
-                'label_attr' => ['class' => 'text-sm italic text-gray-700'],
+                'label_attr' => ['class' => 'font-medium ml-2'],
                 'attr' => ['class' => 'w-fit']
-            ])
-            ->add('consent', CheckboxType::class, [
-                'label' => "Je consente à ce que mes données soient utilisées à des fins commerciales et marketing",
-                'mapped' => false,
-                'constraints' => [
-                    new IsTrue([
-                        'message' => 'Vous devez donner votre consentement afin de compléter l\'inscription.',
-                    ]),
-                ],
-                'label_attr' => ['class' => 'text-sm italic text-gray-700']
             ])
         ;
     }

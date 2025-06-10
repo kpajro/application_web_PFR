@@ -41,6 +41,10 @@ export default class extends Controller {
     afficher(produits, directory) {
         const box = document.getElementById("produits")
         box.innerHTML = ""
+        const eur = new Intl.NumberFormat('fr', {
+            style: 'currency',
+            currency: 'EUR',
+        });
 
         if (produits.length === 0) {
             box.innerHTML = "<p>Aucun produit trouvé.</p>"
@@ -65,7 +69,7 @@ export default class extends Controller {
                     </div>
                     <p class="italic text-sm text-gray-700">${p.description}</p>
                 </div>
-                <p class="font-bold text-end w-full">Prix : ${p.prix} €</p>
+                <p class="font-bold text-end w-full">Prix : ${eur.format(p.prix)}</p>
             `
             box.appendChild(div)
         })
