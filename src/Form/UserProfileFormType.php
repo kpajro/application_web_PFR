@@ -19,48 +19,32 @@ class UserProfileFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email', EmailType::class)
-            ->add('name', TextType::class)
-            ->add('firstname', TextType::class)
-            ->add('country', TextType::class)
-            ->add('phoneNumber', TextType::class)
+            ->add('email', EmailType::class, [
+                'label' => 'Adresse e-mail'
+            ])
+            ->add('name', TextType::class, [
+                'label' => 'Nom de famille'
+            ])
+            ->add('firstname', TextType::class, [
+                'label' => 'Prénom'
+            ])
+            ->add('country', TextType::class, [
+                'label' => 'Pays de résidence',
+                'required' => false
+            ])
+            ->add('phoneNumber', TextType::class, [
+                'label' => 'Numéro de téléphone',
+                'required' => false
+            ])
             ->add('birthday', DateType::class, [
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
+                'label' => 'Date de naissance',
+                'required' => false
             ])
-                
-            ->add('currentPassword', PasswordType::class, [
-            'mapped' => false,
-            'required' => false,
-            'label' => 'Mot de passe actuel',
-            ])
-
-            ->add('plainPassword', RepeatedType::class, [
-                'type' => PasswordType::class,
-                'mapped' => false,
-                'required' => false,
-                'first_options'  => ['label' => 'Nouveau mot de passe'],
-                'second_options' => ['label' => 'Confirmation du nouveau mot de passe'],
-                'invalid_message' => 'Les mots de passe ne correspondent pas.',
-                'attr' => ['autocomplete' => 'new-password'],
-                'constraints' => [
-                    new Regex([
-                        'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d;:*\\\\\/{}]).{8,}$/',
-                        'match' => true,
-                        'message' => 'Le mot de passe doit contenir au minimum 8 caractères, une minuscule, une majuscule, un chiffre et un caractère spécial.'
-                    ])
-                ]
-            ])
-            
-            ->add('confirmPassword', PasswordType::class, [
-            'mapped' => false,
-            'required' => false,
-            'label' => 'Confirmer le nouveau mot de passe',
-            ])
-
             ->add('billingAddress', TextType::class, [
-            'required' => false,
-            'label' => 'Adresse de facturation',
+                'required' => false,
+                'label' => 'Adresse de facturation',
             ]);
     }
 

@@ -24,7 +24,8 @@ class ChangePasswordFormType extends AbstractType
                     ]),
                 ],
                 'label_attr' => ['font-semibold'],
-                'mapped' => false
+                'mapped' => false,
+                'attr' => ['class' => 'mb-4']
             ])
             ->add('plainNewPassword', RepeatedType::class, [
                 'first_options' => [
