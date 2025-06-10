@@ -11,7 +11,7 @@
         <p class="italic font-normal text-sm text-gray-700">Membre depuis le {{ user.createdAt|format_datetime('medium', 'none', locale: 'fr') }}</p>
     </div>
         <p id="show-more" class="text-sm hover:underline hover:cursor-pointer font-normal"><i class="fa-solid fa-caret-up transition-all" id="show-more-arrow"></i> Voir plus</p>
-    <div id="additional-info" class="rounded-b-xl text-sm text-gray-800 bg-indigo-300/30 backdrop-blur-sm mt-0.5 p-3 opacity-0 absolute top-full w-full z-40 transition-all">
+    <div id="additional-info" class="rounded-b-xl text-sm text-gray-800 bg-indigo-300/30 backdrop-blur-sm mt-0.5 p-3 hidden absolute top-full w-full z-40 transition-all">
         <p>Né&lpar;e&rpar; le {{ user.birthday|date('d/m/y') }}</p>
         <p>Pays : {{ user.country }}</p>
         <p>Téléphone : {{ user.phoneNumber }}</p>
@@ -26,7 +26,7 @@
                 <div id="editProfileButton" data-action="click->modal#open" data-modal-size="lg" data-modal-url="{{ path('app_profile_settings', {id: user.id}) }}" class="w-full bg-sky-500 hover:bg-sky-600 p-3 rounded-xl text-white lg:text-white/90 hover:text-white hover:shadow-lg hover:cursor-pointer shadow-sky-600/50 transition-all"><i class="fa-solid fa-gear mr-3"></i>Modifier mon profil</div>
             </li>
             <li class="mb-3">
-                <a href="{{ path('app_forgot_password_request') }}" class="w-full bg-sky-500 hover:bg-sky-600 p-3 rounded-xl inline-block text-white lg:text-white/90 hover:text-white transition-all hover:shadow-lg shadow-sky-600/50"><i class="fa-solid fa-rotate-right mr-3"></i>Réinitialiser mon mot de passe</a>
+                <div data-action="click->modal#open" data-modal-size="sm" data-modal-url="{{ path('app_profile_change_password', {id: user.id}) }}" class="w-full bg-sky-500 hover:bg-sky-600 p-3 rounded-xl text-white lg:text-white/90 hover:text-white transition-all hover:shadow-lg shadow-sky-600/50 hover:cursor-pointer"><i class="fa-solid fa-rotate-right mr-3"></i>Modifier mon mot de passe</div>
             </li>
             <li class="mb-3">
                 <a href="{{ path('app_profile_generate_data', {id: user.id})}}" class="w-full bg-emerald-500 hover:bg-emerald-600 p-3 rounded-xl inline-block text-white lg:text-white/90 hover:text-white transition-all hover:shadow-lg shadow-emerald-600/50"><i class="fa-solid fa-file-arrow-down mr-3"></i>Télécharger mes données utilisateur</a>

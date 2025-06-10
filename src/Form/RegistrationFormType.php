@@ -130,7 +130,7 @@ class RegistrationFormType extends AbstractType
                     new Regex([
                         'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d;:*\\\\\/{}]).{8,}$/',
                         'match' => true,
-                        'message' => 'Le mot de passe doit contenir au minimum 6 caractères, une minuscules, une majuscule, un chiffre et un caractère spécial.'
+                        'message' => 'Le mot de passe doit contenir au minimum 6 caractères, une minuscule, une majuscule, un chiffre et un caractère spécial.'
                     ])
                 ],
                 'label_attr' => ['font-semibold']

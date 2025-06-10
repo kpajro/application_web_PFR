@@ -28,7 +28,7 @@ export default class extends Controller {
         const aInfo = document.getElementById('additional-info');
         const arrow = document.getElementById('show-more-arrow');
         arrow.classList.toggle('rotate-180');
-        aInfo.classList.toggle('opacity-0');
+        aInfo.classList.toggle('hidden');
     }
 
     showPanierActif(e) {

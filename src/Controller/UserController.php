@@ -10,11 +10,13 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Form\UserProfileFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Users;
+use App\Form\ChangePasswordFormType;
 use Dompdf\Dompdf;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\Mailer\MailerInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
@@ -167,5 +169,44 @@ class UserController extends AbstractController
         $em->flush();
 
         return $this->redirectToRoute('app_user_profile', ['id' => $user->getId()]);
+    }
+
+    #[Route('/profile/{id}/change-password', name: 'app_profile_change_password')]
+    public function changePassword(Users $user, EntityManagerInterface $em, Request $request, UserPasswordHasherInterface $hasher, TokenStorageInterface $tokenStorage) : Response
+    {
+        $loggedUser = $this->getUser();
+        if (!$loggedUser || $loggedUser !== $user) {
+            throw new AccessDeniedException('Connexion au compte ciblé requise.');
+        }
+
+        $form = $this->createForm(ChangePasswordFormType::class, null, [
+            'action' => $this->generateUrl('app_profile_change_password', ['id' => $user->getId()]),
+            'label' => false
+        ]);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $oldPlainPassword = $form->get('plainOldPassword')->getData();
+            $newPlainPassword = $form->get('plainNewPassword')->getData();
+
+            if($hasher->isPasswordValid($user, $oldPlainPassword)) {
+                $user->setPassword($hasher->hashPassword($user, $newPlainPassword));
+
+                $request->getSession()->invalidate();
+                $tokenStorage->setToken(null);
+    
+                $em->persist($user);
+                $em->flush();
+
+                return $this->redirectToRoute('app_login');
+            } else {
+                $form->addError(new FormError('Le mot de passe ne correspond pas au mot de passe actuel.'));
+            }
+        }
+
+        return $this->render('user/change-password.html.twig', [
+            'user' => $user,
+            'form' => $form
+        ]);
     }
 }
