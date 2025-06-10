@@ -1,9 +1,10 @@
 <div>
-    <p class="p-4 rounded-lg bg-rose-300/80 text-center italic font-bold text-rose-700 text-lg">Êtes-vous sûr&lpar;e&rpar; de vouloir supprimer votre compte ? Cette action est irréversible et définitive</p>
+    <p class="p-4 rounded-xl bg-rose-300/80 text-center font-semibold text-rose-700 text-lg">Êtes-vous sûr&lpar;e&rpar; de vouloir supprimer votre compte ? Cette action est irréversible et définitive</p>
+    <p class="text-rose-700 italic text-center">Toutes vos données utilisateur seront supprimées et irrécupérables. Vous perdrez vos paniers sauvegardés ainsi que votre historique de paiement.</p>
     {{ form_start(form) }}
         <div class="mt-3 flex justify-center items-center gap-4">
             <button class="close-modal admin-button">Annuler</button>
-            <button type="submit admin-button delete">Confirmer</button>
+            <button type="submit" class="admin-button delete">Confirmer</button>
         </div>
     {{ form_end(form) }}
 </div>

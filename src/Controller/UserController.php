@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Panier;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,7 +37,6 @@ class UserController extends AbstractController
     
         return $this->render('user/profile.html.twig', [
             'user' => $user,
-            'form' => $this->createForm(UserProfileFormType::class, $user)->createView()
         ]);
     }
     
@@ -97,13 +97,11 @@ class UserController extends AbstractController
                     $panier->setUser(null);
                     $em->persist($panier);    
                 }
-                # code...
             }
             $user->setPanierActif(null);
 
             $em->persist($user);
 
-            //dd($user);
             $em->remove($user);
             $em->flush();
             $request->getSession()->invalidate();
@@ -140,36 +138,34 @@ class UserController extends AbstractController
         );
     }
 
-
-    // #[Route('/settings', name: 'settings')]
-    // public function settings(): Response
-    // {
-    //     return $this->render('settings.html.twig');
-    // }
-
-    // #[Route('/commandes', name: 'commandes')]
-    // public function commandes(): Response
-    // {
-    //     return $this->render('commandes.html.twig');
-    // }
-
-
-   /*  #[Route('/test-mail', name: 'test_mail')]
-    public function testMail(MailerInterface $mailer): Response
+    #[Route('/profile/restore-panier/{id}', name: 'app_profile_restore_panier')]
+    public function restorePanier (Panier $panier, EntityManagerInterface $em) : Response 
     {
-        $email = (new TemplatedEmail())
-            ->from('no_reply@projetfilrouge.com')
-            ->to('ton-email@exemple.com')
-            ->subject('Test Email')
-            ->html('<p>Ce message est un test de l\'envoi d\'email.</p>');
-        
-        try {
-            $mailer->send($email);
-            $this->logger->info('Email envoyé à : ton-email@exemple.com'); // Utilisation du logger injecté
-        } catch (\Exception $e) {
-            $this->logger->error('Erreur lors de l\'envoi de l\'email: '.$e->getMessage()); // Utilisation du logger injecté
+        /** @var Users $user */ 
+        $user = $this->getUser();
+        if ($user !== $panier->getUser()) {
+            throw new AccessDeniedException('Le propriétaire du panier ne correspond pas à l\'utilisateur connecté.');
         }
 
-        return new Response('Email envoyé!');
-    }*/
+        $currentPanier = $user->getPanierActif();
+        $panierProduits = $panier->getPanierProduits();
+
+        $currentPanier->setEtat(2);
+        $newPanier = new Panier($user);
+        foreach ($panierProduits as $pp) {
+            $produit = $pp->getProduit();
+            $amount = $pp->getAmount();
+
+            $newPanier->addProduit($produit, $em, $amount);
+        }
+        $user->addPanier($newPanier);
+        $user->setPanierActif($newPanier);
+
+        $em->persist($newPanier);
+        $em->persist($panier);
+        $em->persist($user);
+        $em->flush();
+
+        return $this->redirectToRoute('app_user_profile', ['id' => $user->getId()]);
+    }
 }
