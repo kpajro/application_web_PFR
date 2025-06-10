@@ -3,11 +3,10 @@
 {% block title %}Connexion{% endblock %}
 
 {% block body %}
-<div class="flex justify-center items-center h-screen bg-gray-100">
-    <div class="w-1/2 p-8 border border-gray-400 rounded-lg bg-gray-200">
-        <h1 class="text-2xl font-bold mb-8 text-center">Connexion</h1>
+<div class="">
+        <h1 class="text-2xl font-bold mb-8 text-start">Connexion</h1>
 
-        <div class="bg-white p-6 rounded-lg shadow mb-6">
+        <div class="space-y-4 rounded-xl bg-indigo-300/30 w-full md:w-2/3 lg:w-1/2 p-4 mx-auto my-auto">
             <form method="post">
                 {% if error %}
                     <div class="mb-4 p-2 bg-red-100 text-red-700 rounded">
@@ -22,38 +21,39 @@
                     </div>
                 {% endif %}
 
-                <div class="space-y-4">
-                    <div>
-                        <label for="inputEmail" class="block mb-2 font-semibold">Adresse e-mail :</label>
-                        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" 
-                               class="w-full p-2 border border-gray-300 rounded" autocomplete="email" required autofocus>
-                    </div>
+                <div class="mb-4">
+                    <label for="inputEmail" class="block mb-2 font-semibold">Adresse e-mail</label>
+                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" 
+                            class="w-full p-2 border border-gray-300 rounded" autocomplete="email" required autofocus>
+                </div>
 
-                    <div>
-                        <label for="inputPassword" class="block mb-2 font-semibold">Mot de passe :</label>
-                        <input type="password" name="password" id="inputPassword" 
-                               class="w-full p-2 border border-gray-300 rounded" autocomplete="current-password" required>
-                    </div>
+                <div class="mb-4">
+                    <label for="inputPassword" class="block mb-2 font-semibold">Mot de passe</label>
+                    <input type="password" name="password" id="inputPassword" 
+                            class="w-full p-2 border border-gray-300 rounded" autocomplete="current-password" required>
+                </div>
 
-                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-                    <div class="flex items-center">
-                        <input type="checkbox" name="_remember_me" id="rememberMe" class="mr-2">
-                        <label for="rememberMe">Se souvenir de moi</label>
-                    </div>
+                <div class="flex justify-start items-center mb-4 mt-4">
+                    <input type="checkbox" name="_remember_me" id="rememberMe" class="shadow-none">
+                    <label for="rememberMe" class="font-medium text-gray-700 w-full text-start mb-0 pl-2">Rester connecté</label>
+                </div>
 
-                    <button type="submit" class="w-full mt-4 p-3 bg-blue-500 text-white rounded hover:bg-blue-700">
-                        Se connecter
-                    </button>
+                <button type="submit" class="w-full mt-4 p-3 bg-gradient-to-br from-indigo-400 to-sky-400 transition-all text-white md:text-white/90 hover:text-white rounded-xl hover:shadow-lg shadow-indigo-500/50 hover:cursor-pointer">
+                    Se connecter
+                </button>
+                <div class="flex justify-between mt-4">
+                    <a href="{{ path('app_forgot_password_request') }}" class="text-indigo-700 hover:underline">
+                        Mot de passe oublié ?
+                    </a>
+                    <a href="{{ path('app_register') }}" class="text-indigo-700 hover:underline">
+                        Pas encore de compte ? Créez-en un!
+                    </a>
                 </div>
             </form>
         </div>
 
-        <div class="text-center">
-            <a href="{{ path('app_forgot_password_request') }}" class="text-blue-500 hover:underline">
-                Mot de passe oublié ?
-            </a>
-        </div>
     </div>
 </div>
 {% endblock %}
