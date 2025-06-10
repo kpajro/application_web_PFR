@@ -3,17 +3,26 @@
 namespace App\Entity;
 
 use App\Repository\PanierProduitsRepository;
+use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PanierProduitsRepository::class)]
+#[ApiResource(
+    normalizationContext: ['groups' => ['produit:read']],
+    denormalizationContext: ['groups' => ['produit:write']],
+    forceEager: false
+)]
 class PanierProduits
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['produit:read'])]
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups(['produit:read'])]
     private ?int $amount = null;
 
     #[ORM\ManyToOne(inversedBy: 'panierProduits', cascade:['persist'])]

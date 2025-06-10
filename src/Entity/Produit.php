@@ -3,57 +3,78 @@
 namespace App\Entity;
 
 use App\Repository\ProduitRepository;
+use ApiPlatform\Metadata\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
+#[ApiResource(
+    normalizationContext: ['groups' => ['produit:read']],
+    denormalizationContext: ['groups' => ['produit:write']],
+    forceEager: false
+)]
 class Produit
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['produit:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
+    #[Groups(['produit:read'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['produit:read'])]
     private ?string $description = null;
 
     #[ORM\Column]
+    #[Groups(['produit:read'])]
     private ?float $prix = null;
 
     #[ORM\ManyToOne(inversedBy: 'produits')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['produit:read'])]
     private ?Categorie $categorie = null;
 
+    #[Groups(['produit:read'])]
     #[ORM\Column(type: Types::ARRAY, nullable: true)]
     private ?array $os = null;
 
+    #[Groups(['produit:read'])]
     #[ORM\Column(nullable: true)]
     private ?float $note = null;
 
+    #[Groups(['produit:read'])]
     #[ORM\Column(type: Types::ARRAY, nullable: true)]
     private ?array $langages = null;
 
     #[ORM\Column]
+    #[Groups(['produit:read'])]
     private ?bool $isLimitedStock = false;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['produit:read'])]
     private ?int $stock = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['produit:read'])]
     private ?string $editeur = null;
 
     #[ORM\Column]
+    #[Groups(['produit:read'])]
     private ?bool $isBulkSale = false;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['produit:read'])]
     private ?int $bulkSize = null;
 
     #[ORM\Column(length: 8192, nullable: true)]
+    #[Groups(['produit:read'])]
     private ?string $longDescription = null;
 
     /**
@@ -66,12 +87,15 @@ class Produit
      * @var Collection<int, Avis>
      */
     #[ORM\OneToMany(targetEntity: Avis::class, mappedBy: 'produit', orphanRemoval: true)]
+    #[Groups(['produit:read'])]
     private Collection $avis;
 
     #[ORM\Column]
+    #[Groups(['produit:read'])]
     private ?bool $active = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['produit:read'])]
     private ?array $images = null;
 
     public function __construct()
