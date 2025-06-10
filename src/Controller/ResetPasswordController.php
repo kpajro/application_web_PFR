@@ -34,6 +34,7 @@ class ResetPasswordController extends AbstractController
     /**
      * Display & process form to request a password reset.
      */
+    
     #[Route('', name: 'app_forgot_password_request')]
     public function request(Request $request, MailerInterface $mailer, TranslatorInterface $translator): Response
     {
@@ -151,7 +152,7 @@ class ResetPasswordController extends AbstractController
         
 
         $email = (new TemplatedEmail())
-            ->from(new Address('no_reply@projetfilrouge.com', 'pwd reset'))
+            ->from(new Address('sofiane.boudet1@gmail.com', 'Réinitialisaztion de votre mot de passe'))
             ->to((string) $user->getEmail())
             ->subject('Your password reset request')
             ->htmlTemplate('reset_password/email.html.twig')
@@ -167,4 +168,5 @@ class ResetPasswordController extends AbstractController
 
         return $this->redirectToRoute('app_check_email');
     }
+
 }

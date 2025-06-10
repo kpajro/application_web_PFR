@@ -69,6 +69,10 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?Panier $panierActif = null;
 
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $billingAddress = null;
+
     /**
      * @var Collection<int, Avis>
      */
@@ -300,7 +304,6 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-
     /**
      * @return Collection<int, Avis>
      */
@@ -358,6 +361,17 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
             }
         }
 
+        return $this;
+    }
+  
+    public function getBillingAddress(): ?string
+    {
+      return $this->billingAddress;
+    }
+
+    public function setBillingAddress(?string $billingAddress): self
+    {
+        $this->billingAddress = $billingAddress;
         return $this;
     }
 }
