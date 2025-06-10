@@ -1,10 +1,10 @@
 @import "tailwindcss";
 
 input {
-    @apply h-10 bg-gray-50 text-gray-800 text-sm border border-gray-400/70 hover:bg-white p-1 w-full  focus:border-blue-400 focus:bg-white outline-0 rounded-md transition-all z-50;
+    @apply h-10 bg-gray-50 text-gray-800 text-sm border border-gray-400/70 hover:bg-white p-1 w-full  focus:border-indigo-400 focus:bg-white outline-0 rounded-md transition-all z-50;
 }
 select {
-    @apply h-10 bg-gray-50 text-gray-800 text-sm border border-gray-400/70 hover:bg-white p-1 w-full  focus:border-blue-400 focus:bg-white outline-0 rounded-md transition-all z-50;
+    @apply h-10 bg-gray-50 text-gray-800 text-sm border border-gray-400/70 hover:bg-white p-1 w-full  focus:border-indigo-400 focus:bg-white outline-0 rounded-md transition-all z-50;
 }
 input[type=file] {
     @apply border-blue-300 p-4 w-full text-indigo-400 bg-gray-50 hover:bg-gray-50 h-fit;
@@ -15,9 +15,18 @@ input[type=file]::file-selector-button {
 input[type=file]::file-selector-button:hover {
    @apply bg-indigo-500 text-white shadow-lg shadow-indigo-500/50 cursor-pointer; 
 }
+input[type=checkbox] {
+    @apply w-fit;
+}
+input[type=radio] {
+    @apply w-fit;
+}
 textarea {
     @apply min-h-20 overflow-y-scroll overflow-x-clip outline-none  bg-gray-50 text-gray-800 text-sm border border-gray-400/70 hover:bg-white p-2 w-full  focus:border-blue-400 focus:bg-white outline-0 rounded-md transition-all z-50;
     resize: none;
+}
+label {
+    @apply font-medium;
 }
 
 .panier-input {
@@ -225,4 +234,11 @@ textarea {
 }
 .img-displayed {
     @apply border-2 border-indigo-700/30;
+}
+
+.registration-radio {
+    @apply flex justify-center items-center px-4 w-full;
+    label {
+        @apply font-normal w-full ml-2;
+    }
 }
