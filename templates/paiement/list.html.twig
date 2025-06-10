@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1 class="text-2xl font-bold text-gray-900 mb-4">Paiements</h1>
+
+    <div class="py-3 px-15 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-center">
+        <ul id="paiement-list">
+            {% for paiement in paiements %}
+                <li class="border p-3 cursor-pointer hover:bg-gray-100"
+                    
+                    data-action="click->paiement#show"
+                    data-id="{{ paiement.id }}"
+                    data-uuid="{{ paiement.uuid }}"
+                    data-montant="{{ paiement.montant }}"
+                    data-status="{{ paiement.status }}"
+                    data-date="{{ paiement.date|date('Y-m-d H:i') }}">
+                    Paiement du {{ paiement.date|date('d/m/Y') }} - {{ paiement.montant }} €
+                </li>
+            {% else %}
+                <li>Aucun paiement trouvé.</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
