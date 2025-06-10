@@ -7,18 +7,28 @@
     copie la structure du fichier sur un controlleur qui existe déjà
     sépare ton code, une fonction par évènement, et invoque les évènements dans le twig avec l'attribut 'data-action="click->categorie#tonévènement"' #}
 
-<div>
-    <h1>Produits de la catégorie</h1>
-    <div class="fixed left-0">
-    {{ form_start(filterForm, {'attr': {'data-controller': 'categorie','data-action': 'submit->categorie#submitted'}}) }}
-        {{ form_row(filterForm.prixMin) }}
-        {{ form_row(filterForm.prixMax) }}
-        {{ form_row(filterForm.ordreAlpha) }}
-        {{ form_row(filterForm.asc) }}
-        {{ form_row(filterForm.recherche) }}
-        <button type="submit">Filtrer</button>
-    {{ form_end(filterForm) }}
+    <h1 class="text-2xl font-bold text-gray-900 mb-4">{{ categorie.nom }}</h1>
+    <div data-controller="categorie" id="filtres-box" class="sticky top-2 z-50  backdrop-blur-sm rounded-xl bg-gradient-to-bl from-indigo-300/50 to-sky-300/50 w-full transition-all h-min max-h-[1000px] py-2">
+        {{ form_start(filterForm, {'attr': {'data-action': 'submit->categorie#submitted', 'class': ''}}) }}
+            <div class="flex w-full items-center p-1 gap-2">
+                <div data-action="click->categorie#showFilters" class="mx-4 text-lg font-semibold flex gap-2 items-center hover:underline transition-all hover:cursor-pointer">Filtres<i class="fa-solid fa-arrow-up transition-all" id="filtres-arrow"></i></div>
+                {{ form_row(filterForm.recherche) }}
+                <button type="submit" class="button from-sky-400 to-emerald-400 shadow-emerald-500/50">Rechercher</button>
+            </div>
+            <div id="filtres-form" class="hidden scale-0 transition-all duration-200 z-50 justify-between gap-6 items-center  p-3">
+                <div class="grid grid-cols-2 lg:grid-cols-3 justify-center gap-6 items-center mb-3">
+                    {{ form_row(filterForm.prixMin) }}
+                    {{ form_row(filterForm.prixMax) }}
+                    {{ form_row(filterForm.ordreAlpha) }}
+                    {{ form_row(filterForm.asc) }}
+                    {{ form_row(filterForm.os) }}
+                    {{ form_row(filterForm.langages) }}
+                    {{ form_row(filterForm.editor) }}
+                </div>
+            </div>
+            <div class="flex justify-end px-2">
+            </div>
+        {{ form_end(filterForm) }}
     </div>
-    <div id="produits" class="produits"></div>
-</div>
+    <div id="produits" class="produits p-3 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"></div>
 {% endblock %}

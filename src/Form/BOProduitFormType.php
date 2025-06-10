@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Categorie;
 use App\Entity\Produit;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -37,7 +38,7 @@ class BOProduitFormType extends AbstractType
                 'row_attr' => ['class' => 'admin-form-section']
             ])
             ->add('description', TextareaType::class, [
-                'label' => 'Description du produit',
+                'label' => 'Description rapide du produit',
                 'constraints' => [],
                 'required' => false,
                 'row_attr' => ['class' => 'admin-form-section']
@@ -52,13 +53,6 @@ class BOProduitFormType extends AbstractType
                 'choice_label' => 'nom',
                 'label' => 'Catégorie du produit',
                 'row_attr' => ['class' => 'admin-form-section']
-            ])
-            ->add('images', FileType::class, [
-                'label' => 'Image du produit',
-                'required' => false,
-                'mapped' => false,
-                'row_attr' => ['class' => 'admin-form-section' ],
-                'multiple' => true
             ])
             ->add('os', ChoiceType::class, [
                 'choices' => [
@@ -104,10 +98,40 @@ class BOProduitFormType extends AbstractType
                 'required' => false,
                 'row_attr' => ['class' => 'admin-form-section secondary']
             ])
-            ->add('longDescription', TextareaType::class, [
+            ->add('longDescription', CKEditorType::class, [
+                'config_name' => 'my_config',
                 'label' => 'Déscription détaillée du produit',
                 'required' => false,
-                'row_attr' => ['class' => 'admin-form-section']
+                'row_attr' => ['class' => 'admin-form-section'],
+                'attr' => ['class' => 'min-h-[40vh] ckeditor overflow-y-scroll'] 
+            ])
+            ->add('active', CheckboxType::class, [
+                'label' => 'Produit en vente',
+                'required' => false,
+                'row_attr' => ['class' => 'admin-form-boolean']
+            ])
+            ->add('icon', FileType::class, [
+                'required' => false,
+                'label' => 'Icone de présentation du produit',
+                'help' => "L'icône sera utilisée pour présenter le produit dans la liste des produits et dans les paniers clients. Il est recommandé de soumettre un image au format carré.",
+                'mapped' => false,
+                'row_attr' => ['class' => 'admin-form-section mb-4']
+            ])
+            ->add('imageMain', FileType::class, [
+                'label' => 'Image de présentation principale du produit',
+                'required' => false,
+                'help' => "Image qui sera présentée en premier au client lorsqu'il arrive sur la page produit. Privilégier les images au format carré.",
+                'mapped' => false,
+                'row_attr' => ['admin-form-section mb-4']
+            ])
+            ->add('imageOther', FileType::class, [
+                'label' => 'Autres images de présentations',
+                'help' => 'Ces images seront aussi présentes sur la page produit. Privilégier les images au format carré. Sélectionner plusieurs images à la fois pour en soumettre plusieurs.',
+                'required' => false,
+                'mapped' => false,
+                'attr' => ['multiple' => 'true'],
+                'multiple' => true,
+                'row_attr' => ['admin-form-section mb-4']
             ])
         ;
     }

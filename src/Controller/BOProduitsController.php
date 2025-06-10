@@ -41,12 +41,12 @@ class BOProduitsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $images = $form->get('images')->getData();
-
-            if ($images) {
-                $this->handleImages($images, $slugger, $produit);
-            }
-
+            $imageData = [
+                'icon' => $form->get('icon')->getData(),
+                'imageMain' => $form->get('imageMain')->getData(),
+                'imageOther' => $form->get('imageOther')->getData()
+            ];
+            $this->handleImages($imageData, $slugger, $produit);
             $prCategorie = $produit->getCategorie();
             $prCategorie->setNbProduits($prCategorie->getNbProduits() + 1);
 
@@ -72,14 +72,16 @@ class BOProduitsController extends AbstractController
             'action' => $this->generateUrl('app_admin_produits_edit', ['id' => $produit->getId()])
         ]);
         $form->handleRequest($request);
+        $directory = 'uploadedFiles/produitImages/' . $slugger->slug($produit->getCategorie()->getNom()) . '/';
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $image = $form->get('image')->getData();
-
-            if ($image) {
-                $this->handleImages($image, $slugger, $produit);
-            }
-
+            $imageData = [
+                'icon' => $form->get('icon')->getData(),
+                'imageMain' => $form->get('imageMain')->getData(),
+                'imageOther' => $form->get('imageOther')->getData()
+            ];
+            
+            $this->handleImages($imageData, $slugger, $produit);
             $em->persist($produit);
             $em->flush();
 
@@ -91,6 +93,7 @@ class BOProduitsController extends AbstractController
             'action' => 'modif',
             'btnAction' => 'Enregistrer',
             'produit' => $produit,
+            'directory' => $directory,
             'deletable' => true,
             'deleteAction' => 'Supprimer le produit',
             'deleteWarning' => 'Êtes-vous sûr(e) de vouloir supprimer "' . $produit->getNom() . '" ? Cette action est irréversible.',
@@ -113,20 +116,45 @@ class BOProduitsController extends AbstractController
 
     public function handleImages(array $images, SluggerInterface $slugger, Produit $produit)
     {
-        $filesystem = new Filesystem();
-        $timestamp = date('YmdHis');
-        $imageNames = [];
-        foreach ($images as $image) {
-            $cleanFileName = $slugger->slug($produit->getNom()) . '_' . $timestamp . '.' . $image->guessExtension();
-
-            try {
-                $image->move('uploadedFiles/productImages/' . $slugger->slug($produit->getCategorie()->getNom()) . '/', $cleanFileName);
-            } catch (FileException $e) {
-
-            }
-            $imageNames[] = $cleanFileName;
+        $directory = 'uploadedFiles/produitImages/' . $slugger->slug($produit->getCategorie()->getNom()) . '/';
+        $previousImages = $produit->getImages();
+        $produitImages = [];
+        if ($produit->getImages() === null) {
+            $previousImages = $produitImages;
         }
-
-        $produit->setImages($imageNames);
+        if ($images['icon']) {
+            /** @var UploadedFile $icon **/
+            $icon = $images['icon'];
+            $newIconName = $slugger->slug($produit->getNom()) . '-ICON.' . $icon->guessExtension();
+            $icon->move($directory, $newIconName);
+            $produitImages['icon'] = $newIconName;
+        } else if (key_exists('icon', $previousImages) && $previousImages['icon'] && !$images['icon']) {
+            $produitImages['icon'] = $previousImages['icon'];
+        }
+        if ($images['imageMain']) {
+            /** @var UploadedFile $main */
+            $main = $images['imageMain'];
+            $newMainName = $slugger->slug($produit->getNom()) . '-MAIN.' . $main->guessExtension();
+            $main->move($directory, $newMainName);
+            $produitImages['main'] = $newMainName;
+        } else if (key_exists('main', $previousImages) &&$previousImages['main'] && !$images['imageMain']) {
+            $produitImages['main'] = $previousImages['main'];
+        }
+        if ($images['imageOther']) {
+            $others = [];
+            $i = 1;
+            foreach ($images['imageOther'] as $other) {
+                /** @var UploadedFile $main */
+                $newOtherName = $slugger->slug($produit->getNom()) . '-OTHER' . $i . '.' . $other->guessExtension();
+                $other->move($directory, $newOtherName);
+                $others[] = $newOtherName;
+                $i++;
+            }
+            $produitImages['other'] = $others;
+        } else if (key_exists('other', $previousImages) && $previousImages['other'] && !$images['imageOther']) {
+            $produitImages['other'] = $previousImages['other'];
+        }
+        
+        $produit->setImages($produitImages);
     }
 }

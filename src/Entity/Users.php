@@ -73,18 +73,23 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $billingAddress = null;
 
-    public function getBillingAddress(): ?string{
-        return $this->billingAddress;
-    }
+    /**
+     * @var Collection<int, Avis>
+     */
+    #[ORM\OneToMany(targetEntity: Avis::class, mappedBy: 'user', orphanRemoval: true)]
+    private Collection $avis;
 
-    public function setBillingAddress(?string $billingAddress): self{
-        $this->billingAddress = $billingAddress;
-        return $this;
-    }
+    /**
+     * @var Collection<int, Paiement>
+     */
+    #[ORM\OneToMany(targetEntity: Paiement::class, mappedBy: 'userId')]
+    private Collection $paiements;
 
     public function __construct()
     {
         $this->paniers = new ArrayCollection();
+        $this->avis = new ArrayCollection();
+        $this->paiements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -299,5 +304,74 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-    
+    /**
+     * @return Collection<int, Avis>
+     */
+    public function getAvis(): Collection
+    {
+        return $this->avis;
+    }
+
+    public function addAvis(Avis $avis): static
+    {
+        if (!$this->avis->contains($avis)) {
+            $this->avis->add($avis);
+            $avis->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAvis(Avis $avis): static
+    {
+        if ($this->avis->removeElement($avis)) {
+            // set the owning side to null (unless already changed)
+            if ($avis->getUser() === $this) {
+                $avis->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Paiement>
+     */
+    public function getPaiements(): Collection
+    {
+        return $this->paiements;
+    }
+
+    public function addPaiement(Paiement $paiement): static
+    {
+        if (!$this->paiements->contains($paiement)) {
+            $this->paiements->add($paiement);
+            $paiement->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removePaiement(Paiement $paiement): static
+    {
+        if ($this->paiements->removeElement($paiement)) {
+            // set the owning side to null (unless already changed)
+            if ($paiement->getUserId() === $this) {
+                $paiement->setUserId(null);
+            }
+        }
+
+        return $this;
+    }
+  
+    public function getBillingAddress(): ?string
+    {
+      return $this->billingAddress;
+    }
+
+    public function setBillingAddress(?string $billingAddress): self
+    {
+        $this->billingAddress = $billingAddress;
+        return $this;
+    }
 }

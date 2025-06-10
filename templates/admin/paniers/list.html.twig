@@ -17,7 +17,7 @@
 <div class="admin-table-parent" data-controller="tablesorter">
     <table class="admin-table tablesorter-init">
         <thead>
-            <th class="w-15">ID</th>
+            <th class="max-w-15">ID</th>
             <th>Propriétaire du panier</th>
             <th>Produits dans le panier</th>
             <th>Date de création</th>
@@ -25,7 +25,7 @@
         </thead>
         <tbody>
             {% for panier in paniers %}
-                <tr data-action="click->modal#open" data-modal-url="{{ path('app_admin_paniers_view', {id: panier.id}) }}" class="modal-launcher">
+                <tr data-action="click->modal#open" data-modal-size="md" data-modal-url="{{ path('app_admin_paniers_view', {id: panier.id}) }}" class="modal-launcher">
                     <td class="id">{{ panier.id }}</td>
                     <td>{{ panier.user ? panier.user.email : 'Anonyme' }}</td>
                     <td>{{ panier.produits|length }}</td>

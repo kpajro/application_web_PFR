@@ -29,4 +29,13 @@ export default class extends Controller {
             }
         });
     }
+
+    displayImgForm(event) {
+        event.preventDefault();
+        const imgForm = document.getElementById('img-edit-form');
+        imgForm.classList.remove('hidden');
+        setTimeout(() => {
+            imgForm.classList.remove('scale-0');
+        }, 50);
+    }
 }

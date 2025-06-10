@@ -32,13 +32,13 @@ export default class extends Controller {
         })
         .then(res => res.json())
         .then(data => {
-            //console.log(data.produits)
-            this.afficher(data.produits)
+            console.log(data);
+            this.afficher(data.produits, data.directory)
         })
         .catch(err => console.error("Erreur", err))
     }
 
-    afficher(produits) {
+    afficher(produits, directory) {
         const box = document.getElementById("produits")
         box.innerHTML = ""
 
@@ -48,15 +48,44 @@ export default class extends Controller {
         }
 
         produits.forEach(p => {
+            if (!p.active) {
+                return;
+            }
             const div = document.createElement("div")
-            div.className = "article"
+            const icon = p.images.icon ? '../' + directory + '/' + p.images.icon : 'uploadedFiles/produitImages/default-icon.jpg';
+            div.className = "p-3 w-full hover:shadow-lg shadow-indigo-600/30 rounded-xl bg-indigo-300/30 transition-all hover:bg-indigo-200/30"
             div.innerHTML = `
-                <img src="${p.img}" alt="${p.nom}">
-                <h3><a href="/produit/${p.id}/page-produit" class="text-lg text-semibold hover:underline text-indigo-700">${p.nom}</a></h3>
-                <p>${p.description}</p>
-                <p>Prix : ${p.prix} €</p>
+                <a class="max-w-full max-h-75 overflow-hidden" href="/produit/${p.id}/page-produit">
+                    <img src="${icon}" alt="${p.nom}" class="h-[300px] w-[300px] mx-auto">
+                </a>
+                <div class="w-full my-3">
+                    <div class="flex items-center justify-between mb-2"
+                        <h3 class="font-semibold"><a href="/produit/${p.id}/page-produit" class="transition-all text-lg text-semibold hover:underline text-indigo-800 hover:text-indigo-700">${p.nom}</a></h3>
+                        <p class="font-semibold">${p.note ? p.note + '/5' : 'Pas encore d\'avis'}</p>
+                    </div>
+                    <p class="italic text-sm text-gray-700">${p.description}</p>
+                </div>
+                <p class="font-bold text-end w-full">Prix : ${p.prix} €</p>
             `
             box.appendChild(div)
         })
+    }
+
+    showFilters(event) {
+        event.preventDefault();
+        const form = document.getElementById('filtres-form');
+        const arrow = document.getElementById('filtres-arrow');
+        if (form.classList.contains('hidden')) {
+            form.classList.remove('hidden');
+            setTimeout(() => {
+                form.classList.remove('scale-0');
+            }, 50);
+        } else {
+            form.classList.add('scale-0');
+            setTimeout(() => {
+                form.classList.add('hidden');
+            }, 200);
+        }
+        arrow.classList.toggle('rotate-180');
     }
 }

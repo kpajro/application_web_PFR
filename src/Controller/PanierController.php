@@ -27,19 +27,23 @@ class PanierController extends AbstractController
     {
         $panier = $this->panierHandler->getActivePanier($this->getUser(), $request);
         $prixTotal = $this->panierHandler->getPanierTotalPrice($panier);
-
         $amountChangeForm = $this->createFormBuilder(null, [
-            'action' => $this->generateUrl('app_panier_view')
+            'action' => $this->generateUrl('app_panier_view'),
+            'attr' => ['id' => 'panier-form']
         ]);
 
         foreach ($panier->getPanierProduits() as $pp) {
             $produit = $pp->getProduit();
             $amount = $pp->getAmount();
-
             $amountChangeForm->add(strval($pp->getId()), NumberType::class, [
                 'label' => 'Quantité',
                 'mapped' => false,
                 'data' => $amount,
+                'attr' => [
+                    'disabled' => true,
+                    'class' => 'panier-input',
+                    'data-id' => $pp->getId()
+                ]
             ]);
         }
 
@@ -47,6 +51,7 @@ class PanierController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+            dd($request->getContent(), $form->getData());
             foreach ($panier->getPanierProduits() as $pp) {
                 $amountData = $form->get(strval($pp->getId()))->getData();
                 $pp->setAmount($amountData);
@@ -54,7 +59,7 @@ class PanierController extends AbstractController
                 $em->persist($pp);
             }
             $em->flush();
-            return $this->redirectToRoute('app_panier_view');
+            return new Response('Panier mis à jour', 200);
         }
 
         return $this->render('/panier/view.html.twig', [
@@ -64,7 +69,7 @@ class PanierController extends AbstractController
         ]);
     }
 
-    #[Route('/panier/add-produit/{produit}', name: 'app_panier_add_product')]
+    #[Route('/panier/add-produit/{id}', name: 'app_panier_add_product')]
     public function addProductToPanier(Produit $produit, Request $request, EntityManagerInterface $em) : Response 
     {
         $amount = $produit->isBulkSale() ? $produit->getBulkSize() : 1;
@@ -86,7 +91,7 @@ class PanierController extends AbstractController
         $em->persist($panier);
         $em->flush();
 
-        return new Response('Produit retiré du panier', 200);
+        return new Response('Produit retiré du panier : ' . $produit->getNom(), 200);
     }
 
     #[Route('/panier/create/', name: 'app_panier_create')]
