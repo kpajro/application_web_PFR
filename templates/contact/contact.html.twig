@@ -10,7 +10,7 @@
         <h1 class="text-2xl font-bold mb-4 text-center">Contactez-nous</h1>
         {{ form_row(form.email) }}
         {{ form_row(form.message) }}
-    <button class="bg-blue-600 text-white py-2 px-4 rounded">Envoyer</button>
+    <button class="btn btn-primary mt-2 p-2 bg-blue-500 text-white text-center rounded-lg hover:bg-blue-700 hover:cursor-pointer">Envoyer</button>
     {{ form_end(form) }}
     {% else %}
         <p class="text-center text-gray-700 text-lg mx-auto max-w-3xl">Vous devez être connecté pour pouvoir nous contacter.</p>
