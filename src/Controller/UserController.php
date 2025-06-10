@@ -14,11 +14,13 @@ use App\Form\ChangePasswordFormType;
 use Dompdf\Dompdf;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class UserController extends AbstractController
 {
@@ -72,7 +74,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/profile/{id}/supprimer-mon-profil', name:'app_profile_delete_account')]
-    public function deleteAccount(Users $user, EntityManagerInterface $em, Request $request, TokenStorageInterface $tokenStorage): Response
+    public function deleteAccount(Users $user, EntityManagerInterface $em, Request $request, TokenStorageInterface $tokenStorage, UserPasswordHasherInterface $hasher): Response
     {
         $loggedUser = $this->getUser();
 
@@ -83,11 +85,22 @@ class UserController extends AbstractController
         $formBuilder = $this->createFormBuilder(null, [
             'action' => $this->generateUrl('app_profile_delete_account', ['id' => $user->getId()])
         ])
+            ->add('plainPassword', PasswordType::class, [
+                'label' => "Entrez votre mot de passe pour confirmer l'action.",
+                'mapped' => false,
+                'attr' => ['autocomplete' => 'new-password'],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez entrer un mot de passe.',
+                    ]),
+                ],
+                'label_attr' => ['font-semibold']
+            ])
         ;
         $form = $formBuilder->getForm();
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid() && $hasher->isPasswordValid($user, $form->get('plainPassword')->getData())) {
             $panierActif = $user->getPanierActif();
             if ($panierActif !== null) {
                 $panierActif->setUser(null);
