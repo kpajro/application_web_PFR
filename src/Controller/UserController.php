@@ -40,9 +40,11 @@ class UserController extends AbstractController
         if (!$loggedUser || $loggedUser !== $user) {
             throw new AccessDeniedException('Connexion au compte ciblé requise.');
         }
+        $paiments = $user->getPaiements();
 
         return $this->render('user/profile.html.twig', [
             'user' => $user,
+            'paiements' => $paiments
         ]);
     }
     

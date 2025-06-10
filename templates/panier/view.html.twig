@@ -31,8 +31,9 @@
         {{ form_end(form) }}
     </ul>
 </div>
-<div class="flex justify-between">
-    <button id="checkout-button" data-controller="paiement" data-paiement-stripe-url-value="{{ path('app_stripe_checkout_create') }}">Checkout</button>
-    <p id="panier-confirmation" class="help-text"></p>
-    <p id="panier-total-price" data-value="{{ prixTotal }}" class="text-end font-medium">Total : {{ prixTotal|format_currency('EUR', {}, 'fr') }}</p>
+<div class="">
+    <p id="panier-total-price" data-value="{{ prixTotal }}" class="text-end font-medium w-full">Total : {{ prixTotal|format_currency('EUR', {}, 'fr') }}</p>
+    <div class="flex justify-end">
+        <button id="checkout-button" data-controller="paiement" data-paiement-stripe-url-value="{{ path('app_stripe_checkout_create') }}" class="button from-indigo-400 to-indigo-700 shadow-indigo-500/50 hover:cursor-pointer">Aller au paiement</button>
+    </div>
 </div>

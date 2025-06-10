@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User Profile{% endblock %}
+{% block title %}Mon compte utilisateur{% endblock %}
 
 {% block body %}
 
@@ -98,7 +98,17 @@
     </div>
     <div id="paiements" class="md:col-span-3">
         <h3 class="text-lg font-medium mb-3">Mes achats</h3>
-
+        <ul class="p-2 rounded-xl bg-indigo-300/30">
+            {% for paiement in paiements %}
+                <li class="flex justify-start items-center gap-4 px-2 rounded-md hover:bg-indigo-300/30 text-sm">
+                    <i class="fa-solid fa-caret-right mr-3"></i>
+                    <h4 class="font-medium">Paiement du {{ paiement.date|date('d/m/Y \à H:i') }}</h4>
+                    <p>Montant : {{ paiement.montant|format_currency('EUR', {}, 'fr') }}</p>
+                </li>
+            {% else %}
+                <li class="help-text">Pas de paiements enregistrés.</li>    
+            {% endfor %}
+        </ul>
     </div>
 </div>
 {% endblock %}
