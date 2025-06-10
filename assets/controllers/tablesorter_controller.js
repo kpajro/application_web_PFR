@@ -1,6 +1,13 @@
 import { Controller } from "@hotwired/stimulus";
 
+/**
+ * controller js pour initialiser tablesorter pour l'utiliser où on veut 
+ * (sert à gérer les tableaux)
+ */
 export default class extends Controller {
+    /**
+     * fonction lancée au chargement qui initialise tablesorter en utilisant jquery
+     */
     connect() {
         const $ = require('jquery');
 

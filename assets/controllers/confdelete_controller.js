@@ -1,6 +1,12 @@
 import { Controller } from "@hotwired/stimulus";
 
+/**
+ * controller js pour gérer la confirmation de la suppression d'un élément qui suit le bon pattern (en gros juste une confirmation)
+ */
 export default class extends Controller {
+    /**
+     * fonction lancée au chargement qui ajoute une confirmation au bon endroit
+     */
     connect() {
         const footerContent = document.getElementById('footer-content');
         const deleteBtn = document.getElementById('delete-btn');
