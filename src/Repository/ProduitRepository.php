@@ -63,7 +63,7 @@ class ProduitRepository extends ServiceEntityRepository
      *      - une recherche par nom ['recherche']
      * @param Categorie $categorie Categorie ciblée
      * @param array $filtres Array de filtres à formatter correctement
-     * @return array Array de produits
+     * @return Produits[] Array de produits
      */
     public function findByCategoryAndFilter(Categorie $categorie, array $filtres) : array
     {
