@@ -98,7 +98,7 @@ class BOProduitFormType extends AbstractType
                 'required' => false,
                 'row_attr' => ['class' => 'admin-form-section secondary']
             ])
-            ->add('longDescription', CKEditorType::class, [
+            ->add('longDescription', CKEditorType::class, [     // ckeditor pour permettre de faire une description vraiment détaillée et de formatter le texte
                 'config_name' => 'my_config',
                 'label' => 'Déscription détaillée du produit',
                 'required' => false,

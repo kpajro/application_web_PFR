@@ -62,23 +62,6 @@ class PaiementController extends AbstractController
         return new JsonResponse(['id' => $session->id]);
     }
 
-    #[Route('/pre-checkout', name: 'app_checkout_address')]
-    public function checkoutAddress(Request $request): Response
-    {
-        $form = $this->createForm(PaiementFormType::class);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-            $request->getSession()->set('billing_data', $data);
-            return $this->redirectToRoute('app_stripe_checkout_create');
-        }
-
-        return $this->render('paiement/address_form.html.twig', [
-            'form' => $form->createView(),
-        ]);
-    }
-
     #[Route('/paiements', name: 'app_paiements')]
     public function paiementsPage(PaiementRepository $paiementRepository): Response
     {

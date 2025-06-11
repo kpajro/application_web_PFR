@@ -33,7 +33,7 @@ class RegistrationFormType extends AbstractType
                         'maxMessage' => 'Votre adresse e-mail ne peut pas contenir plus de 100 caractères.'
                     ]),
                     new Regex([
-                        'pattern' => '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}.*$/',
+                        'pattern' => '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}.*$/',        // regex pour la validité de l'adresse mail 
                         'match' => true,
                         'message' => 'L\'adresse e-mail doit finir par un nom de domaine valide (".fr", ".com", ".net", etc.).'
                     ])
@@ -81,7 +81,7 @@ class RegistrationFormType extends AbstractType
                         'maxMessage' => 'Votre numéro de téléphone ne peut contenir pas plus de 15 caractères.'
                     ]),
                     new Regex([
-                        'pattern' => '/^\+?[0-9\s]+$/',
+                        'pattern' => '/^\+?[0-9\s]+$/',     // regex pour la validité du numéro de téléphone
                         'match' => true,
                         'message' => 'Le numéro de téléphone ne peut contenir que des chiffres, des espaces et le caractère "+".'
                     ])
@@ -128,7 +128,7 @@ class RegistrationFormType extends AbstractType
                         'message' => 'Veuillez entrer un mot de passe.',
                     ]),
                     new Regex([
-                        'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d;:*\\\\\/{}]).{8,}$/',
+                        'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d;:*\\\\\/{}]).{8,}$/',     // regex pour mdp robuste : 6 caractères minimum, une maj, une  min, un chiffre et un caractère spécial (en excluant ceux qui peuvent être dangereux)
                         'match' => true,
                         'message' => 'Le mot de passe doit contenir au minimum 6 caractères, une minuscule, une majuscule, un chiffre et un caractère spécial.'
                     ])
@@ -137,7 +137,7 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'label' => "J'accepte les conditions d'utilisation du site *",
-                'mapped' => false,
+                'mapped' => false,  // juste une case à cocher pour accepter les termes, rien d'enregistré en bdd
                 'constraints' => [
                     new IsTrue([
                         'message' => 'Merci d\'accepter les conditions d\'utilisation pour continuer.',
