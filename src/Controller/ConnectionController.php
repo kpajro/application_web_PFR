@@ -13,13 +13,18 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\Security\Core\User\UserInterface;
 
-
+/**
+ * Controller qui gère les routes de connexion et de création de compte
+ */
 class ConnectionController extends AbstractController
 {
+    /**
+     * Route pour l'enregistrement d'un compte utilisateur : '/enregistrement' ('app_register')
+     * @return Response Template twig 'connection/register.html.twig'
+     */
     #[Route('/enregistrement', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, PanierHandler $panierHandler): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $user = new Users();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -30,6 +35,7 @@ class ConnectionController extends AbstractController
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword)); //encodage du mdp
             $user->setCreatedAt(new \DateTimeImmutable());
 
+            // on créé un nouveau panier dont le propriétaire est l'utilisateur et on le met en panier actif
             $panier = new Panier($user);
             $user->addPanier($panier);
             $user->setPanierActif($panier);
@@ -38,7 +44,7 @@ class ConnectionController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush(); //utilisateur sauvegardé dans la bdd
 
-            return $this->redirectToRoute('app_index');
+            return $this->redirectToRoute('app_index');     // redirection vers la page d'accueil du site
         }
 
         return $this->render('connection/register.html.twig', [
@@ -46,6 +52,10 @@ class ConnectionController extends AbstractController
         ]);
     }
 
+    /**
+     * Route pour la connexion sécurisée au site : '/connexion' ('app_login')
+     * @return Response Template twig 'connection/login.html.twig
+     */
     #[Route(path: '/connexion', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
@@ -59,10 +69,12 @@ class ConnectionController extends AbstractController
         ]);
     }
 
+    /**
+     * Route qui gère la deconnexion du site (gérée automatiquement par Symfony)
+     */
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
-    
     }
 }

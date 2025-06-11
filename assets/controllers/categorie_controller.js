@@ -1,45 +1,61 @@
 import { Controller } from "@hotwired/stimulus"
 
+/* Controller js dédié à la gestion de l'affichage de la page de la liste des produits pour une catégorie. */
 export default class extends Controller {
+    /**
+     * Fonction lancée au chargement pour charger les produits et les afficher
+     */
     connect() {
         this.categorieId = window.location.pathname.split("/")[1]
         this.charger()
     }
 
+    /**
+     * fonction d'événement pour submit le form
+     * @param {*} event 
+     */
     submitted(event){
         event.preventDefault()
 
         const form = event.target
-        const formData = new FormData(form)
-        
+        const formData = new FormData(form)     // récupération des données du formulaire de filtres et mise dans un objet FormData pour envoyer
+
         const json = {}
-        // je fais un regex dégeu pour enlever <form[>donnée<]>, faudra fix plutard
-        formData.forEach((value, key) => {
+        formData.forEach((value, key) => {      // on met les données dans un json
             const k = key.replace(/^form\[(.+)\]$/, "$1")
             json[k] = value
         })
-        
-        this.charger(json)
+
+        this.charger(json)      // les données sont chargés à partir du json créé
     }
 
+    /**
+    * fonction pour charger les produits selon les filtres
+    * @param {*} filter 
+    */
     charger(filter = {}){
-        fetch(`/categorie/${this.categorieId}/produits/list`, {
+        fetch(`/categorie/${this.categorieId}/produits/list`, {         // on fait un fetch sur la route qui renvoie le json des produits
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(filter)
         })
-        .then(res => res.json())
+        .then(res => res.json())        // on récupère les produits sous forme de json
         .then(data => {
-            console.log(data);
-            this.afficher(data.produits, data.directory)
+            this.afficher(data.produits, data.directory)        // fonction pour gérer l'affichage des produits
         })
         .catch(err => console.error("Erreur", err))
     }
 
+    /**
+     * fonction pour gérer l'affichage des produits
+     * @param {*} produits 
+     * @param {*} directory 
+     * @returns 
+     */
     afficher(produits, directory) {
-        const box = document.getElementById("produits")
+        const box = document.getElementById("produits")         // box dans laquelle sont affichés les produits, on commence par s'assurer qu'elle est vide
         box.innerHTML = ""
         const eur = new Intl.NumberFormat('fr', {
             style: 'currency',
@@ -51,7 +67,7 @@ export default class extends Controller {
             return
         }
 
-        produits.forEach(p => {
+        produits.forEach(p => {     // pour chaque produits dans le json, on le formatte et on l'ajoute à la box
             if (!p.active) {
                 return;
             }
@@ -75,6 +91,10 @@ export default class extends Controller {
         })
     }
 
+    /**
+     * fonction pour toggle l'affichage des filtres
+     * @param {*} event 
+     */
     showFilters(event) {
         event.preventDefault();
         const form = document.getElementById('filtres-form');

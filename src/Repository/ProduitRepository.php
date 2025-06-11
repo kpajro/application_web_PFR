@@ -52,22 +52,42 @@ class ProduitRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function findByCategoryAndFilter(Categorie $categorie, array $filtres)
+    /**
+     * Fonction pour rechercher les produits d'une catégorie donnée selon un array de filtres
+     * - Renvoie l'id, le nom, la descrition courte, le prix, les os, les langages, l'editeur, les images, la note, et l'état du produit
+     * - les filtres possibles sont:
+     *      - prix minimum ['prix_minimum']
+     *      - prix maximum ['prix_maximum']
+     *      - ordre de tri ['order']
+     *      - croissant ou decroissant ['asc'] (si 1 -> croissant sinon décroissant)
+     *      - une recherche par nom ['recherche']
+     * @param Categorie $categorie Categorie ciblée
+     * @param array $filtres Array de filtres à formatter correctement
+     * @return Produits[] Array de produits
+     */
+    public function findByCategoryAndFilter(Categorie $categorie, array $filtres) : array
     {
+        // query initiale
+        // si aucun filtre c'est ce qui est renvoyé par la fonction
         $queryBuilder = $this->createQueryBuilder('p')
             ->select('p.id, p.nom, p.description, p.prix, p.os, p.langages, p.editeur, p.images, p.note, p.active')
             ->where('p.categorie = :categorie')
             ->setParameter('categorie', $categorie)
         ;
+
+        // formattage des filtres
         $prixMin = $filtres['prix_minimum'];
         $prixMax = $filtres['prix_maximum'];
         $orderBy = $filtres['order'];
         $asc = $filtres['asc'];
         $recherche = $filtres['recherche'];
-        $os = $filtres['os'];
-        //$language = $filtres['langages'];
-        //$editor = $filtres['editor'];
+      /*   $os = $filtres['os'];
+        $language = $filtres['langages'];
+        $editor = $filtres['editor']; */
         
+        // pour chaque filtre, on vérifie si le filtre est actif
+        // s'il est actif, le filtre est ajouté à la query
+        // sinon la fonction continue
         if ($prixMin !== null && $prixMin > 0) {
             $queryBuilder
             ->andWhere('p.prix > :prixMin')
@@ -96,24 +116,23 @@ class ProduitRepository extends ServiceEntityRepository
             ->setParameter('rech', '%' . strtolower($recherche) . '%')
             ;
         }
-        if (!empty($os)) {
+       /*  if (!empty($os)) {
             $queryBuilder
             ->andWhere('p.os IN (:os)')
             ->setParameter('os', $os);
         }
-        dump($queryBuilder->GetQuery()->getSQL()); 
     
-        /*if (!empty($language)) {
+        if (!empty($language)) {
             $queryBuilder
                 ->andWhere('p.language IN (:langages)')
                 ->setParameter('language', $language);
-        }*/
+        }
     
-        /*if (!empty($editor)) {
+        if (!empty($editor)) {
             $queryBuilder
                 ->andWhere('p.editor = :editor')
                 ->setParameter('editor', $editor);
-        }*/
+        } */
         
         return $queryBuilder->getQuery()->getResult();
     }
