@@ -3,70 +3,91 @@
 namespace App\Entity;
 
 use App\Repository\UsersRepository;
+use ApiPlatform\Metadata\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[UniqueEntity(fields: ['email'], message: 'Un compte utilisant cette adresse e-mail existe déjà.')]
+#[ApiResource(
+    normalizationContext: ['groups' => ['produit:read']],
+    denormalizationContext: ['groups' => ['produit:write']],
+    forceEager: false
+)]
 class Users implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['produit:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
+    #[Groups(['produit:read'])]
     private ?string $email = null;
 
     /**
      * @var list<string> The user roles
      */
     #[ORM\Column]
+    #[Groups(['produit:read'])]
     private array $roles = [];
 
     /**
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Groups(['produit:read'])]
     private ?string $password = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups(['produit:read'])]
     private ?\DateTimeInterface $birthday = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['produit:read'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['produit:read'])]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['produit:read'])]
     private ?string $country = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['produit:read'])]
     private ?string $phoneNumber = null;
 
     #[ORM\Column]
+    #[Groups(['produit:read'])]
     private ?int $accountType = null;
 
     #[ORM\Column]
+    #[Groups(['produit:read'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['produit:read'])]
     private ?\DateTimeImmutable $lastLogIn = null;
 
     /**
      * @var Collection<int, Panier>
      */
     #[ORM\OneToMany(targetEntity: Panier::class, mappedBy: 'user')]
+    #[Groups(['produit:read'])]
     private Collection $paniers;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[Groups(['produit:read'])]
     private ?Panier $panierActif = null;
 
 
@@ -77,6 +98,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
      * @var Collection<int, Avis>
      */
     #[ORM\OneToMany(targetEntity: Avis::class, mappedBy: 'user', orphanRemoval: true)]
+    #[Groups(['produit:read'])]
     private Collection $avis;
 
     /**
