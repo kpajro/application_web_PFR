@@ -46,11 +46,15 @@ class AppFixtures extends Fixture
         private LoremIpsumGenerator $lorem,
     ) {}
 
+    /**
+     * fonction qui lance toutes les fixtures
+     */
     public function load(ObjectManager $manager): void
     {
         dump('Début de la génération de données.');
         dump(' ');
 
+        // pour chaque fonction, modifier le premier paramètre pour modifier le nombre d'utilisateurs à créer
         $this->createUsers(300, $manager);              // création de 300 utilisateurs exemples
         $this->createCategories(5, $manager);          // création de 10 catégories exemples
         $this->createProducts(600, $manager);          // création de 1500 produits exemples
@@ -61,6 +65,9 @@ class AppFixtures extends Fixture
         dump('Toutes les données ont été générées.');
     }
 
+    /**
+     * fonction pour créer un nombre défini d'utilisateurs de test
+     */
     public function createUsers(int $amount, ObjectManager $m) : void
     {
         dump('Génération des utilisateurs...');
@@ -71,8 +78,8 @@ class AppFixtures extends Fixture
             $user->setName('TESTEUR' . $i);
             $user->setFirstname('Exemple');
             $plainPassword = 'Test-Password-' . $i;
-            $user->setPassword($this->hasher->hashPassword($user, $plainPassword));
-            $user->setAccountType(rand(1, 2));
+            $user->setPassword($this->hasher->hashPassword($user, $plainPassword));     // le mdp est hashé avant d'être entré en bdd
+            $user->setAccountType(rand(1, 2));      // 1 chance sur 2 d'être soi un compte entreprise, soit un compte particulier
             $user->setCountry('FR');
 
             $minCreationDate = strtotime('2024-01-01');
@@ -82,7 +89,7 @@ class AppFixtures extends Fixture
 
             $minLogDate = strtotime($user->getCreatedAt()->format('Y-m-d H:i:s'));
             $maxLogDate = strtotime('2025-03-01');
-            $LogDate = date('Y-m-d H:i:s', rand($minLogDate, $maxLogDate));
+            $LogDate = date('Y-m-d H:i:s', rand($minLogDate, $maxLogDate));     // date de derniere connexion entre la date de création du compte et le 1er mars 2025
             $user->setLastLogIn(new DateTimeImmutable($LogDate));
 
             $minBirthDate = strtotime('1970-01-01');
@@ -104,6 +111,9 @@ class AppFixtures extends Fixture
         dump('');
     }
 
+    /**
+     * fonction pour générer un nombre défini de catégories de test
+     */
     public function createCategories(int $amount, ObjectManager $m) : void
     {
         dump('Génération des catégories...');
@@ -121,14 +131,18 @@ class AppFixtures extends Fixture
         dump(' ');
     }
 
+    /**
+     * fonction pour créer un nombre défini de produits de test
+     */
     public function createProducts(int $amount, ObjectManager $m) : void
     {
         dump('Génétation des produits...');
         $editeurs = [];
         for ($j = 0; $j < 30; $j++) {
-            $editeurs[$j] = 'Editeur ' . $j;
+            $editeurs[$j] = 'Editeur ' . $j;    // création de 30 éditeurs de tests
         }
 
+        // éléments communs à tous les produits pour faire plus simple
         $langages = ['FR', 'EN', 'ITA', 'GER', 'SPA'];
         $os = ['WIN', 'LIN', 'MacOS'];
         $priceDecimals = [0.5, 0.99, 0.25, 0, 0.9];
@@ -140,7 +154,7 @@ class AppFixtures extends Fixture
             $produit->setActive(true);
             $produit->setNom('Produit Exemple ' . $i);
             $produit->setEditeur($editeurs[rand(0, 29)]);
-            $produit->setPrix(rand(100, 3000) + $priceDecimals[array_rand($priceDecimals)]);
+            $produit->setPrix(rand(100, 3000) + $priceDecimals[array_rand($priceDecimals)]);        // prix entre 100 et 3000 + une terminaison au hasard prise dans l'array créé plus tôt
             $produit->setImages([]);
 
             $categorie = $categories[array_rand($categories)];
@@ -153,9 +167,9 @@ class AppFixtures extends Fixture
             $produit->setLangages($langages);
             $produit->setOs($os);
 
-            $produit->setIsBulkSale(rand(0,3) == 1); // 1/4 chance d'être vendu par lot
+            $produit->setIsBulkSale(rand(0,3) == 1);        // 1/4 chance d'être vendu par lot
             $produit->setBulkSize($produit->isBulkSale() ? rand(10, 100) : null);
-            $produit->setIsLimitedStock(rand(0,4) == 1); // 1/5 chance d'être en stock limité
+            $produit->setIsLimitedStock(rand(0,4) == 1);        // 1/5 chance d'être en stock limité
             $produit->setStock($produit->isLimitedStock() ? rand(100, 5000) : null);
 
             $m->persist($produit);
@@ -168,6 +182,9 @@ class AppFixtures extends Fixture
         dump(' ');
     }
 
+    /**
+     * fonction pour créer un nombre défini de paniers de test
+     */
     public function createPaniers(int $amount, ObjectManager $m) : void
     {
         dump('Génération des paniers...');
@@ -179,12 +196,12 @@ class AppFixtures extends Fixture
             $panier = new Panier($user);
             $panier->setEtat(rand(1, 3));
 
-            $minCreateDate = $user !== null ? strtotime($user->getCreatedAt()->format('Y-m-d H:i:s')) : strtotime('2024-01-01');
+            $minCreateDate = $user !== null ? strtotime($user->getCreatedAt()->format('Y-m-d H:i:s')) : strtotime('2024-01-01');        // si le panier est lié à un utilisateur, date de création ne peut pas être inférieur à la date de création du compte utilisateur
             $maxCreateDate = strtotime('2025-03-01');
             $createDate = date('Y-m-d H:i:s', rand($minCreateDate, $maxCreateDate));
             $panier->setCreatedAt(new DateTimeImmutable($createDate));
 
-            for ($j = 0; $j < rand(1, 5); $j++) {
+            for ($j = 0; $j < rand(1, 5); $j++) {       // 1 à 5 produits au hasard sont ajoutés au panier
                 $produit = $produits[array_rand($produits)];
                 $panier->addProduit($produit, $m);
             }
@@ -198,18 +215,21 @@ class AppFixtures extends Fixture
         dump(' ');
     }
 
+    /**
+     * fonction pour générer un nombre défini d'avis de test
+     */
     public function createAvis(int $amount, ObjectManager $m) : void
     {
         dump('Génération des avis...');
         $produits = $this->produitRepo->findAll();
         $users = $this->usersRepo->findAll();
-        $commentaire = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sed dui tincidunt, aliquet dolor non, tempus ipsum.';
+        $commentaire = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sed dui tincidunt, aliquet dolor non, tempus ipsum.';      // le commentaire sera le même pour tous les avis afin de simplifier
 
         for ($i = 0; $i < $amount; $i++) {
             $avis = new Avis();
             $produit = $produits[array_rand($produits)];
             $user = $users[array_rand($users)];
-            $minDate = strtotime($user->getCreatedAt()->format('Y-m-d H:i:s'));
+            $minDate = strtotime($user->getCreatedAt()->format('Y-m-d H:i:s'));     // la date de post ne peut pas être inférieur à la date de création du compte utilisateur
             $maxDate = strtotime('2025-05-01');
             $date = date('Y-m-d H:i:s', rand($minDate, $maxDate));
 
