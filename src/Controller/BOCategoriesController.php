@@ -12,6 +12,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+
+/**
+ *
+ */
 #[Route('/admin/categories')]
 #[IsGranted('ROLE_ADMIN')]
 class BOCategoriesController extends AbstractController

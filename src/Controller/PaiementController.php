@@ -77,28 +77,6 @@ class PaiementController extends AbstractController
     }
 
     /**
-     * Route pour pré-remplir une adresse de facturation (non utilisée actuellement)
-     *
-     * @param Request $request Requête HTTP contenant potentiellement le formulaire soumis
-     * @return Response Retourne le formulaire ou redirige vers Stripe
-     */
-    #[Route('/pre-checkout', name: 'app_checkout_address')]
-    public function checkoutAddress(Request $request): Response
-    {
-        $form = $this->createForm(PaiementFormType::class); // création d'un formulaire de paiement
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-            $request->getSession()->set('billing_data', $data);
-            return $this->redirectToRoute('app_stripe_checkout_create');
-        }
-
-        return $this->render('paiement/address_form.html.twig', [
-            'form' => $form->createView(),
-        ]);
-    }
-    /**
      * Route permettant d'afficher la liste des paiements effectués par l'utilisateur connecté
      *
      * @param PaiementRepository $paiementRepository Repository pour accéder aux entités Paiement

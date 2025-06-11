@@ -42,7 +42,7 @@ class ChangePasswordFormType extends AbstractType
                         'message' => 'Veuillez entrer un mot de passe.',
                     ]),
                     new Regex([
-                        'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d;:*\\\\\/{}]).{8,}$/',
+                        'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d;:*\\\\\/{}]).{8,}$/',     // regex pour mdp robuste : 6 caractères minimum, une maj, une  min, un chiffre et un caractère spécial (en excluant ceux qui peuvent être dangereux)
                         'match' => true,
                         'message' => 'Le mot de passe doit contenir au minimum 6 caractères, une minuscule, une majuscule, un chiffre et un caractère spécial.'
                     ]),

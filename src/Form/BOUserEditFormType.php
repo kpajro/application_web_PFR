@@ -28,7 +28,7 @@ class BOUserEditFormType extends AbstractType
                         'maxMessage' => 'L\'adresse e-mail ne peut pas contenir plus de 100 caractères.'
                     ]),
                     new Regex([
-                        'pattern' => '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}.*$/',
+                        'pattern' => '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}.*$/',    // regex pour vérifier la validité de l'adresse mail
                         'match' => true,
                         'message' => 'L\'adresse e-mail doit finir par un nom de domaine valide (".fr", ".com", ".net", etc.).'
                     ])
@@ -75,7 +75,7 @@ class BOUserEditFormType extends AbstractType
                         'maxMessage' => 'Votre numéro de téléphone ne peut contenir pas plus de 15 caractères.'
                     ]),
                     new Regex([
-                        'pattern' => '/^\+?[0-9\s]+$/',
+                        'pattern' => '/^\+?[0-9\s]+$/',     // regex pour vérifier la validité du numéro de téléphone
                         'match' => true,
                         'message' => 'Le numéro de téléphone ne peut contenir que des chiffres, des espaces et le caractère "+".'
                     ])

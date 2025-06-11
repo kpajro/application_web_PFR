@@ -2,13 +2,9 @@
 namespace App\Controller;
 
 use App\Entity\Categorie;
+use App\Form\CategorieFiltresType;
 use App\Repository\CategorieRepository;
 use App\Repository\ProduitRepository;
-use ContainerKKo5JGl\getProduitControllerviewProduitService;
-use Symfony\Component\Validator\Constraints\NotNull;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,10 +12,13 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
-use function PHPUnit\Framework\isInfinite;
 
 class CategoriesController extends AbstractController
 {
+    /**
+     * Route pour l'affichage de la liste des catégories : '/categories' ('app_categories_list')
+     * @return Response Template twig 'categories/list.html.twig'
+     */
     #[Route('/categories', name:'app_categories_list')]
     public function categoriesList(CategorieRepository $categoriesRepo): Response
     {
@@ -30,114 +29,19 @@ class CategoriesController extends AbstractController
         ]);
     }
     
+    /**
+     * Route qui liste les produits d'une catégorie ciblée : '/{id}/categorie' ('app_categorie')
+     * @return Response Template twig 'categories/categorie.html.twig'
+     */
     #[Route('/{id}/categorie', name: 'app_categorie')]
     public function listProducts(Categorie $categorie, ProduitRepository $produitRepository, Request $request): Response
     {
         $products = $produitRepository->findByCategory($categorie->getId());
-        $formBuilder = $this->createFormBuilder(
-            null,
-            ['action' => $this->generateUrl('app_categorie', ['id' => $categorie->getId()])]
-        );
-        $formBuilder->add('prixMin', NumberType::class, [
-                        'label' => 'Prix Minimum',
-                        'required' => false,
-                        'empty_data' => 0,
-                        'label_attr' => ['class' => 'text-xs italic text-gray-700 text-end'],
-                        'attr' => ['class' => 'filtre-input'],
-                        'row_attr' => ['class' => 'flex flex-col justify-center']
-                    ])
-                    ->add('prixMax', NumberType::class, [
-                        'label' => 'Prix Maximum',
-                        'required' => true,
-                        'data' => 10000,
-                        'empty_data' => 10000,
-                        'label_attr' => ['class' => 'text-xs italic text-gray-700 text-end'],
-                        'attr' => ['class' => 'filtre-input'],
-                        'row_attr' => ['class' => 'flex flex-col justify-center']
-                    ])
-                    ->add('ordreAlpha', ChoiceType::class, [
-                        'label' => 'Filtrer par',
-                        'choices' => [
-                            'Prix' => 'prix',
-                            'Alphabétique' => 'alpha',
-                            'Note' => 'note'
-                        ],
-                        'multiple' => false,
-                        'expanded' => false,
-                        'placeholder' => 'Défaut',
-                        'required' => false,
-                        'label_attr' => ['class' => 'text-xs italic text-gray-700 text-end'],
-                        'attr' => ['class' => 'filtre-input'],
-                        'row_attr' => ['class' => 'flex flex-col justify-center']
-                    ])
-                    ->add('asc', ChoiceType::class, [
-                        'label' => "Ordre",
-                        'choices' => [
-                            'Croissant' => true,
-                            'Décroissant' => false,
-                        ],
-                        'multiple' => false,
-                        'expanded' => false,
-                        'required' => false,
-                        'label_attr' => ['class' => 'text-xs italic text-gray-700 text-end'],
-                        'attr' => ['class' => 'filtre-input'],
-                        'row_attr' => ['class' => 'flex flex-col justify-center']
-                    ])
-                    ->add('os', ChoiceType::class, [
-                        'label' => "Systèmes d'exploitation disponibles",
-                        'choices' => [
-                            'Windows' => "WIN",
-                            'Linux' => "LIN",
-                            'MacOS' => "MacOS"
-                        ],
-                        'multiple' => true,
-                        'expanded' => true,
-                        'placeholder' => "Tous",
-                        'required' => false,
-                        'label_attr' => ['class' => 'text-xs italic text-gray-700 text-end'],
-                        'attr' => ['class' => 'filtre-boxes'],
-                        'row_attr' => ['class' => 'flex flex-col justify-center']
-                    ])
-                    ->add('langages', ChoiceType::class, [
-                        'label' => "Langages disponibles",
-                        'choices' => [
-                            'Français' => 'FR',
-                            'Anglais' => 'EN',
-                            'Italien' => 'ITA',
-                            'Allemand' => 'GER',
-                            'Espagnol' => 'SPA'
-                        ],
-                        'multiple' => true,
-                        'expanded' => true,
-                        'placeholder' => "Toutes les langues",
-                        'required' => false,
-                        'label_attr' => ['class' => 'text-xs italic text-gray-700 text-end'],
-                        'attr' => ['class' => 'filtre-boxes'],
-                        'row_attr' => ['class' => 'flex flex-col justify-center']
-                    ])
-                    ->add('editor', ChoiceType::class, [
-                        'label' => "Editeurs",
-                        'choices' => [
-                            
-                        ],
-                        'multiple' => true,
-                        'expanded' => true,
-                        'placeholder' => "Tous",
-                        'required' => false,
-                        'label_attr' => ['class' => 'text-xs italic text-gray-700 text-end'],
-                        'attr' => ['class' => 'filtre-boxes'],
-                        'row_attr' => ['class' => 'flex flex-col justify-center']
-                    ])
-                    ->add('recherche', TextType::class, [
-                        'required' => false,
-                        'label' => false,
-                        'label_attr' => ['class' => 'text-xs italic text-gray-700 text-end'],
-                        'attr' => ['class' => 'filtre-input filtre-search', 'placeholder' => "Recherchez un produit..."],
-                        'row_attr' => ['class' => 'flex flex-col justify-center w-full'],
-                    ])
-        ;
 
-        $form = $formBuilder->getForm();
+        // création d'un formulaire pour les filtres
+        $form = $this->createForm(CategorieFiltresType::class, null, [
+            'action' => $this->generateUrl('app_categorie', ['id' => $categorie->getId()])
+        ]);
         $form->handleRequest($request);
 
         return $this->render('categories/categorie.html.twig', [
@@ -146,60 +50,31 @@ class CategoriesController extends AbstractController
             'filterForm' => $form->createView()
         ]);
     }
-    
-    /*#[Route('/{id}/categorie/json', name: 'app_categorie_json', methods: ['GET'])]
-    public function listProductsToJson(int $id, ProduitRepository $produitRepository, CategorieRepository $categorieRepository, Request $request): JsonResponse 
-    {
-        $filtre = $request->query->get('filtre', 'default');
-        $products = $produitRepository->findByCategory($id, $filtre);
 
-        $categories = $categorieRepository->findAll();
-
-        $produitsArray = array_map(function($prod){
-            return [
-                'id'=> $prod->getId(),
-                'nom'=> $prod->getNom(),
-                'description'=> $prod->getDescription(),
-                'prix'=> $prod->getPrix(),
-                'image'=> $prod->getImage(),
-                'categorie'=> [
-                    'id'=> $prod->getCategorie()->getId(),
-                    'nom'=> $prod->getCategorie()->getNom()
-                ]
-            ];
-        }, $products);
-        $categoriesArray = array_map(function($categ){
-            return [
-                'id'=> $categ->getId(),
-                'nom'=> $categ->getNom(),
-                'nbProduits'=> $categ->getNbProduits()
-            ];
-        }, $categories);
-        return $this->json([
-            'produits'=> $produitsArray,
-            'filtre'=> $filtre,
-            'categories'=> $categoriesArray
-        ]);
-    }*/
-
+    /**
+     * Route qui renvoie les produits d'une categorie selon les filtres
+     * @param Categorie $categorie Categorie ciblée par le chemin de la route
+     * @return JsonResponse Json contenant tous les produits selon les filtres envoyés
+     */
     #[Route('/categorie/{id}/produits/list', name: 'app_categorie_produits_json', methods: ['POST'])]
     public function productListInJson(Categorie $categorie, ProduitRepository $produitRepo, Request $request, SluggerInterface $slugger, LoggerInterface $logger): JsonResponse
-
     {
+        // on reçoit les filtres au format JSON depuis le front (categorie_controller)
         $filtres = json_decode($request->getContent(), true);
+        // Reformattage de l'array reçu
         $filtres = [
-            'prix_minimum' => $filtres['prixMin'] ?? null,
-            'prix_maximum' => $filtres['prixMax'] ?? null,
-            'order' => $filtres['ordreAlpha'] ?? null,
-            'asc' => $filtres['asc'] ?? null,
-            'recherche' => $filtres['recherche'] ?? null,
-            'os' => $filtres['os'] ?? null,
-            //'langages' => $filtres['langages'] ?? null,
-            'editor' => $filtres['editor'] ?? null
+            'prix_minimum' => $filtres["categorie_filtres[prixMin]"] ?? null,
+            'prix_maximum' => $filtres["categorie_filtres[prixMax]"] ?? null,
+            'order' => $filtres["categorie_filtres[ordreAlpha]"] ?? null,
+            'asc' => $filtres["categorie_filtres[asc]"] ?? null,
+            'recherche' => $filtres["categorie_filtres[recherche]"] ?? null,
+            /* 'os' => $filtres['os'] ?? null,
+             'langages' => $filtres['langages'] ?? null,
+              'editor' => $filtres['editor'] ?? null */
         ];
         $logger->info('Debug info:', ['data' => $filtres]);
 
-        $produits = $produitRepo->findByCategoryAndFilter($categorie, $filtres);
+        $produits = $produitRepo->findByCategoryAndFilter($categorie, $filtres);        // fonction de produit repository qui filtre les produits
         return $this->json([
             'produits' => $produits,
             'categorie' => $categorie->getNom(),

@@ -1,6 +1,12 @@
 import { Controller } from '@hotwired/stimulus';
 
+/**
+ * Controller js pour la gestion de la page profil
+ */
 export default class extends Controller {
+    /**
+     * fonction lancée au chargement de la page qui initialise les ecouteurs d'événements sur les éléments
+     */
     connect() {
         const btn = document.getElementById('show-more');
         const panierActifBtn = document.getElementById('panier-actif-btn');
@@ -23,6 +29,10 @@ export default class extends Controller {
         });
     }
 
+    /**
+     * fonction pour toggle l'affichage des informations utilisateur
+     * @param {*} e 
+     */
     showMore(e) {
         e.preventDefault();
         const aInfo = document.getElementById('additional-info');
@@ -31,6 +41,10 @@ export default class extends Controller {
         aInfo.classList.toggle('hidden');
     }
 
+    /**
+     * fonction pour toggle l'affichage du panier en cours
+     * @param {*} e 
+     */
     showPanierActif(e) {
         e.preventDefault();
         const panier = document.getElementById('panier-active-info');
@@ -40,6 +54,10 @@ export default class extends Controller {
         arrow.classList.toggle('rotate-180');
     }
 
+    /**
+     * fonction pour toggle l'affichage d'un panier en particulier
+     * @param {*} e 
+     */
     showPanier(e) {
         e.preventDefault();
         const id = e.currentTarget.parentElement.dataset.panierId;
@@ -51,6 +69,10 @@ export default class extends Controller {
         arrow.classList.toggle('rotate-180');
     }
 
+    /**
+     * fonction pour toggle l'affichage des vieux paniers
+     * @param {*} e 
+     */
     showPanierOld(e) {
         e.preventDefault();
         const paniers = document.getElementById('paniers-old');

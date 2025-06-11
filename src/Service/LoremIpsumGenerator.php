@@ -2,6 +2,9 @@
 
 namespace App\Service;
 
+/**
+ * Générateur de Lorem Ipsum custom utilisée uniquement dans les datafixtures pour générer du texte exemple
+ */
 class LoremIpsumGenerator 
 {
     public static function ipsum($nparagraphs) {
