@@ -20,6 +20,11 @@ class BOParametreController extends AbstractController
 {
     /**
      * Route du backoffice de la page paramètres du site
+     *
+     * @param ParametreSiteRepository $paramRepository Interface permettant de récupérer les données des paramètres
+     * @param FaqRepository $faqRepository Interface permettant de récupérer les données des FAQ
+     * @param EntityManagerInterface $em Interface pour gérer la persistance des entités
+     * @return Response Retourne la vue Twig 'admin/parametre/parametre.html.twig' avec les paramètres du site
      */
     #[Route('', name: 'app_admin_parametre')]
     public function parametre(ParametreSiteRepository $paramRepository, FaqRepository $faqRepository, EntityManagerInterface $em): Response
@@ -47,7 +52,12 @@ class BOParametreController extends AbstractController
         ]);
     }
     /**
-     * Route du backoffice permettant de faire une modification des paramètres du site
+     * Route du backoffice permettant de modifier les paramètres du site
+     *
+     * @param Request $request Requête HTTP reçue
+     * @param ParametreSiteRepository $paramRepository Interface permettant de récupérer les données des paramètres
+     * @param EntityManagerInterface $em Interface pour gérer la persistance des entités
+     * @return Response Redirige vers la route principale après mise à jour des paramètres
      */
     #[Route('/edit', name: 'app_admin_parametre_edit')]
     public function mailContactEdit(Request $request, ParametreSiteRepository $paramRepository, EntityManagerInterface $em) : Response
@@ -73,7 +83,13 @@ class BOParametreController extends AbstractController
         return $this->RedirectToRoute("app_admin_parametre"); // redirection vers la route principale
     }
     /**
-     * Route du backoffice permettant de modifier d'une FAQ 
+     * Route du backoffice permettant de modifier une FAQ
+     *
+     * @param Request $request Requête HTTP reçue
+     * @param FaqRepository $faqRepository Interface permettant de récupérer les données des FAQ
+     * @param EntityManagerInterface $em Interface pour gérer la persistance des entités
+     * @param Faq $faq L'entité FAQ à modifier (liée à l'ID de la route)
+     * @return Response Retourne une vue Twig contenant le formulaire de modification de la FAQ
      */
     #[Route('/{id}/faq', name: 'app_admin_faq_edit')]
     public function faqEdit(Request $request, FaqRepository $faqRepository, EntityManagerInterface $em, Faq $faq): Response 

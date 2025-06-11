@@ -22,7 +22,9 @@ class PaiementController extends AbstractController
 {
 
     /**
-     * Constructeur du Handler du panier
+     * Constructeur pour injecter le service de gestion du panier
+     *
+     * @param PanierHandler $panierHandler Service de la gestion du panier
      */
     public function __construct(private PanierHandler $panierHandler)
     {
@@ -30,6 +32,9 @@ class PaiementController extends AbstractController
 
     /**
      * Route de création d'une session Stripe pour le paiement
+     *
+     * @param Request $request Requête HTTP POST contenant les informations de paiement
+     * @return JsonResponse Retourne l'ID de la session Stripe en JSON
      */
     #[Route('/create-checkout', name: 'app_stripe_checkout_create', methods: ['POST'])]
     public function createCheckoutSession(Request $request): JsonResponse
@@ -72,7 +77,10 @@ class PaiementController extends AbstractController
     }
 
     /**
-     * Route non utilisée pour l'instant pour récuperer l'addresse pour la facturation
+     * Route pour pré-remplir une adresse de facturation (non utilisée actuellement)
+     *
+     * @param Request $request Requête HTTP contenant potentiellement le formulaire soumis
+     * @return Response Retourne le formulaire ou redirige vers Stripe
      */
     #[Route('/pre-checkout', name: 'app_checkout_address')]
     public function checkoutAddress(Request $request): Response
@@ -91,7 +99,10 @@ class PaiementController extends AbstractController
         ]);
     }
     /**
-     * Route de la page Paiements pour retourner tous les paiements de l'utilisateur
+     * Route permettant d'afficher la liste des paiements effectués par l'utilisateur connecté
+     *
+     * @param PaiementRepository $paiementRepository Repository pour accéder aux entités Paiement
+     * @return Response Retourne une page listant les paiements
      */
     #[Route('/paiements', name: 'app_paiements')]
     public function paiementsPage(PaiementRepository $paiementRepository): Response
@@ -105,7 +116,11 @@ class PaiementController extends AbstractController
     }
 
     /**
-     * Route du paiement quand il a succédé par Stripe, créer un paiement et l'ajoute à la base de données
+     * Route appelée en cas de succès du paiement Stripe
+     *
+     * @param Request $request Requête contenant le session_id de Stripe
+     * @param EntityManagerInterface $em EntityManager pour la gestion des entités
+     * @return Response Redirige ou affiche un message de succès
      */
     #[Route('/payment-success', name: 'app_stripe_payment_success')]
     public function paymentSuccess(Request $request, EntityManagerInterface $em): Response
@@ -140,12 +155,13 @@ class PaiementController extends AbstractController
         
         //$billingData = $request->getSession()->get('billing_data');
 
+        // Création d'un nouveau paiement en BDD
         $paiement->setUuid($uuid);
         $paiement->setMontant($montant);
         $paiement->setDate($date);
         $paiement->setStatus($status);
         $paiement->setUserId($loggedUser);
-        $panier->setEtat(2);
+        $panier->setEtat(2); // mise à jour de l'état du panier
 
         $em->persist($paiement);
         $em->flush();
@@ -153,7 +169,9 @@ class PaiementController extends AbstractController
         return $this->render('paiement/success.html.twig');
     }
     /**
-     * Route du paiement quand il échoue
+     * Route appelée en cas d'annulation du paiement
+     *
+     * @return Response Affiche une page d'échec de paiement
      */
     #[Route('/payment-cancel', name: 'app_stripe_payment_cancel')]
     public function paymentCancel(): Response

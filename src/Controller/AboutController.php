@@ -13,6 +13,10 @@ use Symfony\Component\HttpFoundation\Response;
 class AboutController extends AbstractController{
     /**
      * Route de la page à propos
+     * @param EntityManagerInterface Interface pour gérer les données des entités
+     * @param ParametreSiteRepository Interface permettant de récuperer les données de l'entité
+     * @param Request Requête HTTP réçue
+     * @return Template Retourne une template twig "about/about.html.twig"
      */
     #[Route('/about', name:'app_about')]
     public function about(EntityManagerInterface $em, ParametreSiteRepository $parametreSiteRepository, Request $request): Response
@@ -30,7 +34,7 @@ class AboutController extends AbstractController{
         }
 
         if ($request->isMethod('POST')){
-        $nouveldesc = $request->request->get('description');
+            $nouveldesc = $request->request->get('description');
             $about->setDescription($nouveldesc);
             $em->persist($about); 
             $em->flush(); // ajout des données dans la base de données
