@@ -4,32 +4,44 @@ namespace App\Entity;
 
 use App\Repository\PanierProduitsRepository;
 use App\Repository\PanierRepository;
+use ApiPlatform\Metadata\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PanierRepository::class)]
+#[ApiResource(
+    normalizationContext: ['groups' => ['produit:read']],
+    denormalizationContext: ['groups' => ['produit:write']],
+    forceEager: false
+)]
 class Panier
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['produit:read'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'paniers')]
+    #[Groups(['produit:read'])]
     private ?Users $user = null;
 
     #[ORM\Column]
+    #[Groups(['produit:read'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
+    #[Groups(['produit:read'])]
     private ?int $etat = null;
 
     /**
      * @var Collection<int, PanierProduits>
      */
     #[ORM\OneToMany(targetEntity: PanierProduits::class, mappedBy: 'panier', orphanRemoval: true, cascade:['persist'])]
+    #[Groups(['produit:read'])]
     private Collection $panierProduits;
 
     public function __construct(?Users $user)
