@@ -19,13 +19,13 @@ export default class extends Controller {
 
         const form = event.target
         const formData = new FormData(form)     // récupération des données du formulaire de filtres et mise dans un objet FormData pour envoyer
-        
+
         const json = {}
         formData.forEach((value, key) => {      // on met les données dans un json
             const k = key.replace(/^form\[(.+)\]$/, "$1")
             json[k] = value
         })
-        
+
         this.charger(json)      // les données sont chargés à partir du json créé
     }
 

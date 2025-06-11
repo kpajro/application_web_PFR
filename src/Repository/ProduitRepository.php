@@ -64,9 +64,9 @@ class ProduitRepository extends ServiceEntityRepository
         $orderBy = $filtres['order'];
         $asc = $filtres['asc'];
         $recherche = $filtres['recherche'];
-        $os = $filtres['os'];
-        //$language = $filtres['langages'];
-        //$editor = $filtres['editor'];
+      /*   $os = $filtres['os'];
+        $language = $filtres['langages'];
+        $editor = $filtres['editor']; */
         
         if ($prixMin !== null && $prixMin > 0) {
             $queryBuilder
@@ -96,24 +96,23 @@ class ProduitRepository extends ServiceEntityRepository
             ->setParameter('rech', '%' . strtolower($recherche) . '%')
             ;
         }
-        if (!empty($os)) {
+       /*  if (!empty($os)) {
             $queryBuilder
             ->andWhere('p.os IN (:os)')
             ->setParameter('os', $os);
         }
-        dump($queryBuilder->GetQuery()->getSQL()); 
     
-        /*if (!empty($language)) {
+        if (!empty($language)) {
             $queryBuilder
                 ->andWhere('p.language IN (:langages)')
                 ->setParameter('language', $language);
-        }*/
+        }
     
-        /*if (!empty($editor)) {
+        if (!empty($editor)) {
             $queryBuilder
                 ->andWhere('p.editor = :editor')
                 ->setParameter('editor', $editor);
-        }*/
+        } */
         
         return $queryBuilder->getQuery()->getResult();
     }
