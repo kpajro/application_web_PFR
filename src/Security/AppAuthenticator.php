@@ -53,10 +53,13 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
+        // à la connexion le champ de dernière connexion est mis à jour
         $user = $this->usersRepo->findOneBy(['email' => $request->get('email')]);
         $user->setLastLogIn(new \DateTimeImmutable('now'));
-        $paniers = $user->getPaniers();
 
+        // à la connexion les paniers et leur état sont vérifiés
+        // si besoin, un nouveau panier est créé pour être le panier actif de l'utilisateur
+        $paniers = $user->getPaniers();
         if (!empty($paniers) && !$user->getPanierActif()) {
             foreach ($paniers as $panier) {
                 if ($panier->getEtat() === 1) {
@@ -83,7 +86,7 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
         $this->em->persist($user);
         $this->em->flush();
 
-        // For example:
+        // redirection vers la page du site une fois l'authetication terminée
         return new RedirectResponse($this->urlGenerator->generate('app_index'));
         throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
