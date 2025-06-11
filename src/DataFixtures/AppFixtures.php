@@ -5,7 +5,6 @@ namespace App\DataFixtures;
 use App\Entity\Avis;
 use App\Entity\Categorie;
 use App\Entity\Panier;
-use App\Entity\PanierProduits;
 use App\Entity\Produit;
 use App\Entity\Users;
 use App\Repository\CategorieRepository;
@@ -16,26 +15,24 @@ use DateTime;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-/*
-
-    Les fixures servent à ajouter des données de test au projet, ça va permettre de pouvoir avoir une idée des temps de chargements et tout ça et c'est aussi pratique pour le front; de se rendre compte de comment les choses rendent avec beaucoup de données dans la base
-
-    Pour les utiliser :
-    - Assurez vous d'avoir la base de données à jour en faisant les dernières migrations : 
-        -> php bin/console make:migration 
-        -> php bin/console doctrine:migrations:migrate
-    - Lancez la commande pour charger les fixtures dans la base : 
-        -> php bin/console doctrine:fixtures:load
-        !! à noter que lancer cette commande supprimera toutes les données pré existentes dans la bdd !!
-    - Pour ajouter les données à celles que vous avez déjà dans votre base, vous pouvez ajouter --append :
-        -> php bin/console doctrine:fixtures:load --append
-    - Vous pouvez facilement changer la quantité d'objets créés en modifiant le premier paramètre de chaque fonction
-    
-*/
-
+/**
+ *
+ *   Les fixures servent à ajouter des données de test au projet, ça va permettre de pouvoir avoir une idée des temps de chargements et tout ça et c'est aussi pratique pour le front; de se rendre compte de comment les choses rendent avec beaucoup de données dans la base
+ *
+ *   Pour les utiliser :
+ *   - Assurez vous d'avoir la base de données à jour en faisant les dernières migrations : 
+ *       -> php bin/console make:migration 
+ *       -> php bin/console doctrine:migrations:migrate
+ *   - Lancez la commande pour charger les fixtures dans la base : 
+ *       -> php bin/console doctrine:fixtures:load
+ *       !! à noter que lancer cette commande supprimera toutes les données pré existentes dans la bdd !!
+ *   - Pour ajouter les données à celles que vous avez déjà dans votre base, vous pouvez ajouter --append :
+ *       -> php bin/console doctrine:fixtures:load --append
+ *   - Vous pouvez facilement changer la quantité d'objets créés en modifiant le premier paramètre de chaque fonction
+ *   
+ */
 class AppFixtures extends Fixture
 {
     public function __construct(
@@ -67,6 +64,7 @@ class AppFixtures extends Fixture
 
     /**
      * fonction pour créer un nombre défini d'utilisateurs de test
+     * @param int $amount La quantité d'objets à créer
      */
     public function createUsers(int $amount, ObjectManager $m) : void
     {
@@ -113,6 +111,7 @@ class AppFixtures extends Fixture
 
     /**
      * fonction pour générer un nombre défini de catégories de test
+     * @param int $amount La quantité d'objets à créer
      */
     public function createCategories(int $amount, ObjectManager $m) : void
     {
@@ -133,6 +132,7 @@ class AppFixtures extends Fixture
 
     /**
      * fonction pour créer un nombre défini de produits de test
+     * @param int $amount La quantité d'objets à créer
      */
     public function createProducts(int $amount, ObjectManager $m) : void
     {
@@ -184,6 +184,7 @@ class AppFixtures extends Fixture
 
     /**
      * fonction pour créer un nombre défini de paniers de test
+     * @param int $amount La quantité d'objets à créer
      */
     public function createPaniers(int $amount, ObjectManager $m) : void
     {
@@ -217,6 +218,7 @@ class AppFixtures extends Fixture
 
     /**
      * fonction pour générer un nombre défini d'avis de test
+     * @param int $amount La quantité d'objets à créer
      */
     public function createAvis(int $amount, ObjectManager $m) : void
     {
