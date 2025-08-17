@@ -52,11 +52,11 @@ class AppFixtures extends Fixture
         dump(' ');
 
         // pour chaque fonction, modifier le premier paramètre pour modifier le nombre d'utilisateurs à créer
-        $this->createUsers(300, $manager);              // création de 300 utilisateurs exemples
+        $this->createUsers(10, $manager);              // création de 300 utilisateurs exemples
         $this->createCategories(5, $manager);          // création de 10 catégories exemples
-        $this->createProducts(600, $manager);          // création de 1500 produits exemples
-        $this->createPaniers(500, $manager);            // création de 600 paniers exemples
-        $this->createAvis(600, $manager);              // création de 1000 avis exemples
+        $this->createProducts(50, $manager);          // création de 1500 produits exemples
+        $this->createPaniers(70, $manager);            // création de 600 paniers exemples
+        $this->createAvis(23, $manager);              // création de 1000 avis exemples
 
         dump(' ');
         dump('Toutes les données ont été générées.');

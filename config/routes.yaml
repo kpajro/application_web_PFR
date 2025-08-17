@@ -3,3 +3,9 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+api_cors_preflight:
+    path: /api/{any}
+    controller: App\Controller\CorsController::preflight
+    methods: [OPTIONS]
+    requirements:
+        any: .*

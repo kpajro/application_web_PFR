@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\UsersRepository;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Post;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
