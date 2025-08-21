@@ -3,7 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\UsersRepository;
+use App\Controller\UserController;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -20,18 +22,28 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ApiResource(
     normalizationContext: ['groups' => ['produit:read']],
     denormalizationContext: ['groups' => ['produit:write']],
-    forceEager: false
+    forceEager: false,
+    operations: [
+        new Get(
+            name: 'profile',
+            uriTemplate: '/profile',
+            controller: UserController::class,
+            read: false,
+            security: "is_granted('IS_AUTHENTICATED_FULLY')",
+            normalizationContext: ['groups' => ['profile']]
+        ),
+    ]
 )]
 class Users implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['produit:read'])]
+    #[Groups(['produit:read', 'profile'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
-    #[Groups(['produit:read'])]
+    #[Groups(['produit:read', 'profile'])]
     private ?string $email = null;
 
     /**
@@ -57,23 +69,23 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['produit:read'])]
+    #[Groups(['produit:read', 'profile'])]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['produit:read'])]
+    #[Groups(['produit:read', 'profile'])]
     private ?string $country = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['produit:read'])]
+    #[Groups(['produit:read', 'profile'])]
     private ?string $phoneNumber = null;
 
     #[ORM\Column]
-    #[Groups(['produit:read'])]
+    #[Groups(['produit:read', 'profile'])]
     private ?int $accountType = null;
 
     #[ORM\Column]
-    #[Groups(['produit:read'])]
+    #[Groups(['produit:read', 'profile'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]

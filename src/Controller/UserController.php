@@ -6,7 +6,9 @@ use App\Entity\Panier;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use App\Form\UserProfileFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Users;
@@ -16,6 +18,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormError;
+
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -33,6 +36,18 @@ class UserController extends AbstractController
     {
         $this->logger = $logger;
         $this->passwordHasher = $passwordHasher;
+    }
+    public function __invoke(#[CurrentUser] ?Users $user): JsonResponse
+    {
+        if (!$user) {
+            throw $this->createAccessDeniedException();
+        }
+
+        $paiments = $user->getPaiements();
+
+        return new JsonResponse([
+            'user' => $user,
+        ]);
     }
 
     /**
