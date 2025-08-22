@@ -1,0 +1,508 @@
+*   b6f9770 2025-06-11 Merge pull request #20 from kpajro/commentaires
+|\  
+| * 7191acd 2025-06-11 commentaires sur les services
+| * 57597b9 2025-06-11 annotations sur les fonctions d'authentication
+| * b020ee8 2025-06-11 fix commentaires sur le repo produits
+| * 0d5e631 2025-06-11 commentaires sur le repo produits
+| * 29057a4 2025-06-11 clean up et annotations sur les classes de form
+| * e2eba35 2025-06-11 clean up et commentaires sur tous les autres controlleurs de l'app
+| * 836b8af 2025-06-11 clean up et commentaires sur les controlleurs du BackOffice
+| * 4c5cdfe 2025-06-11 reste des changements sur les categories et les filtres
+| * e71ea2f 2025-06-11 meilleurs commentaires sur datafixtures
+| * 7da26d3 2025-06-11 Clean up du controller + fix des filtres + commentaires
+| * 3d42cee 2025-06-11 commentaires sur les data fixtures
+| * f2fa33c 2025-06-10 commentaires et documentation sur tout le js
+|/  
+| * fa143c1 2025-06-11 route encore un peu plus détaillée
+| * ffd79ee 2025-06-11 Merge branch 'paiement' into api-platform
+|/| 
+| * 323f7ce 2025-06-10 ajout commentaires aux routes et controlleur paiement
+| * 8c41a43 2025-06-10 gestion de API platform et des droits des entités
+* | 48f0065 2025-06-10 historique de paiements sur la page profiel
+* |   0b3faad 2025-06-10 Merge pull request #19 from kpajro/paiement
+|\ \  
+| * \   ad16c49 2025-06-10 Merge branch 'master' into paiement
+| |\ \  
+| |/ /  
+|/| /   
+| |/    
+* | 1bce628 2025-06-10 formatage de l'affichage des prix po ur la liste des produits
+* | 1b7f2b9 2025-06-10 retouches css sur les modales de  modification de profil
+* | 3fa85c9 2025-06-10 petit fix
+* |   bf601d7 2025-06-10 Merge pull request #18 from kpajro/css_tweaks
+|\ \  
+| * \   391d4c9 2025-06-10 Merge branch 'master' into css_tweaks
+| |\ \  
+| |/ /  
+|/| |   
+* | | 6e0d941 2025-06-10 changement de l'image de la page d'accueil
+* | | 7c06471 2025-06-10 changement du boutton du contact form
+* | | 7a9b563 2025-06-10 Traduction et modif style du contact form
+* | | b22a4d1 2025-06-10 Trad fr
+* | | 4ba954c 2025-06-10 assombrissement du texte de la page d'accueil
+* | | 82f9cc3 2025-06-10 trad en fr du reset mdp
+* | |   573d321 2025-06-10 Merge pull request #17 from kpajro/profile
+|\ \ \  
+| * \ \   936a908 2025-06-10 Merge branch 'master' into profile
+| |\ \ \  
+| |/ / /  
+|/| | |   
+| * | | 7681400 2025-06-09 Changement du message "vous etes connecté en tant que user.email" pour user.firstname user.name"
+| * | | 076490f 2025-06-09 Changement du texte de la page d'accueil et de sa disposition
+| * | | e32b1a2 2025-06-09 Modification du nom du mail envoyé. Tentative de changement de l'adresse mail d'envoi mais impossible étant donné que nous n'avons pas de domaine pour une adresse mail liée au site donc mon adredsse mail reste là tant que nous sommes en dev
+| * | | 2e1ea2a 2025-06-09 Passage d'un envoi de mail asynchrone à un envoi synchrone afin de retirer la nécessiter de lancer messenger afin d'envoyer les mails. La ligne pour passer en async est simplement commentée afin de pouvoir repasser en async en cas de besoin si un gros traffic sur le site une fois lancé en prod pose problème pour le mailing
+| * | | 6b43a52 2025-06-09 Correction du reset pwd yaml pour faire fonctionner le reset pwd
+| * | | a1d0090 2025-06-03 Suppression des éléments relier a la tentativez d'implémentation d'une nouvelle modale pour changer le mdp
+| * | | da83895 2025-06-03 Amélioration de la modif de mdp en corrigant la double confirmation de mdp
+| * | | 5374a84 2025-06-03 Modification du lien de réinitialisation de mdp en cas d'oubli pour utilisateur déja connecté
+| * | | 3c03237 2025-06-03 reformatage du fichiker et déplacement du champ pour modifier l'adresse de facturation avant la modif de mdp
+| * | | 503b797 2025-06-03 Ajout du systeme de modification du mdp lorsque l'utilsateur est connecté depuis la modale dispo dans son profil ainsi que la possibilité de changer l'adresse de facturation
+| * | | 7009d66 2025-06-03 Ajout d'une billing adress aux utilisateurs
+| * | | 008a010 2025-06-01 try implementation de la modale mais erreur methode not allowed (allow get)
+| * | | e866c98 2025-06-01 modale pour changer de mdp
+| * | | d5fa67a 2025-06-01 nouvelle route pour l'implementatrion d'une modale afin de changer de mdp lorsqu'on est connecté
+| * | | 6d9b1b8 2025-06-01 petit php poujr tester la connection au smtp maljet
+| * | | 31baa64 2025-06-01 class test mail afin de tester l envoi de mail en passant cette fois par mailjet
+| | * | 9941fc5 2025-06-10 rework css page login et registration
+| | * | c3e4d4e 2025-06-10 mot de passe necessaire pour valider la suppression de compte
+| | * | 621236a 2025-06-10 modification du mot de passe simplifiée  quand on est co
+| | * | b4602cd 2025-06-10 Merge branch 'css_tweaks' of https://github.com/kpajro/application_web_PFR into css_tweaks
+| |/| | 
+|/| | | 
+| | * | f1c542e 2025-06-02 modale de suppression de compte un peu mieux
+| | * | 5cc6f9c 2025-06-02 route pour restaurer un ancien panier
+| | * | e9d6ea9 2025-06-02 css et layout de la page profil
+| | * | cfa8cb8 2025-05-28 un peu plus de css
+| | * | f7b99e5 2025-05-28 debut rework page profil
+| | | * 17d8dd5 2025-05-31 ajout route pre-checkout + formulaire
+| | | * d3fe858 2025-05-31 suppression templates checkout
+| | | * 42666e6 2025-05-29 ajout des trucs de paiement (controlleur, controlleur JS, entité
+| | | * 6b32d46 2025-05-29 ajout bouton Checkout sur modale panier
+| | | * 9fb2325 2025-05-29 ajout de Stripe frontend
+| | | * 8f8889a 2025-05-29 création et maj des templates Paiements
+| |_|/  
+|/| |   
+* | | 697612f 2025-05-28 route succès paiement stripe
+* | | ce184b6 2025-05-28 changement nom route
+* | | 54af24b 2025-05-28 Creation entité paiements
+| |/  
+|/|   
+* | 862b4fd 2025-05-28 fixs et rework pour les filtres de produit (frontend)
+* | c817637 2025-05-28 fix ajout d'avis
+* | c4f1d38 2025-05-28 fix de l'ajout de nouveau produit sans images
+* |   5d8fed4 2025-05-28 Merge pull request #16 from kpajro/peaufinage
+|\ \  
+| * \   be1dde7 2025-05-28 Merge branch 'master' into peaufinage
+| |\ \  
+| |/ /  
+|/| |   
+* | |   680f7c7 2025-05-28 Merge pull request #14 from kpajro/produits
+|\ \ \  
+| * | | 64d910f 2025-05-28 tweaks divers et variés
+| * | | 7490431 2025-05-22 un fix sur la page produits
+| * | | acb7c62 2025-05-22 petites correction
+| * | | 230aa19 2025-05-22 css rapido sur liste des catégories
+| * | | be1dbbf 2025-05-22 css sur la page liste des produits
+| * | | 39e25c5 2025-05-22 essais pour submit du panier form + scrollbar plus élégante
+| * | | 6c0163b 2025-05-22 suppression des avis pour les administrateurs
+| * | | c489e89 2025-05-21 panier interactif pour les utilisateurs (envoi dans la bdd a finir)
+| * | | 76ca76e 2025-05-20 modale pour visualiser les images en grand
+| * | | 34d0ced 2025-05-20 produit désactivé si pas actif
+| * | | fc99ff7 2025-05-19 display des images
+| * | | c76523b 2025-05-19 gestions de tous typse d'images
+| * | | 1e9d595 2025-05-19 display correct des images sur page produit
+| * | | 2fdff0c 2025-05-19 display des images sur la modale de modification de produit
+| * | | f8a7b56 2025-05-19 fix icones
+| * | | c0cc653 2025-05-16 page de liste de produits un peu plus présentable (à continuer c'est toujours pas ouf)
+| * | | 17e3486 2025-05-16 affichage des images (moche pour l'instant)
+| * | | 0cf4745 2025-05-16 gestion de l'upload d'images
+| * | | 029d4ac 2025-05-14 tweaks sur ckeditor
+| * | | 191c56d 2025-05-14 ajout ckeditor au projet pour la description détaillée
+| * | | 5dabbf1 2025-05-14 ajout possibilité de retirer un produit de la vente + preparation pour les images
+| * | | d7b6819 2025-05-14 possibilité de changer la taille de la modale (attribut data-modal-size)
+| * | | b212804 2025-05-13 css sur la modale pour laisser un avis
+| * | | f3d6cb8 2025-05-13 un peu plus sur les avis
+| * | | 808c91a 2025-05-13 dd qui était resté
+| * | | 7743fab 2025-05-13 fix update note produit quand nouveau avis
+| * | | 089cc73 2025-05-13 rework css de la page produit
+| * | | 9079bd7 2025-05-12 ajout d'avis fonctionnel
+| * | | e410168 2025-05-11 début de la route pour laisser un avis
+| * | | bbf6d3c 2025-05-04 petit ajout sur les avis
+| * | | 23a929f 2025-05-04 design sur les avis
+| * | | b9570ab 2025-05-04 remove avis controller (inutile) et avis sur les produits
+| * | | 2e0957d 2025-05-04 plus de log sur génération de données
+| * | | 337aa8d 2025-05-03 génération d'avis
+| * | | bd17fb6 2025-05-03 création de l'entité avis
+| * | |   ca94984 2025-05-03 merge de tweaks
+| |\ \ \  
+| | | |/  
+| | |/|   
+| * | | 9452c42 2025-05-02 ajout section 'fiche technique'
+| * | | 1f23c76 2025-05-02 fonction pour changer le type de contenu
+| * | |   0b2d7e6 2025-05-02 Merge branch 'tweaks' into produits
+| |\ \ \  
+| * | | | a694a34 2025-05-02 fonction ajouter au panier en js
+| * | | | 173c2ea 2025-05-02 dernieres révisions de couleur (promis)
+| * | | | 8f3092d 2025-05-02 toujours du css
+| * | | | fad5c61 2025-05-02 revisions css page produit
+| * | | |   22bb4aa 2025-05-02 Merge branch 'tweaks' into produits
+| |\ \ \ \  
+| * | | | | 5d5edee 2025-05-01 début du controller js pour les produits
+| * | | | | 3e59baa 2025-05-01 css sur page produits
+| * | | | | e7f8ce0 2025-04-25 css sur le panier
+| * | | | | edcd64f 2025-04-25 panier sur la navbar
+* | | | | |   3098006 2025-05-28 Merge pull request #15 from kpajro/tweaks
+|\ \ \ \ \ \  
+| |/ / / / /  
+|/| | | / /   
+| | |_|/ /    
+| |/| | |     
+| * | | | 9099b47 2025-05-03 fin du rework de la navbar (responsive)
+| * | | | e2e172a 2025-05-02 rework navbar
+| | |/ /  
+| |/| |   
+| * | | cc124a7 2025-05-02 changmeent taille conteneur
+| |/ /  
+| * | d10d439 2025-05-02 ajout fontawesome au projet pour les icones
+| * | fdcf4c3 2025-05-02 scrape en toute légalité du logo cyna
+| * | 38216c3 2025-05-02 ajout meta tag pour bon display sur mobile
+| * | 9772f1b 2025-05-02 agrandissement du container
+|/ /  
+| * 7abdce2 2025-05-27 debut route retrieve payment
+| * 98defda 2025-05-27 création de paiement controller
+| * 7208177 2025-05-27 changement trivial
+| * 8ca2170 2025-05-27 création de session de paiement stripe
+| * d0f866e 2025-05-26 test paiement stripe
+| * f742500 2025-05-20 avancement sur filtres
+| * f70eaad 2025-05-20 ajout des filtres dans template twig
+| * 91f1efe 2025-05-20 micro changement
+| * 83190bf 2025-05-14 début page faq BO
+| * d23bc86 2025-04-25 peaufinage controlleur a propos
+|/  
+*   95bfedb 2025-04-25 rge branch 'master' of https://github.com/kpajro/application_web_PFR
+|\  
+| * 65d42d3 2025-04-25 fixs sur suppression de compte
+| *   3747d73 2025-04-25 Merge pull request #13 from kpajro/fixs
+| |\  
+| | * 29553c0 2025-04-25 un peu plus de css sur enregistrement
+| | * ed08bf6 2025-04-25 fix position footer et container
+| | * 2aa48f3 2025-04-25 css sur la page produit
+| | * d0b3930 2025-04-24 fixs sur liste de produit (lien) + page produit
+| | * 6fd7e70 2025-04-24 fixs sur page à propos
+| | * a768b1f 2025-04-24 fixs sur composer
+| |/  
+* / 5767163 2025-04-25 fix BO parametre site
+|/  
+*   a232667 2025-04-24 Merge pull request #12 from kpajro/profile
+|\  
+| *   a826c7d 2025-04-24 Merge branch 'master' into profile
+| |\  
+| |/  
+|/|   
+* |   ad4f6a1 2025-04-24 Merge pull request #11 from kpajro/frontend
+|\ \  
+| * \   22380f8 2025-04-24 Merge branch 'master' into frontend
+| |\ \  
+| |/ /  
+|/| |   
+* | | 412c05c 2025-04-24 Create LICENSE
+* | |   50b41be 2025-04-23 Merge pull request #10 from kpajro/backoffice
+|\ \ \  
+| * | | 5e3cd03 2025-04-23 ajout du bouton pour supprimer les utilisateurs inactifs
+| * | | f29c635 2025-04-23 route pour verifier inacitivité utilisateurs et supprimer automatiquement
+| * | |   b05f737 2025-04-23 Merge branch 'backoffice' of https://github.com/kpajro/application_web_PFR into backoffice
+| |\ \ \  
+| | * \ \   fb19bef 2025-04-22 Merge branch 'backoffice' of https://github.com/kpajro/application_web_PFR into backoffice
+| | |\ \ \  
+| | * | | | f43c5a5 2025-04-22 changements sur le champ image (wip)
+| | * | | | 8534a1f 2025-04-11 changement champ image en JSON
+| | * | | |   8917d49 2025-04-11 Merge branch 'backoffice' of https://github.com/kpajro/application_web_PFR into backoffice
+| | |\ \ \ \  
+| | * | | | | d11e6f8 2025-04-11 petits changements sur la nav bar pour le menu d'administration
+| * | | | | | bd95157 2025-04-23 debut de la page produit
+| | |_|/ / /  
+| |/| | | |   
+| * | | | | 33be67c 2025-03-27 ajout required sur champs lot et stock
+| | |/ / /  
+| |/| | |   
+| * | | | e14243b 2025-03-27 animations sur le changement de navigation + affichage des champs pour stock et lots
+| * | | | e2a4db8 2025-03-24 boutons de navigations plus discrets
+| * | | | 5cd1b7b 2025-03-24 utilisation du formulaire de produit pour la création
+| * | | | f200bac 2025-03-24 contenu séparé proprement sur form produits + js pour naviguer
+| |/ / /  
+| * | | 8a09417 2025-03-21 un peu plus sur la modale de produits
+| * | | e424e30 2025-03-21 début de nouvelle vue pour les produits
+| * | | 74cf37a 2025-03-21 fix bouton annuler
+| * | | 717c9ee 2025-03-21 design sur la vue des paniers dans le backoffice
+| * | | 630ecc7 2025-03-21 améliorations de css sur la modale
+| * | | bd9ee36 2025-03-21 css pour les formulaires
+| * | | cfb12e4 2025-03-21 un peu de responsive
+| * | | f588459 2025-03-21 début de design pour la modale
+| * | | 4fc8632 2025-03-21 amélioration sur design tableau
+| * | | e1903a3 2025-03-21 ajout de couleurs et changement sur format dates
+| * | | d432a4c 2025-03-21 effet zebre sur les lignes des tableaux
+| * | | 2edb6b9 2025-03-21 formatting des dates sur gestion utilisateurs
+| * | | 3733ab6 2025-03-21 mise en page gestion des paniers
+| * | | 46f18c9 2025-03-21 mise en page gestion des catégories
+| * | | edf2d05 2025-03-21 mise en page de la page produit
+| * | | 6ba51c0 2025-03-19 début de style sur page produits
+| * | | 77b667e 2025-03-19 css sur les tableaux du backoffice + ajout tablesorter au projet
+| * | | 8d1741c 2025-03-17 titre sur page gestion utilisateurs
+| * | | 93782d1 2025-03-17 css sur page gestion utilisateurs
+| * | | b851110 2025-03-17 titre sur page d'accueil du backoffice
+| * | | aa3d874 2025-03-17 liens centrés sur page d'accueil
+| * | | a5b4ada 2025-03-17 css sur page d'accueil du back office
+| | * | 2ec19d2 2025-04-24 petits fixs
+| | * | 0297bf5 2025-04-23 filtrage affichage js
+| | * | 5764147 2025-04-23 ptetre ca marchera un jour
+| | * | 91312bb 2025-04-23 ajout boite consentement
+| | * | b94c192 2025-04-22 je sais pas, je suis debile
+| | * | 3a3627d 2025-04-22 navbar footer
+| | * | ec32c65 2025-04-22 rgpd
+| | * | 714b05a 2025-04-22 m
+| | * |   c6f5c80 2025-04-22 merge data-fixtures
+| | |\ \  
+| | |/ /  
+| |/| |   
+| * | | a53d8ed 2025-03-17 petits tweaks pour données un peu plus realistiques
+| * | | e612d35 2025-03-17 fixs divers et variés
+| * | | 3ab3c45 2025-03-17 generation de produits et paniers + un fix sur les paniers + generateur de lorem
+| * | | 49c0c04 2025-03-17 explications des fixtures + fonctions createUsers et createCategories
+| * | | 696a2b2 2025-03-17 ajout du plugin pour les datafixtures
+| * | | bd1cb8b 2025-03-14 fix mineur
+| * | | bd3d77c 2025-03-14 fix fonction get total price
+| * | | 34b5ab7 2025-03-14 possibilité de changer quantité d'un produit dans le panier
+| * | | 672db9a 2025-03-14 changement removeProduit() + route supprimer produit
+| * | | c0f1c24 2025-03-14 automatiquement ajoute la quantité de la vente par lot si elle est activée
+| * | | 7b92b49 2025-03-14 fonction getpaniertotalprice et petits fixs
+| * | | 4ebd2ef 2025-03-14 route ajouter produit + lien ajouter produit sur page produit
+| * | | a96bcda 2025-03-14 panierproduit repository
+| * | | 76420f1 2025-03-14 creation entité panier produit pour stocker les produits dans un panier plus efficacement (permet de compter le nb de fois qu'un produit apparait dans un panier) + fonctions pour faciliter l'usage
+| * | | 7469831 2025-03-14 changement stockage des paniers->on ne stocke plus que l'id du panier dans la session
+| * | | 334e9e6 2025-03-14 suppression de la fonction create panier->constructeur panier + complet
+| * | | 019e863 2025-03-13 dd() qui était resté
+| * | | fe9dc1d 2025-03-13 fix condition if
+| * | | f03f0a7 2025-03-13 ajout de 'user->addPanier' là où c'est necessaire
+| * | | 2cd16a7 2025-03-13 petit fix pour ne pas dupliquer les paniers au check
+| * | | ad8193e 2025-03-13 bouton ajouter au panier sur page produit et clean up panier controller
+| * | | e8e4fac 2025-03-13 suppression de code pour la fonction 'checkPanierLifespan' du PanierHandler
+| * | | 1e9e74a 2025-03-13 fonction 'getactivepanier' qui renvoie ou créé un panier selon le besoin
+| * | | 3f664c2 2025-03-13 début de page produit (route 'voir produit' et template de page produit)
+| * | | 342f35f 2025-03-13 update base container pour format responsive
+| * | | f72b5e6 2025-03-12 affichage des nouvelles colonnes sur BO pour les produits
+| * | | bad5a34 2025-03-12 ajout des nouveaux champs sur le formulaire de produits
+| * | | b288360 2025-03-12 possibilité de changer l'état du panier depuis le backoffice
+| * | | a003a7c 2025-03-12 route pour supprimer les paniers dans l'état supprimable
+| * | | d6598bc 2025-03-12 lien pour vérifier les paniers
+| * | | ea758c8 2025-03-12 petite sécurisation sur route check paniers
+| * | | b216ec9 2025-03-12 passage de la route panier check dans le controller admin
+| * | | b3c9f81 2025-03-12 vue des paniers individuels dans le backoffice
+| * | | 4019e54 2025-03-12 template pour la liste des paniers
+| * | | e347365 2025-03-12 fix route afficher paniers
+| * | | ef1b82a 2025-03-12 ajout lien vers bo paniers
+| * | | 9cf06db 2025-03-12 création controller panier backoffice + petit cleanup
+| * | | 17fb95d 2025-03-12 amélioration et ajout actions sur bdd de la route check paniers
+| * | | 5281024 2025-03-12 petit fix sur check-paniers
+| * | | 08343ec 2025-03-12 route pour vérifier et actualiser l'état des paniers
+| * | | a7c47d9 2025-03-12 simplification route créer panier
+| * | | 0514006 2025-03-12 création d'un panier et mis en actif à la création de compte
+| * | | 73ce1bf 2025-03-12 vérification de paniers à la connection et mise en place d'un panier actif
+| * | | a8cfd5a 2025-03-12 création d'un service pour gérer les paniers
+| * | | 9fa5d67 2025-03-12 template basique pour l'affichage du panier
+| * | | 937db34 2025-03-12 ajout de la propriété 'panier actif' pour différencier le panier en cours des anciens
+| * | | 8414f23 2025-03-12 route créer panier (basique pour l'instant)
+| * | | d232421 2025-03-12 création d'un controller panier et d'une simple route pour voir le panier
+| * | | 3209493 2025-03-12 création de l'entité panier
+| * | | df699d4 2025-03-12 ajouts de champs sur entité produits
+| * | | 3ae7592 2025-03-12 meme chose mais pour de vrai cette fois
+| * | | a5eb929 2025-03-12 rajout du dossier migrations dans le repo (sans les fichiers à l'interieur)
+|/ / /  
+| * | 52adb8d 2025-04-22 debut fix js
+| * | 37bc870 2025-04-22 fix footer
+| * | 74e1090 2025-04-22 restricition post sur route de fetch de produits
+| * | 04dae7a 2025-04-22 feedback sur js
+| * | 3b545e4 2025-04-18 ajout filtres au JS
+| * | 9328f5b 2025-04-17 micro changement
+| * | 0cbc84a 2025-04-17 chargement produits JS + template email pour contact
+| * | c359f5a 2025-04-17 formulaire contact controller, form, twig
+| * | 334eef6 2025-04-17 path support
+| * | fb987d2 2025-04-14 ajout twig contact
+| * | f424540 2025-04-11 petit fixs
+| * | 6f8b1f7 2025-04-11 exemple de recherche de produits plus simple
+| * | 323962a 2025-04-10 ajout css simple
+| * | 4f53344 2025-04-10 maj about et faq
+| * | 039b7dd 2025-04-10 ORM changé de Array vers JSON
+| * | 8f75731 2025-04-08 debut about, FAQ controller + twig moche
+| * | 9bf2089 2025-04-08 remplacement par path dans hrefs
+| * | 195add5 2025-04-07 ajoute route liste produits par catégorie en format JSON
+| * | 1dd3812 2025-04-07 creation d'entité faq, parametre_site
+| * | 38e289d 2025-04-07 ajout footer
+|/ /  
+| * 8ee31f4 2025-04-24 fix generation de pdf
+| * 923e25b 2025-04-24 ajout mot de passe sur les données
+| * 94087d6 2025-04-24 fichier pdf ac les infos utilisateur
+| * cf288bd 2025-04-23 route pour supprimer profil utilisateur
+| * 2e6223a 2025-04-23 divers fixs et cleans ups + debut suppression de compte
+| * 2f372d2 2025-04-18 Ajout de CSS
+| * d02fd0f 2025-04-18 Ajout du reset password bundle de symfony, des liens sur les pages connexion et profil afin de reinitialiser le mdp et envoi du mail sur mailtrap
+| * 52c0020 2025-04-18 Test mail
+| * b14a1d7 2025-04-13 Changement pour inclure l'utilisation de l'ID pour la page profile avec inclusion d'une modale afin de modifier les finfos utilisateur
+| * 3e83243 2025-04-13 Changement de la route pour le profil utillisateur afin d'utiliser l'ID de ce dernier
+| * 8f4cbd1 2025-04-11 petits fixs sur noms de routes et de variables + changement redirection
+| * 4ae55f4 2025-04-08 Ajout des informations utilisateur
+| * 8b835a2 2025-04-08 Ajout de Uses dans le connection controller afin que l'accès à la page profile fonctionne sans soucis
+| * ff45fcd 2025-04-08 Nouvelle page twig pour Account qui est en fait l'ancienne page profile mais renommée en raison des changements amenés à la page profile
+| * 6f68431 2025-04-08 Changement de profile.twig.html pour passer à une page comprenant 4 boxes ayant chacune leur noucelle route avec la page mon compte étant l'ancienne page profile
+| * 8bc15e9 2025-04-08 Remplacement de UserProfileController par UserController pour simplifier la comprehension par rapport au changement de la page profile
+|/  
+* 93f3c49 2025-02-28 cleanup du dossier migrations
+*   c7f2afa 2025-02-28 Merge branch 'frontend' into profile
+|\  
+| * ee3e598 2025-02-28 route liste des categories + bouton categories sur la navbar
+| * f155a17 2025-02-28 changements mineurs sur navbar
+| * 5d1abf5 2025-02-28 fix entité produits (oubliez pas les migrations)
+| *   695df15 2025-02-28 Merge branch 'frontend' of https://github.com/kpajro/application_web_PFR into frontend
+| |\  
+| | * 996261e 2025-02-27 ajout filtre alphabetique
+| | * e4e91ce 2025-02-27 bouton catégories + vue produits de catégorie + filtre simple
+| * | 9fe795a 2025-02-26 Merge branch 'frontend' of https://github.com/kpajro/application_web_PFR into frontend
+| |\| 
+* | | 1f3ac12 2025-02-28 fixs navbar et petits fix sur la page d'accueil
+* | | f1942a2 2025-02-28 revert changements config tailwind
+* | |   d87a961 2025-02-28 Merge branch 'profile' of https://github.com/kpajro/application_web_PFR into profile
+|\ \ \  
+| * | | 476db29 2025-02-26 ajout du css en tailwind pour la page profile et home + navbar
+| |/ /  
+* | |   ff351e8 2025-02-26 Merge branch 'frontend' of https://github.com/kpajro/application_web_PFR into profile
+|\ \ \  
+| |/ /  
+|/| /   
+| |/    
+| * 7c9ba54 2025-02-25 petite amélioration boutton Administration
+* | e793f3f 2025-02-25 lien vers userprofile sur la page d'accueil quand on est logged in
+* | 547c2be 2025-02-24 Implementation de la page profil utilisateur + try css
+|/  
+| * bdb17ab 2025-06-10 WIP on master: 4d65488 Merge pull request #9 from kpajro/master
+|/| 
+| * f869ea1 2025-06-10 index on master: 4d65488 Merge pull request #9 from kpajro/master
+|/  
+*   4d65488 2025-02-18 Merge pull request #9 from kpajro/master
+|\  
+| *   96200c6 2025-02-18 backoffice terminé
+| |\  
+| | * c344ea3 2025-02-18 léger fix sur la fermeture de la modale
+| | * 9e4e3c7 2025-02-18 fix nom de propriété sur categorie
+| | *   660d7ce 2025-02-18 Merge branch 'backoffice'
+| | |\  
+| | | * 6cc6f37 2025-02-18 amélioration de la confirmation de suppression
+| | | * 9e42745 2025-02-17 informations de suppressions sur toutes les routes concernées
+| | | * e1b7749 2025-02-17 confirmation pour la suppression d'éléments
+| | * |   1b700c5 2025-02-18 Merge branch 'master' into frontend
+| | |\ \  
+| | | * \   82a8029 2025-02-17 Merge branch 'master' of https://github.com/leosu1/application_web_PFR
+| | | |\ \  
+| | |_|/ /  
+| |/| | /   
+| | | |/    
+| * | |   75fbd1b 2025-02-17 Merge pull request #7 from leosu1/master
+| |\ \ \  
+| | | | *   7beff36 2025-02-17 Merge branch 'master' into backoffice
+| | | | |\  
+| | | |_|/  
+| | |/| |   
+| | * | | ce3ffca 2025-02-17 fix (temporaire?) pour csrf sur login
+| |/ / /  
+| * | |   0496a19 2025-02-17 Merge pull request #6 from kpajro/frontend
+| |\ \ \  
+| |/ / /  
+|/| | |   
+| | | * 1b5f78d 2025-02-17 handling enregistrement fichiers pour les images de produit
+| | | * a09ffd7 2025-02-17 fix nom methode 'produitdelete'
+| | * | 2eacba7 2025-02-17 fermeture de la modale en cliquant en dehors
+| | * | b294c58 2025-02-17 Merge branch 'frontend' of https://github.com/leosu1/application_web_PFR into frontend
+| |/| | 
+| |/ /  
+|/| |   
+* | | 014b32f 2025-02-15 ajout navbar à la template de base
+* | | 5d637d7 2025-02-15 création d'une navbar simple
+| * | 6dc8cc5 2025-02-17 Merge pull request #5 from leosu1/master
+|/| | 
+| * | 2b11e2d 2025-02-17 Merge branch 'backoffice'
+| |\| 
+| | * 5365bc2 2025-02-17 route supprimer produit
+| | * 4995a5a 2025-02-17 route modification de produits
+| | * 5fe5e5e 2025-02-17 route créer produit + fixs sur la liste des produits
+| | * 44bae7b 2025-02-17 création du formulaire de produits
+| | * 4434bc4 2025-02-17 création du formulaire de produits
+| | * f39c159 2025-02-17 fix nom methodes categorie
+| | * 6e44388 2025-02-17 changement nom propriété des catégories pour les produits + cascade sur les catégories
+| | * 0c03430 2025-02-17 début de la gestion produits (liste des produits)
+| * |   821aca7 2025-02-14 mise à jour
+| |\ \  
+| |/ /  
+|/| |   
+* | |   92dc8c6 2025-02-14 Merge pull request #4 from kpajro/backoffice
+|\ \ \  
+| * \ \   327a854 2025-02-14 Merge pull request #3 from leosu1/backoffice
+| |\ \ \  
+| | | |/  
+| | |/|   
+| | * | 9ad1ff4 2025-02-14 fix texte
+| | * | 3cb8bfb 2025-02-14 petit changement de config pour fix les liens
+| | * | 60f260e 2025-02-14 + de clean up
+| | * | c5a7ee0 2025-02-14 clean up html
+| | * | 793071f 2025-02-14 séparation des controllers
+| | * | 27d1216 2025-02-14 amélioration css
+| | * | c0120b7 2025-02-14 petit css sympa sur la modale
+| | * | 934d5d7 2025-02-14 modifs de style
+| | * | 705f057 2025-02-14 clean form
+| | * | 2f3cce1 2025-02-14 reste des routes pour gestion des categories
+| | * | aade5d9 2025-02-14 début gestion categories + petits fixs par ci par là
+| | * | d695d42 2025-02-14 ajout 'nb_produits' sur categories
+| | * | 59b8683 2025-02-14 changement mineur sur restriction
+| | * | 3babfe8 2025-02-14 ajout action sur formulaire de modif user pour bon envoi des données
+| | * | 58bdf00 2025-02-14 petits fix modale et modale de modif d'utilisateur
+| | * | 8f55b3b 2025-02-14 création d'un système de modal modulable pour affichage de pop ups dynamiques
+| | * | 7a2b84b 2025-02-14 remove custom.css (temporaire)
+| | * | 65a3947 2025-02-14 ajout image sur produits
+| |/ /  
+| * / 500988c 2025-02-12 ajout des entités Categorie et Produit
+|/ /  
+* | 756b7c3 2025-02-12 début backoffice + ajout de npm et tailwind pour frontend (merge depuis mon fork)
+|\| 
+| * edfd368 2025-02-12 ajout fichier css pour créer classes custom
+| * f03fc1d 2025-02-12 ajout tailwindcss au projet
+| * 35220e1 2025-02-12 ajout webpackencore + npm
+| * 9352c4b 2025-02-12 ajout route supprimer utilisateur + ajout sur liste utilisateurs
+| * e6ee526 2025-02-12 création formulaire pour modification d'utilisateurs + ajout dans le contrôleur
+| * a622b28 2025-02-12 ajout route modification utilisateur sur liste utilisateurs
+| * 6a018e7 2025-02-12 création d'une template de formulaire d'édition réutilisable pour le back office
+| * ad3f299 2025-02-12 route d'edition d'utilisateur
+| * f0e05ed 2025-02-12 petits fixs sur liste des utilisateurs
+| * 9a541f9 2025-02-11 début backoffice (homepage + gestion utilisateurs WIP)
+* | 5a9d433 2025-02-11 enregistrement amélioré tel stipulé sur le DSP
+|\| 
+| * a67a672 2025-02-11 timestamp sur création de compte
+| * bf0bd39 2025-02-11 ajout date de création de compte et date du dernier log in sur users
+| * de6bac3 2025-02-11 fix regex sur formulaire
+| * 761bc20 2025-02-11 render correct sur page d'inscription
+| * 0d4bac0 2025-02-11 améliorations formulaire d'inscription (contraintes et labels sur tous les champs)
+| * 63ccf39 2025-02-11 ajouts des champs necessaires au formulaire d'inscription + securisation mdps
+| * 1710623 2025-02-11 remove test
+| * 6642ff2 2025-02-11 je teste des trucs
+| * d22d459 2025-02-11 ajouts données sur table users
+|/  
+* 6a249c2 2025-01-17 ajouts dans le git ignore
+* f2a8e75 2025-01-17 amélioration interactivité sur page d'accueil
+* 0018134 2025-01-17 fix connexion
+* d51d094 2025-01-16 clean up route login et clean up architecture
+* 0a36071 2025-01-16 clean up sur les fichiers d'enregistrement + routes pour connexion et deconnexion
+* e892be0 2025-01-16 ajout table users et route pour enregistrement
+* 3adccee 2025-01-16 cleanup index.html.twig
+* 7561064 2025-01-16 remove test_entity table
+* 9ff2a69 2025-01-16 renommer fichiers pour architecture clean
+* c267c46 2025-01-15 fix dossiers templates
+* 6fe5ca5 2025-01-15 demo liens + variables twig
+* 416222a 2025-01-15 initialisation du projet, ajout de dépendances clés et fichiers test pour demo
+* 43a88dc 2025-01-15 Add webapp packages
+* 11b7fc1 2025-01-15 Add initial set of files
