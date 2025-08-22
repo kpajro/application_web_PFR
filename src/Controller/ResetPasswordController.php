@@ -30,9 +30,6 @@ class ResetPasswordController extends AbstractController
         private EntityManagerInterface $entityManager
     ) {}
 
-    /**
-     * Display & process form to request a password reset.
-     */
     #[Route('', name: 'app_forgot_password_request')]
     public function request(Request $request, MailerInterface $mailer, TranslatorInterface $translator): Response
     {
@@ -47,14 +44,11 @@ class ResetPasswordController extends AbstractController
         }
 
         return $this->render('reset_password/request.html.twig', [
-            // IMPORTANT: passer un FormView au template
             'requestForm' => $form->createView(),
         ]);
     }
 
-    /**
-     * Confirmation page after a user has requested a password reset.
-     */
+   
     #[Route('/check-email', name: 'app_check_email')]
     public function checkEmail(): Response
     {
@@ -67,14 +61,11 @@ class ResetPasswordController extends AbstractController
         ]);
     }
 
-    /**
-     * Validates and process the reset URL that the user clicked in their email.
-     */
+   
     #[Route('/reset/{token}', name: 'app_reset_password')]
     public function reset(Request $request, UserPasswordHasherInterface $passwordHasher, TranslatorInterface $translator, ?string $token = null): Response
     {
         if ($token) {
-            // store token in session then redirect (avoid leaking it)
             $this->storeTokenInSession($token);
             return $this->redirectToRoute('app_reset_password');
         }
@@ -97,12 +88,10 @@ class ResetPasswordController extends AbstractController
             return $this->redirectToRoute('app_forgot_password_request');
         }
 
-        // The token is valid; allow the user to change their password.
         $form = $this->createForm(ChangePasswordFormType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // token should be used only once
             $this->resetPasswordHelper->removeResetRequest($token);
 
             /** @var string $plainPassword */
@@ -117,7 +106,6 @@ class ResetPasswordController extends AbstractController
         }
 
         return $this->render('reset_password/reset.html.twig', [
-            // IMPORTANT: passer un FormView au template
             'resetForm' => $form->createView(),
         ]);
     }
@@ -128,7 +116,6 @@ class ResetPasswordController extends AbstractController
             'email' => $emailFormData,
         ]);
 
-        // Do not reveal whether a user account was found or not.
         if (!$user) {
             return $this->redirectToRoute('app_check_email');
         }
