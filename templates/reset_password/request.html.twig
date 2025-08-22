@@ -1,26 +1,24 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Réinitialisez votre mot de passe{% endblock %}
+{% block title %}Réinitialisation de mot de passe{% endblock %}
 
 {% block body %}
     {% for flash_error in app.flashes('reset_password_error') %}
         <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
     {% endfor %}
-    <h1>Réinitialisez votre mot de passe</h1>
 
-    {{ form_start(requestForm) }}
-        {{ form_row(requestForm.email, {
-            attr: {
-                placeholder: 'Entrez votre adresse e-mail ici.',
-                class: 'form-control'
-            },
-        }) }}
-        <div>
-            <small>
-                
-            </small>
-        </div>
 
-        <button class="btn btn-primary mt-2 p-2 bg-blue-500 text-white text-center rounded-lg hover:bg-blue-700 hover:cursor-pointer">Envoyer le lien de réinitialisation</button>
-    {{ form_end(requestForm) }}
+    <div class="space-y-4 rounded-xl bg-indigo-300/30 w-full md:w-2/3 lg:w-1/2 p-4 mx-auto my-auto">
+        <h1 class="text-2xl font-bold mb-8 text-start">Réinitialisation de mot de passe</h1>
+        {{ form_start(requestForm) }}
+            {{ form_row(requestForm.email, {
+                attr: {
+                    placeholder: 'Entrez votre adresse e-mail ici.',
+                    class: 'form-control'
+                },
+            }) }}
+
+            <button class="w-full mt-4 p-3 bg-gradient-to-br from-indigo-400 to-sky-400 transition-all text-white md:text-white/90 hover:text-white rounded-xl hover:shadow-lg shadow-indigo-500/50 hover:cursor-pointer">Envoyer le lien de réinitialisation</button>
+        {{ form_end(requestForm) }}
+    </div>
 {% endblock %}
