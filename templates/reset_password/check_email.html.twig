@@ -1,11 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Password Reset Email Sent{% endblock %}
+{% block title %}Réinitialisation de mot de passe{% endblock %}
 
 {% block body %}
-    <p>
-        Si un compte existant est lié à cette adresse e-mail, un lien servant à réinitialiser votre mot de passe vous sera envoyé à cette adresse.
-        Ce lien expirera dans 1 heure.
-    </p>
-    <p>Si vous ne recevez pas de mail, merci de vérifier votre dossier spam ou de  <a href="{{ path('app_forgot_password_request') }}">réessayer</a>.</p>
+    <h1 class="text-2xl font-bold mb-8 text-start">Réinitialisation de mot de passe</h1>
+
+    <div class="space-y-4 rounded-xl bg-indigo-300/30 w-full md:w-2/3 lg:w-1/2 p-4 mx-auto my-auto text-center">
+        <p class="text-lg font-semibold">Votre demande de réinitialisation de mot de passe a bien été prise en compte!</p>
+        <p>
+            Si un compte existant dans notre base de données est lié à l'adresse e-mail renseignée précedemment, un lien servant à réinitialiser votre mot de passe vous sera envoyé à cette adresse. <br>
+            Ce lien expirera dans 1 heure.
+        </p>
+        <p class="italic">Si vous ne recevez pas de mail, merci de vérifier votre dossier spam ou de  <a href="{{ path('app_forgot_password_request') }}" class="text-indigo-500 hover:underline">réessayer</a>.</p>
+
+    </div>
 {% endblock %}
