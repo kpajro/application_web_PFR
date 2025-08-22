@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormError;
-
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -37,17 +37,13 @@ class UserController extends AbstractController
         $this->logger = $logger;
         $this->passwordHasher = $passwordHasher;
     }
-    public function __invoke(#[CurrentUser] ?Users $user): JsonResponse
+    public function __invoke(SerializerInterface $serializer): JsonResponse
     {
-        if (!$user) {
-            throw $this->createAccessDeniedException();
-        }
+        $user = $this->getUser();
 
-        $paiments = $user->getPaiements();
+        $json = $serializer->serialize($user, 'json', ['groups' => ['profile']]);
 
-        return new JsonResponse([
-            'user' => $user,
-        ]);
+        return new JsonResponse($json, 200, [], true);
     }
 
     /**
