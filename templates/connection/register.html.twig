@@ -15,19 +15,19 @@
                     {{ form_row(registrationForm.birthday, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
                     {{ form_row(registrationForm.phoneNumber, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
                     {{ form_row(registrationForm.country, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
-                    {{ form_row(registrationForm.accountType, {'attr': {'class': 'registration-radio'}}) }}
-                    <div class="md:col-span-2">
+                    <div class="md:col-span-2 rounded-lg p-2 border border-indigo-600">
                         {{ form_row(registrationForm.plainPassword.first, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
                         {{ form_row(registrationForm.plainPassword.second, {'attr': {'class': 'w-full p-2 border border-gray-300 rounded'}}) }}
                         <p class="help-text">Le mot de passe doit contenir 6 caractères au minimum, une majuscule, une minuscule et un caractère spécial.</p>
                     </div>
+                    {{ form_row(registrationForm.accountType, {'attr': {'class': 'registration-radio'}}) }}
                     <div id="agree-terms" class="md:col-span-2 flex justify-start items-center">
                         {{ form_widget(registrationForm.agreeTerms) }} 
                         {{ form_label(registrationForm.agreeTerms) }}
                     </div>
                 </div>
-                <p class="help-text text-center mt-8">En vous inscrivant, vous consentez à ce que les données que vous avez renseignées soient utilisées à des fins commerciales et marketing.</p>
-                <p class="help-text">
+                <p class="italic font-semibold text-sm text-gray-700 mt-8">En vous inscrivant, vous consentez à ce que les données que vous avez renseignées soient utilisées à des fins commerciales et marketing.</p>
+                <p class="help-text font-semibold">
                     * : Champs obligatoires.
                 </p>
                 <button type="submit" class="w-full mt-4 p-3 rounded-xl bg-gradient-to-br from-indigo-400 to-sky-400 transition-all text-white md:text-white/90 hover:text-white shadow-indigo-500/50 hover:shadow-lg hover:cursor-pointer">
