@@ -10,10 +10,13 @@
     <ul class="min-h-40 max-h-9/12 overflow-y-scroll rounded-lg p-2 mb-3">
     {{ form_start(form) }}
         {% for pp in panier.panierProduits %}
-            <li class="flex justify-between text-sm items-center" id="{{ pp.produit.id }}">
+            <li class="flex justify-between text-sm items-center min-h-[55px]" id="{{ pp.produit.id }}">
                 <div class="flex items-center">
-                    <a href="{{ path('app_panier_remove_product', {produit: pp.produit.id}) }}" class="bg-rose-500 hover:bg-rose-600 text-white/90 hover:text-white transition-all py-2 px-4 rounded-lg mr-4 hover:shadow-lg shadow-rose-600/50" data-action="click->panier#removeProduct"><i class="fa-solid fa-trash"></i></a>
-                    <a href="{{ path('app_produit_view', {id: pp.produit.id}) }}" class="text-indigo-700 hover:underline hover:cursor-pointer">{{ pp.produit.nom }} &lpar;{{ pp.produit.prix|format_currency('EUR', {}, 'fr') }}&rpar;</a>
+                    <a href="{{ path('app_panier_remove_product', {produit: pp.produit.id}) }}" class="bg-rose-500/50 hover:bg-rose-600/50 text-white/90 hover:text-white transition-all py-2 px-3 rounded-full mr-4 hover:shadow-lg shadow-rose-300/50" data-action="click->panier#removeProduct"><i class="fa-solid fa-trash text-xs"></i></a>
+                    <a href="{{ path('app_produit_view', {id: pp.produit.id}) }}" class="text-indigo-700 hover:underline hover:cursor-pointer flex gap-3 items-center">
+                        <img src="{{ asset('/uploadedFiles/produitImages/'  ~ pp.produit.categorie.nom|slug ~ '/' ~ pp.produit.images.icon) }}" class="max-w-[50px] max-h-[50px]" alt="Icone de {{ pp.produit.nom }}">
+                        {{ pp.produit.nom }} &lpar;{{ pp.produit.prix|format_currency('EUR', {}, 'fr') }}&rpar;
+                    </a>
                     <div class="flex items-center gap-2 ml-4" data-amount="{{ pp.produit.bulkSale ? pp.produit.bulkSize : 1 }}" data-id="{{ pp.produit.id }}">
                         <div class="rounded-full bg-indigo-100/50 text-sm py-0.5 px-2 hover:cursor-pointer" data-action="click->panier#changeAmount" data-operation="minus">-</div>
                         <span>&times;</span>{{ form_widget(attribute(form, pp.id)) }}

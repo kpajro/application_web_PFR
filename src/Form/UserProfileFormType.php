@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Users;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -58,7 +59,7 @@ class UserProfileFormType extends AbstractType
                 ],
                 'label_attr' => ['font-medium']
             ])
-            ->add('country', TextType::class, [
+            ->add('country', ChoiceType::class, [
                 'label' => 'Pays de résidence',
                 'choices' => [
                     'France' => 'FR',
