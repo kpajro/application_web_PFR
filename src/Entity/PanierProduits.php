@@ -27,6 +27,7 @@ class PanierProduits
 
     #[ORM\ManyToOne(inversedBy: 'panierProduits', cascade:['persist'])]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['produit:read'])]
     private ?Produit $produit = null;
 
     #[ORM\ManyToOne(inversedBy: 'panierProduits', cascade:['persist'])]

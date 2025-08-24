@@ -9,9 +9,11 @@ use App\Service\PanierHandler;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Controller dédié à toutes les routes des fonctionnalités du panier
@@ -20,6 +22,18 @@ class PanierController extends AbstractController
 {
     public function __construct(private PanierHandler $panierHandler)
     {
+    }
+
+    #[Route('/api/panier', name: 'api_panier', methods: ['GET'])]
+    public function getPanier(SerializerInterface $serializer): JsonResponse
+    {
+        $user = $this->getUser();
+
+        $produits = $user->getPanierActif()->getPanierProduits();
+
+        $json = $serializer->serialize($produits, 'json', ['groups' => ['produit:read']]);
+
+        return new JsonResponse($json, 200, [], true);
     }
 
     /**

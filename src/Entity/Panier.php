@@ -9,20 +9,36 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Get;
+use App\Controller\PanierController;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PanierRepository::class)]
 #[ApiResource(
     normalizationContext: ['groups' => ['produit:read']],
     denormalizationContext: ['groups' => ['produit:write']],
-    forceEager: false
+    forceEager: false,
+    operations: [
+        new Post(
+            name: 'add-produit',
+            uriTemplate: '/add-produit',
+            controller: PanierController::class,
+            read: false,
+            security: "is_granted('ROLE_USER') and object.owner == user",
+            normalizationContext: ['groups' => ['profile:read']]
+        ),
+        new GetCollection(),
+        new Get()
+    ]
 )]
 class Panier
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['produit:read'])]
+    #[Groups(['produit:read', 'profile'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'paniers')]
