@@ -29,8 +29,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
             uriTemplate: '/profile',
             controller: UserController::class,
             read: false,
-            security: "is_granted('IS_AUTHENTICATED_FULLY')",
-            normalizationContext: ['groups' => ['profile']]
+            security: "is_granted('ROLE_USER') and object.owner == user",
+            normalizationContext: ['groups' => ['profile:read']]
         ),
     ]
 )]
@@ -65,7 +65,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     private ?\DateTimeInterface $birthday = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['produit:read'])]
+    #[Groups(['produit:read', 'profile'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
@@ -85,7 +85,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $accountType = null;
 
     #[ORM\Column]
-    #[Groups(['produit:read', 'profile'])]
+    #[Groups(['produit:read'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]
@@ -96,11 +96,11 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
      * @var Collection<int, Panier>
      */
     #[ORM\OneToMany(targetEntity: Panier::class, mappedBy: 'user')]
-    #[Groups(['produit:read'])]
+    #[Groups(['produit:read', 'profile'])]
     private Collection $paniers;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[Groups(['produit:read'])]
+    #[Groups(['produit:read', 'profile'])]
     private ?Panier $panierActif = null;
 
 
@@ -118,6 +118,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
      * @var Collection<int, Paiement>
      */
     #[ORM\OneToMany(targetEntity: Paiement::class, mappedBy: 'user')]
+    #[Groups(['profile'])]
     private Collection $paiements;
 
     public function __construct()
