@@ -11,7 +11,7 @@
             {% for i in 0..(categorie.questions|length - 1) %}
                 <li class="p-3 bg-indigo-300/30 rounded-xl shadow w-full md:w-fit md:max-w-[250px]">
                     <strong class="text-lg"> Question :</strong> <br>{{ categorie.questions[i] ?? 'Pas de question disponible' }}<br>
-                    <em class="text-lg"> Réponse :</em> <br>{{ categorie.reponses[i] ?? 'Pas de réponse disponible' }}
+                    <strong class="text-lg"> Réponse :</strong> <br>{{ categorie.reponses[i] ?? 'Pas de réponse disponible' }}
                 </li>
             {% endfor %}
         </ul>

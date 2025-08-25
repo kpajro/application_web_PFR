@@ -72,7 +72,7 @@ export default class extends Controller {
                 return;
             }
             const div = document.createElement("div")
-            const icon = p.images.icon ? '../' + directory + '/' + p.images.icon : 'uploadedFiles/produitImages/default-icon.jpg';
+            const icon = p.images.icon ? '../' + directory + '/' + p.images.icon : '../uploadedFiles/produitImages/default-icon.jpg';
             div.className = "p-3 w-full hover:shadow-lg shadow-indigo-600/30 rounded-xl bg-indigo-300/30 transition-all hover:bg-indigo-200/30"
             div.innerHTML = `
                 <a class="max-w-full max-h-75 overflow-hidden" href="/produit/${p.id}/page-produit">
