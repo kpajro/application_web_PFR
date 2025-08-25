@@ -6,37 +6,48 @@ use App\Repository\CategorieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\ApiResource;
 
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CategorieRepository::class)]
 #[ApiResource(
-    normalizationContext: ['groups' => ['produit:read']],
-    denormalizationContext: ['groups' => ['produit:write']],
-    forceEager: false
+    normalizationContext: ['groups' => ['categories:read'], ['categorie:read']],
+    denormalizationContext: ['groups' => ['categories:write']],
+    forceEager: false,
+    operations: [
+        new GetCollection(
+            normalizationContext: ['groups' => ['categories:read']]
+        ),
+        new Get(
+            normalizationContext: ['groups' => ['categorie:read']]
+        )
+
+    ]
 )]
 class Categorie
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['produit:read'])]
+    #[Groups(['categories:read', 'categorie:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
-    #[Groups(['produit:read'])]
+    #[Groups(['categories:read', 'categorie:read'])]
     private ?string $nom = null;
 
     /**
      * @var Collection<int, Produit>
      */
     #[ORM\OneToMany(targetEntity: Produit::class, mappedBy: 'categorie', orphanRemoval: true)]
-    #[Groups(['produit:read'])]
+    #[Groups(['categorie:read'])]
     private Collection $produits;
 
     #[ORM\Column]
-    #[Groups(['produit:read'])]
+    #[Groups(['categories:read', 'categorie:read'])]
     private ?int $nbProduits = null;
 
     public function __construct()

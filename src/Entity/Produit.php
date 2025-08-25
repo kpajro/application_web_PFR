@@ -21,11 +21,11 @@ class Produit
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['produit:read'])]
+    #[Groups(['categorie:read', 'produit:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
-    #[Groups(['produit:read'])]
+    #[Groups(['categorie:read', 'produit:read'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
@@ -53,11 +53,11 @@ class Produit
     private ?array $langages = null;
 
     #[ORM\Column]
-    #[Groups(['produit:read'])]
+    #[Groups(['categorie:read', 'produit:read'])]
     private ?bool $isLimitedStock = false;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['produit:read'])]
+    #[Groups(['categorie:read', 'produit:read'])]
     private ?int $stock = null;
 
     #[ORM\Column(length: 255)]
@@ -86,15 +86,14 @@ class Produit
      * @var Collection<int, Avis>
      */
     #[ORM\OneToMany(targetEntity: Avis::class, mappedBy: 'produit', orphanRemoval: true)]
-    #[Groups(['produit:read'])]
     private Collection $avis;
 
     #[ORM\Column]
-    #[Groups(['produit:read'])]
+    #[Groups(['categorie:read'])]
     private ?bool $active = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['produit:read'])]
+    #[Groups(['categorie:read'])]
     private ?array $images = null;
 
     public function __construct()
