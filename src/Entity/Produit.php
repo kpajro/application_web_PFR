@@ -38,6 +38,7 @@ class Produit
 
     #[ORM\ManyToOne(inversedBy: 'produits')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['produit:read'])]
     private ?Categorie $categorie = null;
 
     #[Groups(['produit:read'])]

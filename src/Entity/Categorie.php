@@ -32,11 +32,11 @@ class Categorie
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['categories:read', 'categorie:read'])]
+    #[Groups(['categories:read', 'categorie:read', 'produit:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
-    #[Groups(['categories:read', 'categorie:read'])]
+    #[Groups(['categories:read', 'categorie:read', 'produit:read'])]
     private ?string $nom = null;
 
     /**

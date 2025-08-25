@@ -21,14 +21,6 @@ use Doctrine\ORM\Mapping as ORM;
     denormalizationContext: ['groups' => ['produit:write']],
     forceEager: false,
     operations: [
-        new Post(
-            name: 'add-produit',
-            uriTemplate: '/add-produit',
-            controller: PanierController::class,
-            read: false,
-            security: "is_granted('ROLE_USER') and object.owner == user",
-            normalizationContext: ['groups' => ['profile:read']]
-        ),
         new GetCollection(),
         new Get()
     ]

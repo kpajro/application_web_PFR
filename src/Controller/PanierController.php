@@ -36,6 +36,33 @@ class PanierController extends AbstractController
         return new JsonResponse($json, 200, [], true);
     }
 
+    #[Route('/api/remove-produit/{id}', name: 'api_remove_produit_panier', methods: ['POST'])]
+    public function addProduitToPanier(Produit $produit, EntityManagerInterface $em): Response
+    {
+        $user = $this->getUser();
+        $panieractif = $user->getPanierActif();
+        $panieractif->removeProduit($produit, $em);
+        $em->persist($panieractif);
+        $em->flush();
+
+        return new Response("Produit retiré du panier", 200);
+    }
+
+    #[Route('/api/add-produit/{id}', name: 'api_add_produit_panier', methods: ['POST'])]
+    public function removeProduitFromPanier(Produit $produit, EntityManagerInterface $em): Response
+    {
+
+        $amount = $produit->isBulkSale() ? $produit->getBulkSize() : 1;
+        $user = $this->getUser();
+        $panieractif = $user->getPanierActif();
+        $panieractif->addProduit($produit, $em, $amount);
+
+        $em->persist($panieractif);
+        $em->flush();
+
+        return new Response("Produit ajouté au panier", 200);
+    }
+
     /**
      * Route pour visualiser le panier, dédié à une modale : '/panier/view' ('app_panier_view')
      * @return Response Template twig '/panier/view.html.twig'
