@@ -3,21 +3,24 @@
 {% block title %}Administration | Paramètres du site{% endblock %}
 
 {% block body %}
-    <div class="flex justify-between">
-        <h1>Gestion des Paramètres</h1>
-        <a href="{{ path('app_admin_home') }}">Retour au menu</a>
+     <div class="mb-8 flex flex-col items-end">
+        <div class="w-fit flex flex-col items-end">
+            <h1 class="bo-page-ttl">Gestion des paramètres du site</h1>
+            <a class="text-end italic text-gray-600 hover:text-gray-400" href="{{ path('app_admin_home') }}">&lt; Retour au menu</a>
+        </div>
     </div>
-    <div>
+    <div class="px-26 mb-8">
         <form method="post" action="{{ path('app_admin_parametre_edit') }}">
-            <label>Adresse Support : </label>
-            <input name="emailsupport" id="emailsupport" type="text" value="{{ emailContact }}">
-            <button type="submit" class="bg-blue-500 text-white py-1 px-4 rounded-md"> Enregistrer </button>
+            <label class="font-semibold text-lg">Adresse e-mail du support : </label>
+            <input name="emailsupport" id="emailsupport" type="text" value="{{ emailContact }}" class="font-semibold mb-4">
+            <button type="submit" class="rounded-md text-center bg-gradient-to-br from-sky-400 to-indigo-400 text-white hover:shadow-md hover:shadow-indigo-500/50 p-2 hover:cursor-pointer transition-all active:-translate-y-1">Enregistrer</button>
         </form>
     </div>
-    <div>
+    <hr>
+    <div class="mt-8 px-26 flex items-center justify-center">
         {% for faq in faqs %}
-            <button class="bg-blue-500 text-white py-1 px-4 rounded-md" data-modal-url="{{ path('app_admin_faq_edit', {id: faq.id}) }}" data-action="click->modal#open" class="modal-launcher">
-                Gestion de la FAQ
+            <button class="rounded-md text-center bg-gradient-to-br from-sky-400 to-indigo-400 text-white border hover:border-indigo-100 hover:shadow-md hover:shadow-indigo-500/50 py-2 px-6 mx-auto hover:cursor-pointer transition-all active:-translate-y-1 text-lg font-semibold" data-modal-url="{{ path('app_admin_faq_edit', {id: faq.id}) }}" data-action="click->modal#open" class="modal-launcher" data-modal-size="md">
+                Gérer la FAQ
             </button>
         {% endfor %}
     </div>
