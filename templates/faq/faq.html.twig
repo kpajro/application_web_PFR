@@ -1,19 +1,19 @@
 {% extends "base.html.twig" %}
 {% block title %}CYNA SaaS | Foire aux questions{% endblock %}
 {% block body %}
-<div class="p-4">
+    <h1 class="text-2xl font-bold mb-4 text-start">Foire aux questions</h1>
+    <p class="help-text">Retrouvez ici les questions qui nous sont fréquemment posées.</p>
     {% for categorie in categories %}
     {% if categories is empty %}
         <p class="text-center text-gray-700 text-lg mx-auto max-w-3xl">Aucune question trouvée.</p>
     {% endif %}
-        <ul>
+        <ul class="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
             {% for i in 0..(categorie.questions|length - 1) %}
-                <li class="max-w-md mx-auto">
-                    <strong> Question :</strong> {{ categorie.questions[i] ?? 'Pas de question disponible' }}<br>
-                    <em> Réponse :</em> {{ categorie.reponses[i] ?? 'Pas de réponse disponible' }}
+                <li class="p-3 bg-indigo-300/30 rounded-xl shadow w-full md:w-fit md:max-w-[250px]">
+                    <strong class="text-lg"> Question :</strong> <br>{{ categorie.questions[i] ?? 'Pas de question disponible' }}<br>
+                    <em class="text-lg"> Réponse :</em> <br>{{ categorie.reponses[i] ?? 'Pas de réponse disponible' }}
                 </li>
             {% endfor %}
         </ul>
     {% endfor %}
-</div>
 {% endblock %}
