@@ -43,13 +43,6 @@
         {{ form_widget(form.birthday) }}
     </div>
 
-    <div class="">
-        {{ form_label(form.billingAddress) }}
-        {{ form_widget(form.billingAddress) }}
-        {% for error in form.billingAddress.vars.errors %}
-            <div class="text-red-500">{{ error.message }}</div>
-        {% endfor %}
-    </div>
 
 </div>
 <div class="flex justify-end h-[60px] mt-4 gap-4">

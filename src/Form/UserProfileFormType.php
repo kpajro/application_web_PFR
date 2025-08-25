@@ -97,10 +97,7 @@ class UserProfileFormType extends AbstractType
                 'label' => 'Date de naissance',
                 'required' => false
             ])
-            ->add('billingAddress', TextType::class, [
-                'required' => false,
-                'label' => 'Adresse de facturation',
-            ]);
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
