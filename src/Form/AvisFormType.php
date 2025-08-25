@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\Range;
 
 class AvisFormType extends AbstractType 
 {
@@ -19,7 +20,13 @@ class AvisFormType extends AbstractType
                 'scale' => 1,
                 'label' => 'Note',
                 'label_attr' => ['class' => 'font-semibold text-xl'],
-                'attr' => ['class' => 'max-w-[100px] text-xl text-center min-h-15']
+                'attr' => ['class' => 'max-w-[100px] text-xl text-center min-h-15'],
+                'constraints' => [
+                    new Range([
+                        'min' => 0,
+                        'max' => 5,
+                    ]),
+                ]
             ])
             ->add('commentaire', TextareaType::class, [
                 'label' => 'Commentaire',
